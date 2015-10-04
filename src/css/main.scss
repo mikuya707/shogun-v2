@@ -2,6 +2,7 @@
 @import "layout";
 @import "index";
 @import "game";
+@import "gameboard";
 
 .alpha { font-size: 1.125rem; }
 .center { text-align: center !important; }
@@ -104,7 +105,7 @@
     max-width: 529px;
     padding: 1em 5px;
   }
-  .chessboard {
+  .board {
     border: 4px solid lighten($dark-purple, 10%);
     width: 456px;
     height: 456px;
