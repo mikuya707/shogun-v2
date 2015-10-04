@@ -11,6 +11,11 @@ const GameActions = {
       emitMove: emitMove
     });
   },
+  draw() {
+    AppDispatcher.handleViewAction({
+      actionType: GameConstants.DRAW
+    });
+  },
   rematch() {
     AppDispatcher.handleViewAction({
       actionType: GameConstants.REMATCH

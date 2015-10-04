@@ -70,6 +70,10 @@ function setInitialState() {
   _chess = new Chess();
 }
 
+function draw() {
+  
+}
+
 function makeMove(from, to, capture, emitMove) {
   const move = _chess.move({
     from: from,
@@ -141,6 +145,10 @@ AppDispatcher.register(payload => {
 
     case GameConstants.CHANGE_PROMOTION:
       _promotion = action.promotion;
+      break;
+
+    case GameConstants.DRAW:
+
       break;
 
     case GameConstants.GAME_OVER:
