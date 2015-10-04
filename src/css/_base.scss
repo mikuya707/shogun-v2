@@ -49,6 +49,19 @@ article, aside, figure, footer, header, nav, section {
   display: block;
 }
 
+
+// table{
+
+//   .board {
+//     display: table;
+//     border-collapse: separate;
+//     border-spacing: 2px;
+//     border-color: grey;
+//   }
+
+// }
+
+
 pre {
   font-size: 12px;
 }
@@ -129,7 +142,7 @@ strong {
 h1 {
   font-family: 'Cherry Swash', cursive;
   font-weight: 400;
-  font-size: 2rem;
+  font-size: 3rem;
   text-align: center;
   color: $dark-purple;
   margin-bottom: 0.5em;

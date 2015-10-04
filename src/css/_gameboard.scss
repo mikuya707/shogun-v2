@@ -1,7 +1,9 @@
 #board-moves-wrapper {
   width: 100%;
-  max-width: 800px;
-  min-height: 600px;
+  // max-width: 800px;
+  // min-height: 600px;
+  max-width: 1333px;
+  min-height: 1000px;
   margin: 0 auto;
 }
 
@@ -17,6 +19,20 @@
   border-bottom: 4px solid $grey;
   display: block;
   float: left; 
+
+ 
+table{
+
+  .board {
+    display: table;
+    border-collapse: separate;
+    border-spacing: 2px;
+    border-color: grey;
+  }
+
+}
+
+
 
   thead {
     font-family: 'Cherry Swash', cursive;
@@ -58,23 +74,30 @@
   float: left;
 }
 
-.chessboard {
+.board {
   border: 8px solid lighten($dark-purple, 10%);
   border-radius: 2px;
-  width: 500px;
-  height: 500px;
+  // width: 500px;
+  // height: 500px;
+  width: 600px;
+  height: 600px;
   float: left;
   
   tr {
-    width: 500px;
-    height: 62.5px;
+    // width: 500px;
+    // height: 62.5px;
+    width: 600px;
+    height: 100px;
     float: left;
     display: block;
 
     td {
-      width: 62.5px;
-      height: 62.5px;
-      line-height: 62.5px;
+      // width: 62.5px;
+      // height: 62.5px;
+      // line-height: 62.5px;
+      width: 100px;
+      height: 100px;
+      line-height: 100px;
       text-align: center;
       background: #fefefe;
       display: block;
@@ -115,8 +138,8 @@
   }
 }
 
-.chessboard tr:nth-child(odd) td:nth-child(even), 
-.chessboard tr:nth-child(even) td:nth-child(odd) { 
+.gameboard tr:nth-child(odd) td:nth-child(even), 
+.gameboard tr:nth-child(even) td:nth-child(odd) { 
   background: $grey;
 }
 

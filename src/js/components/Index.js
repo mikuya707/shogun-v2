@@ -41,7 +41,7 @@ const Index = React.createClass({
   render() {
     return (
       <div>
-        <img src="/img/shougun.jpg"
+        <img src="/img/shougun.png"
              width="122"
              height="122"
              className="shougun" />
