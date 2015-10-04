@@ -58,7 +58,7 @@ const Cell = React.createClass({
 	render(){
 		return (
 			<div>
-			cell!
+			
 		</div>
 		);
 	}
