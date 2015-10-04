@@ -6,6 +6,7 @@ import GameActions from '../actions/GameActions';
 //import ChessPieces from '../constants/ChessPieces';
 //import onGameChange from '../mixins/onGameChange';
 //import maybeReverse from '../mixins/maybeReverse';
+import behavior from '../game/behavior';
 import omit from 'lodash.omit';
 import cx from 'classnames';
 
@@ -16,14 +17,21 @@ const GameBoard = React.createClass({
 	mixins: [],
 	getInitialState() {
 		return null;
+		// const state = GameStore.getGameboardState();
+		// return {
+		// 	config: state.config;
+		// }
 	},
 	componentDidMount() {
+		
 
 	},
 	componentWillUnmount() {
 
 	},
 	render() {
+
+		
 		var cellArray = [];
 		for (var i=0; i<6; i++) {
 			var row = [];
@@ -33,12 +41,13 @@ const GameBoard = React.createClass({
 			cellArray.push(row);
 		}
 		return (
+
 			<table className="board">
-			{cellArray.map((row) => 
+			{cellArray.map((row, idx1) => 
 				<tr>
-					{row.map((cell) =>
-						<td>
-							<Cell />
+					{row.map((cell, idx2) =>
+						<td position={`[${idx2}, ${idx1}]`}>
+							<Cell position={`[${idx2}, ${idx1}]`} unit={behavior ? 1 : 0}/>
 						</td>
 					)}
 				</tr>
@@ -52,14 +61,28 @@ const GameBoard = React.createClass({
 
 const Cell = React.createClass({
 	propTypes: {
+	},
+	getInitialState: function() {
+    	 return null;
+  	},
+  	componentDidMount() {
 
+		 console.log("position is ", this.props.position);
+		
+	},
+
+	componentWillMount() {
+		
+		
+		
 	},
 	mixins: [],
 	render(){
+		
 		return (
 			<div>
 			
-		</div>
+			</div>
 		);
 	}
 
