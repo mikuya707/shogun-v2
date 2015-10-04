@@ -43,6 +43,15 @@ const GameStore = Object.assign({}, EventEmitter.prototype, {
       check: _check
     };
   },
+
+
+// getGameboardState() {
+//   return {
+//     config: 
+//   }
+// },
+
+
   getValidMoves(square) {
     return square ? Set(
       _chess.moves({
