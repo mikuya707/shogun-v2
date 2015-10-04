@@ -48,6 +48,7 @@ table{
       width: 100%;
       text-align: center;
       float: left;
+      
     }
   }
 
@@ -62,11 +63,13 @@ table{
     line-height: 20px;
     margin: 0 10px;
     float: left;
+   
 
     &:first-child {
       width: 40px;
       margin-right: 0;
     }
+
   }
 }
 
@@ -82,6 +85,7 @@ table{
   width: 600px;
   height: 600px;
   float: left;
+  background-color: #d182fd;
   
   tr {
     // width: 500px;
@@ -103,6 +107,7 @@ table{
       display: block;
       float: left;
       position: relative;
+      border: 1px solid grey;
 
       &.moving, &.selected { background: lighten($red, 30%) !important; }
       &.from { background: lighten($blue, 25%) !important; }

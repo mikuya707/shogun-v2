@@ -70,7 +70,7 @@ const Index = React.createClass({
           shortly. Colors are picked randomly by computer.
         </p>
         <p>
-          <a href="/about" className="alpha">Read more about Reti Chess</a>
+          <a href="/about" className="alpha">Read more about Shogun</a>
         </p>
       </div>
     );

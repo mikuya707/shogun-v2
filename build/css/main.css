@@ -509,7 +509,8 @@ div {
   border-radius: 2px;
   width: 600px;
   height: 600px;
-  float: left; }
+  float: left;
+  background-color: #d182fd; }
   .board tr {
     width: 600px;
     height: 100px;
@@ -523,7 +524,8 @@ div {
       background: #fefefe;
       display: block;
       float: left;
-      position: relative; }
+      position: relative;
+      border: 1px solid grey; }
       .board tr td.moving, .board tr td.selected {
         background: #ef9e9c !important; }
       .board tr td.from {
@@ -696,7 +698,8 @@ span#game-type {
   border-radius: 2px;
   width: 600px;
   height: 600px;
-  float: left; }
+  float: left;
+  background-color: #d182fd; }
   .board tr {
     width: 600px;
     height: 100px;
@@ -710,7 +713,8 @@ span#game-type {
       background: #fefefe;
       display: block;
       float: left;
-      position: relative; }
+      position: relative;
+      border: 1px solid grey; }
       .board tr td.moving, .board tr td.selected {
         background: #ef9e9c !important; }
       .board tr td.from {
