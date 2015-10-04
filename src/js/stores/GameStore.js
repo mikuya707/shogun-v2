@@ -6,6 +6,7 @@ import GameConstants from '../constants/GameConstants';
 import ChessPieces from '../constants/ChessPieces';
 import {Chess} from 'chess.js';
 import {List, Map, OrderedMap, Set} from 'immutable';
+// import behavior from '../game/behavior';
 
 const CHANGE_EVENT = 'change';
 const MOVE_EVENT = 'new-move';
@@ -45,11 +46,19 @@ const GameStore = Object.assign({}, EventEmitter.prototype, {
   },
 
 
-// getGameboardState() {
-//   return {
-//     config: 
-//   }
-// },
+getGameboardState() {
+  var initialBoard = {
+    '[2, 0]' : "Footman",
+    '[3, 0]' : "Duke",
+    '[4, 0]' : "Footman",
+    '[1, 5]': "Footman",
+    '[2, 5]' : "Duke",
+    '[3, 5]' : "Footman"
+  }
+  return {
+    setup: initialBoard
+  }
+},
 
 
   getValidMoves(square) {
