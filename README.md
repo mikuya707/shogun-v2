@@ -22,4 +22,4 @@ nodemon --harmony bin/www
 ```sh
 gulp
 ```
-* App will run on **localhost:3000**
+* App will run on **localhost:1337**
