@@ -7,6 +7,7 @@ import Modal from './Modal';
 import GameActions from '../actions/GameActions';
 import GameStore from '../stores/GameStore';
 import ChessboardInterface from './ChessboardInterface';
+import GameboardInterface from './GameboardInterface';
 import {Map} from 'immutable';
 import {Board} from './GameBoard';
 
@@ -155,8 +156,14 @@ const GameInterface = React.createClass({
           gameOver={gameOver} />
         */}
           
-
+        {/*}
         <Board />
+        */}
+
+          <GameboardInterface />
+
+
+
 
         <Modal data={this.state.modal} />
       </div>
