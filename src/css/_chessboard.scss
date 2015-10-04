@@ -1,0 +1,143 @@
+#board-moves-wrapper {
+  width: 100%;
+  max-width: 800px;
+  min-height: 600px;
+  margin: 0 auto;
+}
+
+#moves {
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 270px;
+  height: 518px;
+  background: lighten($grey, 5%);
+  box-shadow: inset 0 -4px $grey;
+  margin-left: 10px;
+  border-radius: 2px;
+  border-bottom: 4px solid $grey;
+  display: block;
+  float: left; 
+
+  thead {
+    font-family: 'Cherry Swash', cursive;
+    width: 270px;
+    height: 3em;
+    line-height: 3em;
+    font-size: 1.225rem;
+    color: $dark-purple;
+    float: left;
+    text-align: center;
+
+    th, tr {
+      width: 100%;
+      text-align: center;
+      float: left;
+    }
+  }
+
+  tbody tr {
+    width: 270px;
+    float: left;
+  }
+
+  tbody tr td {
+    width: 85px;
+    text-align: left;
+    line-height: 20px;
+    margin: 0 10px;
+    float: left;
+
+    &:first-child {
+      width: 40px;
+      margin-right: 0;
+    }
+  }
+}
+
+#board-wrapper {
+  float: left;
+}
+
+.chessboard {
+  border: 8px solid lighten($dark-purple, 10%);
+  border-radius: 2px;
+  width: 500px;
+  height: 500px;
+  float: left;
+  
+  tr {
+    width: 500px;
+    height: 62.5px;
+    float: left;
+    display: block;
+
+    td {
+      width: 62.5px;
+      height: 62.5px;
+      line-height: 62.5px;
+      text-align: center;
+      background: #fefefe;
+      display: block;
+      float: left;
+      position: relative;
+
+      &.moving, &.selected { background: lighten($red, 30%) !important; }
+      &.from { background: lighten($blue, 25%) !important; }
+      &.to { background: lighten($blue, 20%) !important; }
+      &.droppable::after {
+        position: absolute;
+        content: "";
+        width: 6px;
+        height: 6px;
+        border: 2px solid $red;
+        top: 50%;
+        left: 50%;
+        margin-left: -5px;
+        margin-top: -5px;
+        background: lighten($red, 15%);
+        transform: rotate(45deg);
+      }
+
+      a {
+        font-family: 'Smart Regular';
+        width: 62.5px;
+        height: 62.5px;
+        font-size: 3.5rem;
+        color: #424242;
+        text-decoration: none;
+        display: inline-block;
+        cursor: default;
+
+        &.in-check { text-shadow: 0 0 1rem $red; }
+        &[draggable="true"] { cursor: pointer; }
+      }
+    }
+  }
+}
+
+.chessboard tr:nth-child(odd) td:nth-child(even), 
+.chessboard tr:nth-child(even) td:nth-child(odd) { 
+  background: $grey;
+}
+
+.feedback {
+  color: #424242;
+  line-height: 28px;
+  margin-top: 1em;
+  display: block;
+  clear: left;
+  float: left;
+
+  .icon {
+    font-family: 'Smart Regular';
+    font-size: 2rem;
+  }
+}
+
+.promotion {
+  line-height: 28px;
+  text-indent: 28px;
+  margin-top: 1em;
+  display: block;
+  float: right;
+}

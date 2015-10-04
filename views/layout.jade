@@ -1,0 +1,32 @@
+doctype html
+html(lang='en')
+  head
+    - if (typeof(title) !== 'undefined')
+      title #{title} | Shogun
+    - else
+      title Shogun
+    meta(charset='utf-8')
+    meta(name='robots', content='index, follow')
+    meta(itemprop='name=Reti Chess')
+    meta(author='Roman Matiasko')
+    meta(name='description', content='A lightweight real-time chess app built in Node, Express, Socket.IO, React, Flux and Immutable.')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='icon', type='image/png' href='/img/favicon.png')
+    link(rel='stylesheet', type='text/css' href='http://fonts.googleapis.com/css?family=Cherry+Swash:400|Open+Sans:400,600&subset=latin')
+    link(rel='stylesheet', href='/css/main.css')
+
+  body
+    #container-wrapper.clearfix
+      block content
+        
+    footer
+      #footer.clearfix
+        p.center 2015
+          | &nbsp;&nbsp;&ndash;&nbsp;&nbsp;
+          a(href='http://github.com/mikuya707') 毛俊英
+          | &nbsp;&nbsp;&ndash;&nbsp;&nbsp;
+          a(href='http://github.com/jl975') 이재동
+
+    - if (process.env.NODE_ENV === 'development')
+      script(src='/js/vendor.js')
+    block scripts

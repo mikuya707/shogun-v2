@@ -1,0 +1,129 @@
+@import "base";
+@import "layout";
+@import "index";
+@import "game";
+
+.alpha { font-size: 1.125rem; }
+.center { text-align: center !important; }
+
+@media only screen and (min-width: 760px) and (max-width: 900px) {
+  header, #board-moves-wrapper, #sounds-label {
+    max-width: 760px;
+  }
+  #container-wrapper {
+    max-width: 900px;
+    padding: 1em 10px;
+  }
+  #moves {
+    margin-left: 0;
+    float: right;
+    height: 516px;
+  }
+  #moves, #moves thead, #moves tbody tr {
+    width: 200px;
+  }
+  #moves tbody tr td {
+    width: 70px;
+    margin: 0 5px;
+
+    &:first-child {
+      width: 30px;
+      margin-right: 5px;
+    }
+  }
+}
+
+@media only screen and (max-width: 999px) {
+  #captured-pieces {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 530px) and (max-width: 759px) {
+  header, #board-moves-wrapper, #sounds-label {
+    max-width: 530px;
+  }
+}
+
+@media only screen and (max-width: 759px){
+  html {
+    font-size: 14px;
+  }
+  #create-game > form {
+    fieldset {
+      width: 100%;
+      text-align: center;
+    
+      label {
+        display: block;
+        line-height: 45px;
+        padding-left: 0;
+        font-size: 1rem;
+
+        &::before {
+          margin-left: -6em;
+          margin-top: 0;
+          right: auto;
+        }
+      }
+    }
+  }
+  #game-type{
+    display: none;
+  }
+  #container-wrapper {
+    max-width: 759px;
+    padding: 1em 5px;
+  }
+  span.feedback {
+    float: right;
+    clear: none;
+  }
+  #moves {
+    margin-left: 0;
+    margin-top: 0.5em;
+    height: 258px;
+  }
+}
+
+@media only screen and (max-width: 529px) {
+  header, #board-moves-wrapper, #sounds-label {
+    max-width: 470px;
+  }
+  #game-link, footer p, footer a {
+    font-size: .75rem;
+  }
+  ul#clock {
+    width: 118px;
+
+    li {
+      width: 55px;
+    }
+  }
+  #container-wrapper {
+    max-width: 529px;
+    padding: 1em 5px;
+  }
+  .chessboard {
+    border: 4px solid lighten($dark-purple, 10%);
+    width: 456px;
+    height: 456px;
+    
+    tr {
+      width: 456px;
+      height: 57px;
+
+      td {
+        width: 57px;
+        height: 57px;
+        line-height: 57px;
+
+        a {
+          width: 57px;
+          height: 57px;
+          font-size: 3.5rem;
+        }
+      }
+    }
+  }
+}

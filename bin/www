@@ -1,0 +1,41 @@
+#!/usr/bin/env node --harmony
+
+'use strict';
+
+require('babel/register');
+const app = require('../app');
+const io = require('../io').io;
+const debug = require('debug')('reti-chess:server');
+const port = process.env.PORT || '1337';
+const ip = process.env.IP || '127.0.0.1';
+
+app.set('ip', ip);
+app.set('port', port);
+
+const server = app.listen(app.get('port'), () => {
+  debug('Express server listening on port ' + server.address().port);
+  console.log('Server started on port', port);
+});
+
+server.on('error', error => {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+  
+  const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+});
+
+io.attach(server);
