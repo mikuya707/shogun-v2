@@ -136,13 +136,6 @@ const GameInterface = React.createClass({
           params={params}
           gameOver={gameOver.get('status')} />
 
-        <label id="sounds-label">
-          <input type="checkbox"
-                 checked={soundsEnabled}
-                 onChange={this._toggleSounds} />
-          <span> Enable sounds</span>
-        </label>
-
         <Chat
           {...commonProps}
           token={params[0]}
