@@ -1,13 +1,23 @@
 .unit {
+/* 	height: auto; 
+    width: auto;  */
+    // max-width: 98px; 
+    // max-height: 98px;
 	width: 98px;
 	height: 98px;
-	background-color: #eee;
+		background-size:contain;
+	//background-color: red;
 }
 
 .Duke {
-	background-image: url("http://www.chessvariants.org/piececlopedia.dir/shogiking-piece.gif");
+
+	background-image: url("/img/Duke_front.png");
+	//background: url('image.jpg') no-repeat;
+  // background-size:contain;
 }
 
 .Footman {
-	background-image: url("http://www.chessvariants.org/piececlopedia.dir/shogipawn-piece.gif");
+
+	background-image: url("/img/Footman_front.png");
+
 }

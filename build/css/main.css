@@ -769,15 +769,17 @@ span#game-type {
   float: right; }
 
 .unit {
+  /* 	height: auto; 
+    width: auto;  */
   width: 98px;
   height: 98px;
-  background-color: #eee; }
+  background-size: contain; }
 
 .Duke {
-  background-image: url("http://www.chessvariants.org/piececlopedia.dir/shogiking-piece.gif"); }
+  background-image: url("/img/Duke_front.png"); }
 
 .Footman {
-  background-image: url("http://www.chessvariants.org/piececlopedia.dir/shogipawn-piece.gif"); }
+  background-image: url("/img/Footman_front.png"); }
 
 .alpha {
   font-size: 1.125rem; }
