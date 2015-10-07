@@ -11,13 +11,45 @@
 
 .Duke {
 
-	background-image: url("/img/Duke_front.png");
+	&.white{
+
+		&.front{
+			background-image: url("/img/Duke_front.png");			
+		}
+		&.back {
+			background-image: url("/img/Duke_back.png");			
+		}
+	}
+	&.black{
+		&.front{
+			background-image: url("/img/Duke_front_black.png");			
+		}
+		&.back {
+			background-image: url("/img/Duke_back_black.png");			
+		}
+	}
 	//background: url('image.jpg') no-repeat;
   // background-size:contain;
 }
 
 .Footman {
 
-	background-image: url("/img/Footman_front.png");
+	&.white{
+
+		&.front{
+			background-image: url("/img/Footman_front.png");			
+		}
+		&.back {
+			background-image: url("/img/Footman_back.png");			
+		}
+	}
+	&.black{
+		&.front{
+			background-image: url("/img/Footman_front_black.png");			
+		}
+		&.back {
+			background-image: url("/img/Footman_back_black.png");			
+		}
+	}
 
 }

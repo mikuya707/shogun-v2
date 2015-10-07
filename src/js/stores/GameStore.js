@@ -48,12 +48,12 @@ const GameStore = Object.assign({}, EventEmitter.prototype, {
 
 getGameboardState() {
   var initialBoard = {
-    '[1, 0]' : "Footman",
-    '[2, 0]' : "Duke",
-    '[3, 0]' : "Footman",
-    '[2, 5]': "Footman",
-    '[3, 5]' : "Duke",
-    '[4, 5]' : "Footman"
+    '[1, 0]' : ["Footman","black"],
+    '[2, 0]' : ["Duke","black"],
+    '[3, 0]' : ["Footman","black"],
+    '[2, 5]': ["Footman","white"],
+    '[3, 5]' : ["Duke", "white"],
+    '[4, 5]' : ["Footman", "white"]
   }
   return {
     setup: initialBoard

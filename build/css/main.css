@@ -775,11 +775,23 @@ span#game-type {
   height: 98px;
   background-size: contain; }
 
-.Duke {
+.Duke.white.front {
   background-image: url("/img/Duke_front.png"); }
+.Duke.white.back {
+  background-image: url("/img/Duke_back.png"); }
+.Duke.black.front {
+  background-image: url("/img/Duke_front_black.png"); }
+.Duke.black.back {
+  background-image: url("/img/Duke_back_black.png"); }
 
-.Footman {
+.Footman.white.front {
   background-image: url("/img/Footman_front.png"); }
+.Footman.white.back {
+  background-image: url("/img/Footman_back.png"); }
+.Footman.black.front {
+  background-image: url("/img/Footman_front_black.png"); }
+.Footman.black.back {
+  background-image: url("/img/Footman_back_black.png"); }
 
 .alpha {
   font-size: 1.125rem; }

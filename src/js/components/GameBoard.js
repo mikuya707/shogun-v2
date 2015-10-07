@@ -50,7 +50,9 @@ const GameBoard = React.createClass({
 				<tr>
 					{row.map((cell, idx2) =>
 						<td position={`[${idx2}, ${idx1}]`}>
-							<Cell position={`[${idx2}, ${idx1}]`} unit={setup[`[${idx2}, ${idx1}]`]?  setup[`[${idx2}, ${idx1}]`]: null}/>
+							<Cell position={`[${idx2}, ${idx1}]`} 
+								unit={setup[`[${idx2}, ${idx1}]`] ? setup[`[${idx2}, ${idx1}]`][0]: null} 
+								color={setup[`[${idx2}, ${idx1}]`] ? setup[`[${idx2}, ${idx1}]`][1]: null}/>
 						</td>
 					)}
 				</tr>
@@ -66,7 +68,9 @@ const Cell = React.createClass({
 	propTypes: {
 	},
 	getInitialState: function() {
-    	 return null;
+    	 return {
+    	 	side: 'front'
+    	 };
   	},
   	componentDidMount() {
 
@@ -82,20 +86,33 @@ const Cell = React.createClass({
 	mixins: [],
 
 	_onClickSquare() {
-		const {unit} = this.props;
+		const {unit, position, color} = this.props;
 		if (unit) {
+			// var moves = behavior[unit];
+			// position = JSON.parse(position);
+			// var range =  position[0] + moves[]
 			console.log(`hi ${unit}!`);
 			console.log(behavior[unit]);
+			this._flip();
 		}
 	},
 
-	render(){
-		var {unit} = this.props;
+	_flip() {
+		this.setState({ side: (this.state.side === 'front') ? 'back' : 'front' });
+	},
 
-		var cxObj = {
+	render(){
+		var {unit, color} = this.props;
+		var {side} = this.state;
+
+		var cxObj = {	
 			unit: !!unit,
 		};
-		if (unit) cxObj[unit] = true;
+		cxObj[side] = true;
+		if (unit) {
+			cxObj[unit] = true;
+			cxObj[color] = true;
+		}
 		
 		return (
 			<div>
