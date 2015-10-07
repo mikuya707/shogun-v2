@@ -9,6 +9,7 @@ npm install
 ```sh
 export NODE_ENV=development
 ```
+export on every tab running either 'gulp' or 'npm start'
 * Run the server
 ```sh
 npm start
