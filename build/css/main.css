@@ -768,6 +768,17 @@ span#game-type {
   display: block;
   float: right; }
 
+.unit {
+  width: 98px;
+  height: 98px;
+  background-color: #eee; }
+
+.Duke {
+  background-image: url("http://www.chessvariants.org/piececlopedia.dir/shogiking-piece.gif"); }
+
+.Footman {
+  background-image: url("http://www.chessvariants.org/piececlopedia.dir/shogipawn-piece.gif"); }
+
 .alpha {
   font-size: 1.125rem; }
 

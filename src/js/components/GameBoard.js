@@ -6,7 +6,7 @@ import GameActions from '../actions/GameActions';
 //import ChessPieces from '../constants/ChessPieces';
 //import onGameChange from '../mixins/onGameChange';
 //import maybeReverse from '../mixins/maybeReverse';
-// import behavior from '../game/behavior';
+import behavior from '../game/behavior';
 import omit from 'lodash.omit';
 import cx from 'classnames';
 
@@ -80,11 +80,28 @@ const Cell = React.createClass({
 		
 	},
 	mixins: [],
+
+	_onClickSquare() {
+		const {unit} = this.props;
+		if (unit) {
+			console.log(`hi ${unit}!`);
+			console.log(behavior[unit]);
+		}
+	},
+
 	render(){
+		var {unit} = this.props;
+
+		var cxObj = {
+			unit: !!unit,
+		};
+		if (unit) cxObj[unit] = true;
 		
 		return (
 			<div>
-			
+				<div className={cx(cxObj)}
+					onClick={this._onClickSquare}>
+				</div>
 			</div>
 		);
 	}
