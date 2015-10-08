@@ -89,7 +89,7 @@ const Cell = React.createClass({
 
 	_onClickSquare() {
 		console.log("what the hell is this dom node thing? ", this.getDOMNode());
-		const {unit, position, color} = this.props;
+		const {unit, position, color, ref} = this.props;
 		const {side} = this.state;
 		if (unit) {
 			var ranges = [];
@@ -102,6 +102,7 @@ const Cell = React.createClass({
 				var y =  pos[0] + move[0] ;
 				var x =  pos[1] + move[1] ;
 				ranges.push({x: x, y: y});
+				console.log("what is ref position", this.refs[position]);
 				console.log("what is refs", this.refs);
 
 			});
@@ -119,8 +120,9 @@ const Cell = React.createClass({
 	},
 
 	render(){
-		var {unit, color} = this.props;
+		var {unit, color, ref} = this.props;
 		var {side} = this.state;
+
 
 		var cxObj = {	
 			unit: !!unit,
