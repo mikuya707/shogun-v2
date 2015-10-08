@@ -561,6 +561,10 @@ div {
 .gameboard tr:nth-child(odd) td:nth-child(even), .gameboard tr:nth-child(even) td:nth-child(odd) {
   background: #dad7d2; }
 
+.highlight {
+  background-color: blue;
+  opacity: 0.5; }
+
 .feedback {
   color: #424242;
   line-height: 28px;
@@ -749,6 +753,10 @@ span#game-type {
 
 .gameboard tr:nth-child(odd) td:nth-child(even), .gameboard tr:nth-child(even) td:nth-child(odd) {
   background: #dad7d2; }
+
+.highlight {
+  background-color: blue;
+  opacity: 0.5; }
 
 .feedback {
   color: #424242;

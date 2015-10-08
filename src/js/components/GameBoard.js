@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 import React from 'react/addons';
 import GameStore from '../stores/GameStore';
@@ -50,7 +50,8 @@ const GameBoard = React.createClass({
 				<tr>
 					{row.map((cell, idx2) =>
 						<td position={`[${idx2}, ${idx1}]`}>
-							<Cell position={`[${idx2}, ${idx1}]`} 
+							<Cell ref={`[${idx2}, ${idx1}]`}								
+							 position={`[${idx2}, ${idx1}]`} 
 								unit={setup[`[${idx2}, ${idx1}]`] ? setup[`[${idx2}, ${idx1}]`][0]: null} 
 								color={setup[`[${idx2}, ${idx1}]`] ? setup[`[${idx2}, ${idx1}]`][1]: null}/>
 						</td>
@@ -69,7 +70,8 @@ const Cell = React.createClass({
 	},
 	getInitialState: function() {
     	 return {
-    	 	side: 'front'
+    	 	side: 'front',
+    	 	highlighted: false
     	 };
   	},
   	componentDidMount() {
@@ -86,9 +88,24 @@ const Cell = React.createClass({
 	mixins: [],
 
 	_onClickSquare() {
+		console.log("what the hell is this dom node thing? ", this.getDOMNode());
 		const {unit, position, color} = this.props;
+		const {side} = this.state;
 		if (unit) {
-			// var moves = behavior[unit];
+			var ranges = [];
+			var moves = behavior[unit][side];
+			Object.keys(moves).map(function(move){
+				move = JSON.parse(move);
+				var pos = JSON.parse(position);
+				// if(!Array.isArray(position)) 
+
+				var y =  pos[0] + move[0] ;
+				var x =  pos[1] + move[1] ;
+				ranges.push({x: x, y: y});
+				console.log("what is refs", this.refs);
+
+			});
+			console.log(moves);
 			// position = JSON.parse(position);
 			// var range =  position[0] + moves[]
 			console.log(`hi ${unit}!`);
