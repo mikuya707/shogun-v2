@@ -1,4 +1,4 @@
-// 'use strict';
+'use strict';
 
 import React from 'react/addons';
 import GameStore from '../stores/GameStore';
@@ -31,14 +31,17 @@ const GameBoard = React.createClass({
 	componentWillUnmount() {
 
 	},
+	_onCellClick() {
+		console.log('cell clicked');
+	},
 	render() {
-		var {state} = this, {setup} = state;
+		var {state, props} = this, {setup} = state, {size} = props;
 
 		console.log("setup ", setup);
 		var cellArray = [];
-		for (var i=0; i<6; i++) {
+		for (var i=0; i<size; i++) {
 			var row = [];
-			for (var j=0; j<6; j++) {
+			for (var j=0; j<size; j++) {
 				row.push({x:j, y:i})
 			}
 			cellArray.push(row);
@@ -53,7 +56,8 @@ const GameBoard = React.createClass({
 							<Cell ref={`[${idx2}, ${idx1}]`}								
 							 position={`[${idx2}, ${idx1}]`} 
 								unit={setup[`[${idx2}, ${idx1}]`] ? setup[`[${idx2}, ${idx1}]`][0]: null} 
-								color={setup[`[${idx2}, ${idx1}]`] ? setup[`[${idx2}, ${idx1}]`][1]: null}/>
+								color={setup[`[${idx2}, ${idx1}]`] ? setup[`[${idx2}, ${idx1}]`][1]: null}
+								onClick={this._onCellClick}/>
 						</td>
 					)}
 				</tr>
@@ -76,7 +80,7 @@ const Cell = React.createClass({
   	},
   	componentDidMount() {
 
-		 console.log("position is ", this.props.position);
+		 //console.log("position is ", this.props.position);
 		
 	},
 
@@ -88,28 +92,23 @@ const Cell = React.createClass({
 	mixins: [],
 
 	_onClickSquare() {
-		console.log("what the hell is this dom node thing? ", this.getDOMNode());
 		const {unit, position, color} = this.props;
 		const {side} = this.state;
 		if (unit) {
 			var ranges = [];
 			var moves = behavior[unit][side];
+			var pos = JSON.parse(position);
 			Object.keys(moves).map(function(move){
 				move = JSON.parse(move);
-				var pos = JSON.parse(position);
-				// if(!Array.isArray(position)) 
-
-				var y =  pos[0] + move[0] ;
-				var x =  pos[1] + move[1] ;
+				var y =  pos[0] + move[0], 
+					x =  pos[1] + move[1];
 				ranges.push({x: x, y: y});
-				console.log("what is refs", this.refs);
-
+				//console.log("what is refs", this.refs);
 			});
-			console.log(moves);
-			// position = JSON.parse(position);
-			// var range =  position[0] + moves[]
+			console.log('range:', ranges);
 			console.log(`hi ${unit}!`);
 			console.log(behavior[unit]);
+			GameActions.showMoves(pos, ranges);
 			this._flip();
 		}
 	},

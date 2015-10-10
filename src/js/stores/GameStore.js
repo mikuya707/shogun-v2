@@ -51,7 +51,7 @@ getGameboardState() {
     '[1, 0]' : ["Footman","black"],
     '[2, 0]' : ["Duke","black"],
     '[3, 0]' : ["Footman","black"],
-    '[2, 5]': ["Footman","white"],
+    '[2, 5]' : ["Footman","white"],
     '[3, 5]' : ["Duke", "white"],
     '[4, 5]' : ["Footman", "white"]
   }
@@ -144,6 +144,10 @@ function makeMove(from, to, capture, emitMove) {
   return true;
 }
 
+function showMoves(from, inRange) {
+
+}
+
 function gameOver(options) {
   _gameOver = _gameOver
     .set('status', true)
@@ -159,6 +163,10 @@ AppDispatcher.register(payload => {
     case GameConstants.MAKE_MOVE:
       emitEvent = makeMove(
         action.from, action.to, action.capture, action.emitMove);
+      break;
+
+    case GameConstants.SHOW_MOVES:
+      emitEvent = showMoves(action.from, action.inRange);
       break;
 
     case GameConstants.CHANGE_PROMOTION:
