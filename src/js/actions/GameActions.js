@@ -11,9 +11,10 @@ const GameActions = {
       emitMove: emitMove
     });
   },
-  showMoves(from, inRange) {
+  showMoves(unit, from, inRange) {
     AppDispatcher.handleViewAction({
       actionType: GameConstants.SHOW_MOVES,
+      unit: unit,
       from: from,
       inRange: inRange
     });

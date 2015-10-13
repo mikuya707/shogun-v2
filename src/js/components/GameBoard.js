@@ -25,11 +25,11 @@ const GameBoard = React.createClass({
 		// }
 	},
 	componentDidMount() {
-		
+		GameStore.addChangeListener(this._onChange);
 
 	},
 	componentWillUnmount() {
-
+		GameStore.removeChangeListener(this._onChange);
 	},
 	_onCellClick() {
 		console.log('cell clicked');
@@ -55,8 +55,8 @@ const GameBoard = React.createClass({
 						<td position={`[${idx2}, ${idx1}]`}>
 							<Cell ref={`[${idx2}, ${idx1}]`}								
 							 position={`[${idx2}, ${idx1}]`} 
-								unit={setup[`[${idx2}, ${idx1}]`] ? setup[`[${idx2}, ${idx1}]`][0]: null} 
-								color={setup[`[${idx2}, ${idx1}]`] ? setup[`[${idx2}, ${idx1}]`][1]: null}
+								unit={setup[`[${idx2}, ${idx1}]`] ? setup[`[${idx2}, ${idx1}]`].unit : null} 
+								color={setup[`[${idx2}, ${idx1}]`] ? setup[`[${idx2}, ${idx1}]`].color : null}
 								onClick={this._onCellClick}/>
 						</td>
 					)}
@@ -100,16 +100,17 @@ const Cell = React.createClass({
 			var pos = JSON.parse(position);
 			Object.keys(moves).map(function(move){
 				move = JSON.parse(move);
-				var y =  pos[0] + move[0], 
-					x =  pos[1] + move[1];
+				var x =  pos[0] + move[0], 
+					y =  pos[1] + move[1];
 				ranges.push({x: x, y: y});
 				//console.log("what is refs", this.refs);
 			});
 			console.log('range:', ranges);
 			console.log(`hi ${unit}!`);
 			console.log(behavior[unit]);
-			GameActions.showMoves(pos, ranges);
-			this._flip();
+			GameActions.showMoves({ unit: unit, color: color }, pos, ranges);
+
+			//this._flip();
 		}
 	},
 
