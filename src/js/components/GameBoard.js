@@ -56,7 +56,7 @@ const GameBoard = React.createClass({
 	render() {
 		var {state, props} = this, {setup} = state, {size} = props;
 		var {setup, lightup} = state;
-		console.log('HOW ABOUT DIS STATE');
+
 
 		console.log(lightup);
 
@@ -128,6 +128,7 @@ const Cell = React.createClass({
 				ranges.push({x: x, y: y});
 				//console.log("what is refs", this.refs);
 			});
+			console.log(`side: ${side}`)
 			console.log('range:', ranges);
 			console.log(`hi ${unit}!`);
 			console.log(behavior[unit]);

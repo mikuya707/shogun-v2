@@ -86,11 +86,8 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
           _lightup[coordsStr] = true;
         })
 
-        console.log('lit up stuf');
         console.log(_lightup);
         //this.setState({_lightup: validMoves});
-        console.log('foreal doe');
-        console.log(_lightup);
 
         return true;
         //console.log(this.getState());
