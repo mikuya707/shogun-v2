@@ -31,34 +31,15 @@ const GameBoard = React.createClass({
 		GameStore.removeChangeListener(this._onChange);
 	},
 	_onChange() {
-		console.log('hai karen-chan');
-		//console.log(GameStore.getGameboardState().lightup);
-		console.log(GameStore.getGameboardState());
-		console.log(this);
-		// function foo(state, self){
-		// 	//var self = this;
-		// 	baz(self);
-		// 	if(state.lightup.length === 0){
-		// 		self.setState({
-		// 			lightup: GameStore.getGameboardState().lightup
-		// 		},baz(self));
-				
-		// 	}
-		// }
-		
+	
 		this.setState({
 			lightup: GameStore.getGameboardState().lightup
 		});
-	},
-	_onCellClick() {
-		console.log('cell clicked');
 	},
 	render() {
 		var {state, props} = this, {setup} = state, {size} = props;
 		var {setup, lightup} = state;
 
-
-		console.log(lightup);
 
 		var cellArray = [];
 		for (var i=0; i<size; i++) {
@@ -128,10 +109,9 @@ const Cell = React.createClass({
 				ranges.push({x: x, y: y});
 				//console.log("what is refs", this.refs);
 			});
-			console.log(`side: ${side}`)
 			console.log('range:', ranges);
 			console.log(`hi ${unit}!`);
-			console.log(behavior[unit]);
+			//console.log(behavior[unit]);
 			GameActions.showMoves({ unit: unit, color: color }, pos, ranges);
 
 			//this._flip();
