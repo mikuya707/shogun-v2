@@ -115,12 +115,8 @@ const Cell = React.createClass({
 	mixins: [],
 
 	_onClickSquare() {
-<<<<<<< HEAD
-		console.log("what the hell is this dom node thing? ", this.getDOMNode());
-		const {unit, position, color, ref} = this.props;
-=======
+
 		const {unit, position, color} = this.props;
->>>>>>> master
 		const {side} = this.state;
 		if (unit) {
 			var ranges = [];
@@ -131,13 +127,6 @@ const Cell = React.createClass({
 				var x =  pos[0] + move[0], 
 					y =  pos[1] + move[1];
 				ranges.push({x: x, y: y});
-<<<<<<< HEAD
-				console.log("what is ref position", this.refs[position]);
-				console.log("what is refs", this.refs);
-
-=======
-				//console.log("what is refs", this.refs);
->>>>>>> master
 			});
 			console.log('range:', ranges);
 			console.log(`hi ${unit}!`);
@@ -153,11 +142,8 @@ const Cell = React.createClass({
 	},
 
 	render(){
-<<<<<<< HEAD
-		var {unit, color, ref} = this.props;
-=======
 		var {unit, color, litup} = this.props;
->>>>>>> master
+
 		var {side} = this.state;
 
 
