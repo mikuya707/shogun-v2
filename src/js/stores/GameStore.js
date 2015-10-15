@@ -75,22 +75,25 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
     },
 
     showMoves(unit, from, inRange) {
-      console.log(unit);
-        console.log(from);
+        console.log(unit);
+        console.log('everything in range:')
+        console.log(inRange);
 
 
-        inRange.filter(range => {
-          return isValidMove(unit, range);
-        }).forEach(move => {
-          var coordsStr = `[${move.x}, ${move.y}]`;
-          _lightup[coordsStr] = true;
-        })
-
-        console.log('lit up stuf');
-        console.log(_lightup);
+        if (!Object.keys(_lightup).length) {
+          inRange.filter(range => {
+              return isValidMove(unit, range);
+          }).forEach(move => {
+              var coordsStr = `[${move.x}, ${move.y}]`;
+              _lightup[coordsStr] = true;
+          })
+          console.log('hi');
+        }
+        else {
+          _lightup = {};
+          console.log('bye');
+        }
         //this.setState({_lightup: validMoves});
-        console.log('foreal doe');
-        console.log(_lightup);
 
         return true;
         //console.log(this.getState());
@@ -100,10 +103,28 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
     }
 
 
-
-
-
 });
+
+function isOnBoard(coords) {
+  if (!coords.hasOwnProperty('x') || !coords.hasOwnProperty('y')) return false;
+  var coordsStr = `[${coords.y}, ${coords.x}]`
+  //console.log('coordsStr:', coordsStr);
+  //console.log('_board:', _board);
+  // console.log(`on tile ${coordsStr}`, _board[coordsStr]);
+  return coords.x >= 0 && coords.y >= 0 && coords.x < 6 && coords.y < 6;
+}
+
+function isValidMove(unit, coords) {
+  var coordsStr = `[${coords.x}, ${coords.y}]`;
+  var targetUnit = _board[coordsStr];
+
+  if (targetUnit) {
+    //console.log(`unit.color: ${unit.color}`);
+    console.log(`targetUnit.color: ${targetUnit.color}`);
+    if (unit.color === targetUnit.color) return false;
+  }
+  return isOnBoard(coords);
+}
 
 function setInitialState() {
     _gameOver = Map({
@@ -190,44 +211,25 @@ function makeMove(from, to, capture, emitMove) {
     return true;
 }
 
-function showMoves(unit, from, inRange) {
-  console.log(unit);
-    console.log(from);
+// function showMoves(unit, from, inRange) {
+//   console.log(unit);
+//     console.log(from);
 
-    var validMoves = inRange.filter(range => {
-      return isValidMove(unit, range);
-    })
+//     var validMoves = inRange.filter(range => {
+//       return isValidMove(unit, range);
+//     })
 
-    //this.setState({_lightup: validMoves});
-    console.log('boop')
-    console.log(this.state);
-    // console.log('valid Moves:')
-    // console.log(validMoves);
+//     //this.setState({_lightup: validMoves});
+//     console.log('boop')
+//     console.log(this.state);
+//     // console.log('valid Moves:')
+//     // console.log(validMoves);
 
-    //console.log(`inRange: ${inRange}`);
-    //console.log(`utils: ${Utils.showme()}`);
-}
+//     //console.log(`inRange: ${inRange}`);
+//     //console.log(`utils: ${Utils.showme()}`);
+// }
 
-function isOnBoard(coords) {
-  if (!coords.x || !coords.y) return false;
-  var coordsStr = `[${coords.y}, ${coords.x}]`
-  //console.log('coordsStr:', coordsStr);
-  //console.log('_board:', _board);
-  // console.log(`on tile ${coordsStr}`, _board[coordsStr]);
-  return coords.x >= 0 && coords.y >= 0 && coords.x < 6 && coords.y < 6;
-}
 
-function isValidMove(unit, coords) {
-  var coordsStr = `[${coords.x}, ${coords.y}]`;
-  var targetUnit = _board[coordsStr];
-
-  if (targetUnit) {
-    //console.log(`unit.color: ${unit.color}`);
-    console.log(`targetUnit.color: ${targetUnit.color}`);
-    if (unit.color === targetUnit.color) return false;
-  }
-  return isOnBoard(coords);
-}
 
 function gameOver(options) {
     _gameOver = _gameOver

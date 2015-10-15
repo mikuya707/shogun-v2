@@ -562,4 +562,8 @@ Duplicate data property in object literal not allowed in strict mode date=Thu Oc
 2015-10-10T12:55:45.146Z - info: Number of currently running games #=1
 2015-10-10T13:20:18.915Z - info: Number of currently running games #=1
 2015-10-13T02:15:48.964Z - info: Number of currently running games #=1
+<<<<<<< HEAD
+>>>>>>> master
+=======
+2015-10-15T02:56:59.070Z - info: Number of currently running games #=1
 >>>>>>> master
