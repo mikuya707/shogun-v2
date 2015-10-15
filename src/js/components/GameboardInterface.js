@@ -35,7 +35,7 @@ const GameboardInterface = React.createClass({
 
 					<CapturedPieces />
 
-					<Board />
+					<Board size={6}/>
 
 				</div>
 

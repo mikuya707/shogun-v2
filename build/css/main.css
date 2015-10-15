@@ -783,6 +783,12 @@ span#game-type {
   height: 98px;
   background-size: contain; }
 
+.litup {
+  width: 98px;
+  height: 98px;
+  background-color: red;
+  opacity: 0.5; }
+
 .Duke.white.front {
   background-image: url("/img/Duke_front.png"); }
 .Duke.white.back {
