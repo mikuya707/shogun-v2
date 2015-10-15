@@ -160,7 +160,8 @@ function draw() {
 function  updateBoard(from, to) {
         console.log("what is from and to", from, to);
         
-       from = JSON.stringify(from).replace(/,/g, ', ');
+       //from = JSON.stringify(from).replace(/,/g, ', ');
+       from = `[${from[0]}, ${from[1]}]`
        //to = JSON.stringify(to).replace(/,/g, ', ');
         console.log('from', from);
 
