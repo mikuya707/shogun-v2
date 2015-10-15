@@ -21,8 +21,10 @@ var _check;
 var _lastMove;
 var _chess;
 
-var _board = {};
-var _lightup = {};
+var _board = {},
+    _lightup = {},
+    _selected;
+
 
 setInitialState();
 
@@ -59,11 +61,11 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
 
     getGameboardState() {
         return {
-            setup: _board,
-            lightup: _lightup
+            board: _board,
+            lightup: _lightup,
+            selected: _selected
         }
     },
-
 
 
     getValidMoves(square) {
@@ -75,23 +77,18 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
     },
 
     showMoves(unit, from, inRange) {
-        console.log(unit);
-        console.log('everything in range:')
-        console.log(inRange);
-
-
-        if (!Object.keys(_lightup).length) {
+         if (!Object.keys(_lightup).length) {
           inRange.filter(range => {
               return isValidMove(unit, range);
           }).forEach(move => {
               var coordsStr = `[${move.x}, ${move.y}]`;
               _lightup[coordsStr] = true;
           })
-          console.log('hi');
+          _selected = {position: from, unit: unit};
         }
         else {
           _lightup = {};
-          console.log('bye');
+          _selected = null;
         }
         //this.setState({_lightup: validMoves});
 
@@ -141,6 +138,7 @@ function setInitialState() {
     _turn = 'w';
     _check = false;
     _lastMove = Map();
+    _selected = null;
     //_chess = new Chess();
 
     _lightup = [];
@@ -159,52 +157,67 @@ function draw() {
 
 }
 
+function  updateBoard(from, to) {
+        console.log("what is from and to", from, to);
+        
+       from = JSON.stringify(from).replace(/,/g, ', ');
+       //to = JSON.stringify(to).replace(/,/g, ', ');
+        console.log('from', from);
+
+       var unit = _board[from];
+       console.log('what is the from unit', unit);
+       _board[from] = null;
+        _board[to] = unit;
+        return _board;
+    }
 function makeMove(from, to, capture, emitMove) {
-    const move = _chess.move({
-        from: from,
-        to: to,
-        promotion: _promotion
-    });
+   
+    updateBoard(from, to);
+    // const move = _chess.move({
+    //     from: from,
+    //     to: to,
+    // });
 
-    if (!move) {
-        // move is not valid, return false and don't emit any event.
-        return false;
-    }
+    // if (!move) {
+    //     // move is not valid, return false and don't emit any event.
+    //     return false;
+    // }
 
-    _turn = _chess.turn();
-    _check = _chess.in_check();
-    _lastMove = _lastMove.set('from', from).set('to', to);
-    _moves = _moves.isEmpty() || _moves.last().size === 2 ?
-        _moves.push(List([move.san])) :
-        _moves.update(_moves.size - 1, list => list.push(move.san));
+    // _turn = _chess.turn();
+    // _check = _chess.in_check();
+    // _lastMove = _lastMove.set('from', from).set('to', to);
+    // _moves = _moves.isEmpty() || _moves.last().size === 2 ?
+    //     _moves.push(List([move.san])) :
+    //     _moves.update(_moves.size - 1, list => list.push(move.san));
 
-    if (capture || move.flags === 'e') {
-        const capturedPiece = capture ||
-            ChessPieces[_turn === 'w' ? 'P' : 'p']; // en passant
+    // if (capture || move.flags === 'e') {
+    //     const capturedPiece = capture ||
+    //         ChessPieces[_turn === 'w' ? 'P' : 'p']; // en passant
 
-        _capturedPieces = _capturedPieces
-            .update(_turn, list => list.push(capturedPiece));
-    }
+    //     _capturedPieces = _capturedPieces
+    //         .update(_turn, list => list.push(capturedPiece));
+    // }
 
-    if (_chess.game_over()) {
-        const type = _chess.in_checkmate() ? 'checkmate' :
-            _chess.in_stalemate() ? 'stalemate' :
-            _chess.in_threefold_repetition() ? 'threefoldRepetition' :
-            _chess.insufficient_material() ? 'insufficientMaterial' :
-            _chess.in_draw() ? 'draw' : null;
+    // if (_chess.game_over()) {
+    //     const type = _chess.in_checkmate() ? 'checkmate' :
+    //         _chess.in_stalemate() ? 'stalemate' :
+    //         _chess.in_threefold_repetition() ? 'threefoldRepetition' :
+    //         _chess.insufficient_material() ? 'insufficientMaterial' :
+    //         _chess.in_draw() ? 'draw' : null;
 
-        gameOver({
-            winner: _turn === 'b' ? 'White' : 'Black',
-            type: type
-        });
-    }
+    //     gameOver({
+    //         winner: _turn === 'b' ? 'White' : 'Black',
+    //         type: type
+    //     });
+    // }
 
     if (emitMove) {
         GameStore.emit(MOVE_EVENT, {
             from: from,
             to: to,
             capture: capture,
-            gameOver: _chess.game_over()
+            board: _board    
+            //gameOver: _chess.game_over()
         });
     }
 
