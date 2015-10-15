@@ -18,7 +18,7 @@ const GameBoard = React.createClass({
 	getInitialState() {
 		//return null;
 		this.state = GameStore.getGameboardState();
-		console.log("state? ", this.state.setup);
+		console.log("state? ", this.state);
 		return this.state;
 		// {
 		// 	setup: state.setup;
@@ -26,18 +26,40 @@ const GameBoard = React.createClass({
 	},
 	componentDidMount() {
 		GameStore.addChangeListener(this._onChange);
-
 	},
 	componentWillUnmount() {
 		GameStore.removeChangeListener(this._onChange);
+	},
+	_onChange() {
+		console.log('hai karen-chan');
+		//console.log(GameStore.getGameboardState().lightup);
+		console.log(GameStore.getGameboardState());
+		console.log(this);
+		// function foo(state, self){
+		// 	//var self = this;
+		// 	baz(self);
+		// 	if(state.lightup.length === 0){
+		// 		self.setState({
+		// 			lightup: GameStore.getGameboardState().lightup
+		// 		},baz(self));
+				
+		// 	}
+		// }
+		
+		this.setState({
+			lightup: GameStore.getGameboardState().lightup
+		});
 	},
 	_onCellClick() {
 		console.log('cell clicked');
 	},
 	render() {
 		var {state, props} = this, {setup} = state, {size} = props;
+		var {setup, lightup} = state;
+		console.log('HOW ABOUT DIS STATE');
 
-		console.log("setup ", setup);
+		console.log(lightup);
+
 		var cellArray = [];
 		for (var i=0; i<size; i++) {
 			var row = [];
@@ -57,6 +79,7 @@ const GameBoard = React.createClass({
 							 position={`[${idx2}, ${idx1}]`} 
 								unit={setup[`[${idx2}, ${idx1}]`] ? setup[`[${idx2}, ${idx1}]`].unit : null} 
 								color={setup[`[${idx2}, ${idx1}]`] ? setup[`[${idx2}, ${idx1}]`].color : null}
+								litup={lightup[`[${idx2}, ${idx1}]`]}
 								onClick={this._onCellClick}/>
 						</td>
 					)}
@@ -119,11 +142,12 @@ const Cell = React.createClass({
 	},
 
 	render(){
-		var {unit, color} = this.props;
+		var {unit, color, litup} = this.props;
 		var {side} = this.state;
 
 		var cxObj = {	
 			unit: !!unit,
+			litup: litup
 		};
 		cxObj[side] = true;
 		if (unit) {

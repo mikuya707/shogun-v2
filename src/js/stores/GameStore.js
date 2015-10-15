@@ -22,16 +22,24 @@ var _lastMove;
 var _chess;
 
 var _board = {};
+var _lightup = {};
 
 setInitialState();
 
-const GameStore = Object.assign({}, EventEmitter.prototype, {
+var GameStore = Object.assign({}, EventEmitter.prototype, {
+    addChangeListener: function(cb) {
+      this.on(CHANGE_EVENT, cb);
+    },
+
+    removeChangeListener: function(cb) {
+      this.removeChangeListener(CHANGE_EVENT, cb);
+    },
     getState() {
         return {
             gameOver: _gameOver,
             promotion: _promotion,
             turn: _turn,
-            check: _check
+            check: _check,
         };
     },
     getCapturedPieces() {
@@ -51,9 +59,11 @@ const GameStore = Object.assign({}, EventEmitter.prototype, {
 
     getGameboardState() {
         return {
-            setup: _board
+            setup: _board,
+            lightup: _lightup
         }
     },
+
 
 
     getValidMoves(square) {
@@ -64,13 +74,32 @@ const GameStore = Object.assign({}, EventEmitter.prototype, {
             }).map(move => move.to)) : Set();
     },
 
-    addChangeListener: function(cb) {
-      this.on(CHANGE_EVENT, cb);
-    },
+    showMoves(unit, from, inRange) {
+      console.log(unit);
+        console.log(from);
 
-    removeChangeListener: function(cb) {
-      this.removeChangeListener(CHANGE_EVENT, cb);
+
+        inRange.filter(range => {
+          return isValidMove(unit, range);
+        }).forEach(move => {
+          var coordsStr = `[${move.x}, ${move.y}]`;
+          _lightup[coordsStr] = true;
+        })
+
+        console.log('lit up stuf');
+        console.log(_lightup);
+        //this.setState({_lightup: validMoves});
+        console.log('foreal doe');
+        console.log(_lightup);
+
+        return true;
+        //console.log(this.getState());
+        // console.log('valid Moves:')
+        // console.log(validMoves);
+
     }
+
+
 
 
 
@@ -91,7 +120,9 @@ function setInitialState() {
     _turn = 'w';
     _check = false;
     _lastMove = Map();
-    _chess = new Chess();
+    //_chess = new Chess();
+
+    _lightup = [];
 
     _board = {
         '[1, 0]': {unit: 'Footman', color: 'black'},
@@ -163,9 +194,13 @@ function showMoves(unit, from, inRange) {
   console.log(unit);
     console.log(from);
 
-    return inRange.filter(range => {
+    var validMoves = inRange.filter(range => {
       return isValidMove(unit, range);
     })
+
+    //this.setState({_lightup: validMoves});
+    console.log('boop')
+    console.log(this.state);
     // console.log('valid Moves:')
     // console.log(validMoves);
 
@@ -212,7 +247,7 @@ AppDispatcher.register(payload => {
             break;
 
         case GameConstants.SHOW_MOVES:
-            emitEvent = showMoves(action.unit, action.from, action.inRange);
+            emitEvent = GameStore.showMoves(action.unit, action.from, action.inRange);
             break;
 
         case GameConstants.CHANGE_PROMOTION:
