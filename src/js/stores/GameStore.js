@@ -87,6 +87,7 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
           _selected = {position: from, unit: unit};
         }
         else {
+          console.log('else');
           _lightup = {};
           _selected = null;
         }
@@ -169,6 +170,7 @@ function  updateBoard(from, to) {
        console.log('what is the from unit', unit);
        _board[from] = null;
         _board[to] = unit;
+        _selected = null;
         return _board;
     }
 function makeMove(from, to, capture, emitMove) {
@@ -224,25 +226,6 @@ function makeMove(from, to, capture, emitMove) {
 
     return true;
 }
-
-// function showMoves(unit, from, inRange) {
-//   console.log(unit);
-//     console.log(from);
-
-//     var validMoves = inRange.filter(range => {
-//       return isValidMove(unit, range);
-//     })
-
-//     //this.setState({_lightup: validMoves});
-//     console.log('boop')
-//     console.log(this.state);
-//     // console.log('valid Moves:')
-//     // console.log(validMoves);
-
-//     //console.log(`inRange: ${inRange}`);
-//     //console.log(`utils: ${Utils.showme()}`);
-// }
-
 
 
 function gameOver(options) {
