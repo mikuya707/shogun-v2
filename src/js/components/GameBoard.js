@@ -110,7 +110,7 @@ const Cell = React.createClass({
 		var boardState = GameStore.getGameboardState();
 		var {board, lightup, selected} = boardState;
 
-
+		console.log("what things are before click: ", "unit ", unit, "position ", position, 'color ', color, 'side ', side, "isSelected ", isSelected, "selected", selected);
 		if (unit) {
 			if (!isSelected) {
 				//check if the onclick unit has the same color as the player
@@ -118,7 +118,10 @@ const Cell = React.createClass({
 				//if(color === )
 				
 				this.setState({isSelected: true});	
+<<<<<<< HEAD
+=======
 				console.log('board select')
+>>>>>>> 8b85c7bd5a9f262c5ded76ecafd0d55ae5344785
 
 				var ranges = [];
 				var moves = behavior[unit][side];
@@ -145,11 +148,23 @@ const Cell = React.createClass({
 			if (selected && Object.keys(lightup).length) {
 				if(lightup[position]){
 					console.log("what is selected? ", selected);
+
 					console.log("what is current unit and position? ", unit, position);
+					Object.keys(lightup).forEach(function(unit) { 
+						console.log("what is looping ", lightup[unit]);
+						lightup[unit] = false });
+					
+					console.log("after remove color", lightup);
 					GameActions.makeMove(selected.position, position, false);
-					console.log("moved!");
-					console.log("board?", board);
+
+					selected = null;
 					this._flip();
+					this.setState({isSelected: false});	
+					console.log("after deselected for isSelected", isSelected);
+					console.log("after deselected", selected);
+
+					this._flip();
+
 				}
 			//check if current position is in lightup
 			//if it does, then remove the current unit and add it to designated position

@@ -862,4 +862,101 @@ Duplicate data property in object literal not allowed in strict mode date=Thu Oc
 2015-10-15T12:10:53.745Z - error: Not Found
 2015-10-15T12:10:53.770Z - error: Not Found
 2015-10-15T12:10:53.812Z - error: Not Found
+<<<<<<< HEAD
+2015-10-16T01:54:07.174Z - error: Not Found
+2015-10-16T01:54:11.804Z - error: Not Found
+2015-10-16T01:54:17.531Z - error: Not Found
+2015-10-16T01:54:24.519Z - error: Not Found
+2015-10-16T01:54:28.781Z - error: Not Found
+2015-10-16T01:54:30.945Z - error: Not Found
+2015-10-16T01:54:31.040Z - error: Not Found
+2015-10-16T01:54:32.697Z - error: Not Found
+2015-10-16T01:54:38.924Z - error: Not Found
+2015-10-16T02:09:47.580Z - info: Number of currently running games #=1
+2015-10-16T02:17:47.437Z - error: uncaughtException: /Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/src/js/components/GameBoard.js: Line 144: "isSelected" is read-only
+  142 | 					[37mlightup[39m [37m[1m=[22m[39m [36mnull[39m[37m[1m;[22m[39m
+  143 | 					[36mthis[39m[37m[1m.[22m[39m[37m_flip[39m[34m[1m([22m[39m[34m[1m)[22m[39m[37m[1m;[22m[39m
+> 144 | 					[37misSelected[39m [37m[1m=[22m[39m [36mfalse[39m[37m[1m;[22m[39m
+      |      ^
+  145 | 					[37mselected[39m [37m[1m=[22m[39m [36mnull[39m[37m[1m;[22m[39m
+  146 | 					[37mconsole[39m[37m[1m.[22m[39m[37mlog[39m[34m[1m([22m[39m[31m"after selected"[39m[37m[1m,[22m[39m [37mselected[39m[37m[1m,[22m[39m [37misSelected[39m[34m[1m)[22m[39m[37m[1m;[22m[39m
+  147 | 					 date=Thu Oct 15 2015 22:17:47 GMT-0400 (EDT), pid=23869, uid=501, gid=20, cwd=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2, execPath=/usr/local/Cellar/node/0.12.7_1/bin/node, version=v0.12.7, argv=[node, /Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/bin/www], rss=84549632, heapTotal=65882112, heapUsed=34571560, loadavg=[1.81396484375, 1.7734375, 1.7666015625], uptime=621220, trace=[column=15, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/transformation/file.js, function=File.errorWithNode, line=365, method=errorWithNode, native=false, column=26, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/transformation/transformers/es6/constants.js, function=TraversalPath.enter, line=41, method=enter, native=false, column=26, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/path.js, function=TraversalPath.call, line=127, method=call, native=false, column=10, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/path.js, function=TraversalPath.visit, line=142, method=visit, native=false, column=22, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/context.js, function=TraversalContext.visitNode, line=34, method=visitNode, native=false, column=19, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/context.js, function=TraversalContext.visit, line=42, method=visit, native=false, column=17, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/index.js, function=Function.traverse.node, line=44, method=traverse.node, native=false, column=18, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/path.js, function=TraversalPath.visit, line=159, method=visit, native=false, column=22, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/context.js, function=TraversalContext.visitNode, line=34, method=visitNode, native=false, column=28, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/context.js, function=TraversalContext.visit, line=51, method=visit, native=false, column=17, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/index.js, function=Function.traverse.node, line=44, method=traverse.node, native=false], stack=[SyntaxError: /Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/src/js/components/GameBoard.js: Line 144: "isSelected" is read-only,   142 | 					[37mlightup[39m [37m[1m=[22m[39m [36mnull[39m[37m[1m;[22m[39m,   143 | 					[36mthis[39m[37m[1m.[22m[39m[37m_flip[39m[34m[1m([22m[39m[34m[1m)[22m[39m[37m[1m;[22m[39m, > 144 | 					[37misSelected[39m [37m[1m=[22m[39m [36mfalse[39m[37m[1m;[22m[39m,       |      ^,   145 | 					[37mselected[39m [37m[1m=[22m[39m [36mnull[39m[37m[1m;[22m[39m,   146 | 					[37mconsole[39m[37m[1m.[22m[39m[37mlog[39m[34m[1m([22m[39m[31m"after selected"[39m[37m[1m,[22m[39m [37mselected[39m[37m[1m,[22m[39m [37misSelected[39m[34m[1m)[22m[39m[37m[1m;[22m[39m,   147 | 					,     at File.errorWithNode (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/transformation/file.js:365:15),     at TraversalPath.enter (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/transformation/transformers/es6/constants.js:41:26),     at TraversalPath.call (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/path.js:127:26),     at TraversalPath.visit (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/path.js:142:10),     at TraversalContext.visitNode (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/context.js:34:22),     at TraversalContext.visit (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/context.js:42:19),     at Function.traverse.node (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/index.js:44:17),     at TraversalPath.visit (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/path.js:159:18),     at TraversalContext.visitNode (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/context.js:34:22),     at TraversalContext.visit (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/context.js:51:28),     at Function.traverse.node (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/index.js:44:17)]
+2015-10-16T02:21:30.553Z - error: uncaughtException: /Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/src/js/components/GameBoard.js: Line 144: "isSelected" is read-only
+  142 | 					[37mlightup[39m [37m[1m=[22m[39m [36mnull[39m[37m[1m;[22m[39m
+  143 | 					[36mthis[39m[37m[1m.[22m[39m[37m_flip[39m[34m[1m([22m[39m[34m[1m)[22m[39m[37m[1m;[22m[39m
+> 144 | 					[37misSelected[39m [37m[1m=[22m[39m [37m[1m![22m[39m[37misSelected[39m[37m[1m;[22m[39m
+      |      ^
+  145 | 					[37mselected[39m [37m[1m=[22m[39m [36mnull[39m[37m[1m;[22m[39m
+  146 | 					[37mconsole[39m[37m[1m.[22m[39m[37mlog[39m[34m[1m([22m[39m[31m"after selected"[39m[37m[1m,[22m[39m [37mselected[39m[34m[1m)[22m[39m[37m[1m;[22m[39m
+  147 | 					 date=Thu Oct 15 2015 22:21:30 GMT-0400 (EDT), pid=23920, uid=501, gid=20, cwd=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2, execPath=/usr/local/Cellar/node/0.12.7_1/bin/node, version=v0.12.7, argv=[node, /Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/bin/www], rss=83210240, heapTotal=65882112, heapUsed=34643272, loadavg=[1.47265625, 1.8408203125, 1.828125], uptime=621443, trace=[column=15, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/transformation/file.js, function=File.errorWithNode, line=365, method=errorWithNode, native=false, column=26, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/transformation/transformers/es6/constants.js, function=TraversalPath.enter, line=41, method=enter, native=false, column=26, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/path.js, function=TraversalPath.call, line=127, method=call, native=false, column=10, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/path.js, function=TraversalPath.visit, line=142, method=visit, native=false, column=22, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/context.js, function=TraversalContext.visitNode, line=34, method=visitNode, native=false, column=19, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/context.js, function=TraversalContext.visit, line=42, method=visit, native=false, column=17, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/index.js, function=Function.traverse.node, line=44, method=traverse.node, native=false, column=18, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/path.js, function=TraversalPath.visit, line=159, method=visit, native=false, column=22, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/context.js, function=TraversalContext.visitNode, line=34, method=visitNode, native=false, column=28, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/context.js, function=TraversalContext.visit, line=51, method=visit, native=false, column=17, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/index.js, function=Function.traverse.node, line=44, method=traverse.node, native=false], stack=[SyntaxError: /Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/src/js/components/GameBoard.js: Line 144: "isSelected" is read-only,   142 | 					[37mlightup[39m [37m[1m=[22m[39m [36mnull[39m[37m[1m;[22m[39m,   143 | 					[36mthis[39m[37m[1m.[22m[39m[37m_flip[39m[34m[1m([22m[39m[34m[1m)[22m[39m[37m[1m;[22m[39m, > 144 | 					[37misSelected[39m [37m[1m=[22m[39m [37m[1m![22m[39m[37misSelected[39m[37m[1m;[22m[39m,       |      ^,   145 | 					[37mselected[39m [37m[1m=[22m[39m [36mnull[39m[37m[1m;[22m[39m,   146 | 					[37mconsole[39m[37m[1m.[22m[39m[37mlog[39m[34m[1m([22m[39m[31m"after selected"[39m[37m[1m,[22m[39m [37mselected[39m[34m[1m)[22m[39m[37m[1m;[22m[39m,   147 | 					,     at File.errorWithNode (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/transformation/file.js:365:15),     at TraversalPath.enter (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/transformation/transformers/es6/constants.js:41:26),     at TraversalPath.call (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/path.js:127:26),     at TraversalPath.visit (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/path.js:142:10),     at TraversalContext.visitNode (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/context.js:34:22),     at TraversalContext.visit (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/context.js:42:19),     at Function.traverse.node (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/index.js:44:17),     at TraversalPath.visit (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/path.js:159:18),     at TraversalContext.visitNode (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/context.js:34:22),     at TraversalContext.visit (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/context.js:51:28),     at Function.traverse.node (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/lib/babel/traversal/index.js:44:17)]
+2015-10-16T12:20:39.702Z - error: Not Found
+2015-10-16T12:20:40.126Z - error: Not Found
+2015-10-16T12:20:40.216Z - error: Not Found
+2015-10-16T13:38:26.505Z - error: Not Found
+2015-10-16T13:38:26.612Z - error: Not Found
+2015-10-16T13:38:26.660Z - error: Not Found
+2015-10-16T13:39:52.209Z - error: Not Found
+2015-10-16T13:39:52.273Z - error: Not Found
+2015-10-16T13:39:52.310Z - error: Not Found
+2015-10-16T13:39:53.265Z - error: Not Found
+2015-10-16T13:39:53.336Z - error: Not Found
+2015-10-16T13:39:54.755Z - error: Not Found
+2015-10-16T22:10:31.791Z - error: Not Found
+2015-10-16T22:10:40.478Z - error: Not Found
+2015-10-16T22:10:41.667Z - info: Number of currently running games #=1
+2015-10-16T22:10:41.870Z - error: Not Found
+2015-10-16T22:12:08.614Z - error: Not Found
+2015-10-16T22:15:02.708Z - error: Not Found
+2015-10-17T09:02:57.932Z - error: Not Found
+2015-10-17T09:04:44.305Z - error: Not Found
+2015-10-17T09:04:48.105Z - error: Not Found
+2015-10-17T09:06:32.815Z - error: Not Found
+2015-10-17T09:06:38.497Z - error: Not Found
+2015-10-17T09:06:40.369Z - error: Not Found
+2015-10-17T09:17:36.215Z - error: Not Found
+2015-10-17T09:17:41.823Z - error: Not Found
+2015-10-17T09:18:38.639Z - error: Not Found
+2015-10-17T09:18:45.466Z - error: Not Found
+2015-10-17T09:18:57.595Z - error: Not Found
+2015-10-17T09:19:29.524Z - error: Not Found
+2015-10-17T09:19:36.207Z - error: Not Found
+2015-10-17T09:20:57.517Z - error: Not Found
+2015-10-17T09:20:59.733Z - error: Not Found
+2015-10-17T09:21:05.978Z - error: Not Found
+2015-10-17T09:21:12.011Z - error: Not Found
+2015-10-17T09:21:41.041Z - error: Not Found
+2015-10-17T09:22:03.451Z - error: Not Found
+2015-10-17T09:22:18.719Z - error: Not Found
+2015-10-17T09:23:36.721Z - error: Not Found
+2015-10-17T09:23:41.600Z - error: Not Found
+2015-10-17T09:23:46.377Z - error: Not Found
+2015-10-17T09:23:51.141Z - error: Not Found
+2015-10-17T09:23:59.310Z - error: Not Found
+2015-10-17T09:24:01.275Z - error: Not Found
+2015-10-17T09:24:17.731Z - error: Not Found
+2015-10-17T09:24:28.335Z - error: Not Found
+2015-10-17T09:24:55.188Z - error: Not Found
+2015-10-17T09:24:58.843Z - error: Not Found
+2015-10-17T09:27:59.195Z - error: Not Found
+2015-10-17T09:28:02.642Z - error: Not Found
+2015-10-17T09:29:17.748Z - error: Not Found
+2015-10-17T09:29:18.569Z - info: Number of currently running games #=1
+2015-10-17T09:29:18.732Z - error: Not Found
+2015-10-17T09:37:41.240Z - error: Not Found
+2015-10-17T09:38:53.722Z - error: Not Found
+2015-10-17T09:40:04.716Z - error: Not Found
+2015-10-17T09:41:03.431Z - error: Not Found
+2015-10-17T09:41:33.655Z - error: Not Found
+2015-10-17T09:42:35.116Z - error: Not Found
+2015-10-17T09:43:30.365Z - error: Not Found
+2015-10-17T09:43:58.887Z - error: Not Found
+2015-10-17T09:45:10.063Z - error: Not Found
+2015-10-17T09:46:05.894Z - error: Not Found
+2015-10-17T09:49:13.066Z - error: Not Found
+2015-10-17T09:50:46.377Z - error: Not Found
+2015-10-17T09:52:48.979Z - error: Not Found
+2015-10-17T09:53:27.246Z - error: Not Found
+2015-10-17T09:55:22.508Z - error: Not Found
+=======
 2015-10-16T02:20:11.627Z - info: Number of currently running games #=2
+>>>>>>> 8b85c7bd5a9f262c5ded76ecafd0d55ae5344785
