@@ -37,8 +37,9 @@ const GameBoard = React.createClass({
 		});
 	},
 	render() {
-		var {state, props} = this, {board} = state, {size} = props;
-		var {board, lightup} = state;
+		var {state, props} = this, 
+			{size} = props,
+			{board, selected, lightup} = state;
 
 
 		var cellArray = [];
@@ -61,6 +62,7 @@ const GameBoard = React.createClass({
 								unit={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].unit : null} 
 								color={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].color : null}
 								litup={lightup[`[${idx2}, ${idx1}]`]}
+								setSelected={this._setSelected}
 								onClick={this._onCellClick}/>
 						</td>
 					)}
@@ -68,6 +70,12 @@ const GameBoard = React.createClass({
 				)}
 		</table>
 		);
+	},
+
+	_setSelected(position) {
+		this.setState({
+			selected: position
+		})
 	}
 
 });
