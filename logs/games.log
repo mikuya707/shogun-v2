@@ -862,6 +862,7 @@ Duplicate data property in object literal not allowed in strict mode date=Thu Oc
 2015-10-15T12:10:53.745Z - error: Not Found
 2015-10-15T12:10:53.770Z - error: Not Found
 2015-10-15T12:10:53.812Z - error: Not Found
+<<<<<<< HEAD
 2015-10-16T01:54:07.174Z - error: Not Found
 2015-10-16T01:54:11.804Z - error: Not Found
 2015-10-16T01:54:17.531Z - error: Not Found
@@ -956,3 +957,6 @@ Duplicate data property in object literal not allowed in strict mode date=Thu Oc
 2015-10-17T09:52:48.979Z - error: Not Found
 2015-10-17T09:53:27.246Z - error: Not Found
 2015-10-17T09:55:22.508Z - error: Not Found
+=======
+2015-10-16T02:20:11.627Z - info: Number of currently running games #=2
+>>>>>>> 8b85c7bd5a9f262c5ded76ecafd0d55ae5344785

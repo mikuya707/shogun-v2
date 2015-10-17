@@ -110,6 +110,10 @@ const Cell = React.createClass({
 				//if(color === )
 				
 				this.setState({isSelected: true});	
+<<<<<<< HEAD
+=======
+				console.log('board select')
+>>>>>>> 8b85c7bd5a9f262c5ded76ecafd0d55ae5344785
 
 				var ranges = [];
 				var moves = behavior[unit][side];
@@ -121,12 +125,13 @@ const Cell = React.createClass({
 					ranges.push({x: x, y: y});
 				});
 				//console.log(behavior[unit]);
-				GameActions.showMoves({ unit: unit, color: color }, pos, ranges);
 
 			}
 			else {
-				//if()
+				console.log('board deselect')
+				this.setState({isSelected: false});
 			}
+			GameActions.showMoves({ unit: unit, color: color }, pos, ranges);
 			//this._flip();
 		}
 		//this is the condition where the player selects its own unit, and try to move to existing valid position
@@ -143,13 +148,15 @@ const Cell = React.createClass({
 					
 					console.log("after remove color", lightup);
 					GameActions.makeMove(selected.position, position, false);
+
 					selected = null;
 					this._flip();
 					this.setState({isSelected: false});	
 					console.log("after deselected for isSelected", isSelected);
 					console.log("after deselected", selected);
-					
-					
+
+					this._flip();
+
 				}
 			//check if current position is in lightup
 			//if it does, then remove the current unit and add it to designated position
