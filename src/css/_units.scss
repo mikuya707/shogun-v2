@@ -24,8 +24,107 @@
 	100% {opacity: 0.1; }
 }
 
-.Duke {
+.Assassin {
+	&.white{
 
+		&.front{
+			background-image: url("/img/Assassin_front.png");			
+		}
+		&.back {
+			background-image: url("/img/Assassin_back.png");			
+		}
+	}
+	&.black{
+		&.front{
+			background-image: url("/img/Assassin_front_black.png");			
+		}
+		&.back {
+			background-image: url("/img/Assassin_back_black.png");			
+		}
+	}
+}
+
+.Bowman {
+	&.white{
+
+		&.front{
+			background-image: url("/img/Bowman_front.png");			
+		}
+		&.back {
+			background-image: url("/img/Bowman_back.png");			
+		}
+	}
+	&.black{
+		&.front{
+			background-image: url("/img/Bowman_front_black.png");			
+		}
+		&.back {
+			background-image: url("/img/Bowman_back_black.png");			
+		}
+	}
+}
+
+.Champion {
+	&.white{
+
+		&.front{
+			background-image: url("/img/Champion_front.png");			
+		}
+		&.back {
+			background-image: url("/img/Champion_back.png");			
+		}
+	}
+	&.black{
+		&.front{
+			background-image: url("/img/Champion_front_black.png");			
+		}
+		&.back {
+			background-image: url("/img/Champion_back_black.png");			
+		}
+	}
+}
+
+.Dragoon {
+	&.white{
+
+		&.front{
+			background-image: url("/img/Dragoon_front.png");			
+		}
+		&.back {
+			background-image: url("/img/Dragoon_back.png");			
+		}
+	}
+	&.black{
+		&.front{
+			background-image: url("/img/Dragoon_front_black.png");			
+		}
+		&.back {
+			background-image: url("/img/Dragoon_back_black.png");			
+		}
+	}
+}
+
+.Duchess {
+	&.white{
+
+		&.front{
+			background-image: url("/img/Duchess_front.png");			
+		}
+		&.back {
+			background-image: url("/img/Duchess_back.png");			
+		}
+	}
+	&.black{
+		&.front{
+			background-image: url("/img/Duchess_front_black.png");			
+		}
+		&.back {
+			background-image: url("/img/Duchess_back_black.png");			
+		}
+	}
+}
+
+.Duke {
 	&.white{
 
 		&.front{
@@ -43,12 +142,9 @@
 			background-image: url("/img/Duke_back_black.png");			
 		}
 	}
-	//background: url('image.jpg') no-repeat;
-  // background-size:contain;
 }
 
 .Footman {
-
 	&.white{
 
 		&.front{
@@ -66,6 +162,185 @@
 			background-image: url("/img/Footman_back_black.png");			
 		}
 	}
+}
 
+.Knight {
+	&.white{
+
+		&.front{
+			background-image: url("/img/Knight_front.png");			
+		}
+		&.back {
+			background-image: url("/img/Knight_back.png");			
+		}
+	}
+	&.black{
+		&.front{
+			background-image: url("/img/Knight_front_black.png");			
+		}
+		&.back {
+			background-image: url("/img/Knight_back_black.png");			
+		}
+	}
+}
+
+.Longbowman {
+	&.white{
+
+		&.front{
+			background-image: url("/img/Longbowman_front.png");			
+		}
+		&.back {
+			background-image: url("/img/Longbowman_back.png");			
+		}
+	}
+	&.black{
+		&.front{
+			background-image: url("/img/Longbowman_front_black.png");			
+		}
+		&.back {
+			background-image: url("/img/Longbowman_back_black.png");			
+		}
+	}
+}
+
+.Marshall {
+	&.white{
+
+		&.front{
+			background-image: url("/img/Marshall_front.png");			
+		}
+		&.back {
+			background-image: url("/img/Marshall_back.png");			
+		}
+	}
+	&.black{
+		&.front{
+			background-image: url("/img/Marshall_front_black.png");			
+		}
+		&.back {
+			background-image: url("/img/Marshall_back_black.png");			
+		}
+	}
+}
+
+.Oracle {
+	&.white{
+
+		&.front{
+			background-image: url("/img/Oracle_front.png");			
+		}
+		&.back {
+			background-image: url("/img/Oracle_back.png");			
+		}
+	}
+	&.black{
+		&.front{
+			background-image: url("/img/Oracle_front_black.png");			
+		}
+		&.back {
+			background-image: url("/img/Oracle_back_black.png");			
+		}
+	}
+}
+
+.Pikeman {
+	&.white{
+
+		&.front{
+			background-image: url("/img/Pikeman_front.png");			
+		}
+		&.back {
+			background-image: url("/img/Pikeman_back.png");			
+		}
+	}
+	&.black{
+		&.front{
+			background-image: url("/img/Pikeman_front_black.png");			
+		}
+		&.back {
+			background-image: url("/img/Pikeman_back_black.png");			
+		}
+	}
+}
+
+.Priest {
+	&.white{
+
+		&.front{
+			background-image: url("/img/Priest_front.png");			
+		}
+		&.back {
+			background-image: url("/img/Priest_back.png");			
+		}
+	}
+	&.black{
+		&.front{
+			background-image: url("/img/Priest_front_black.png");			
+		}
+		&.back {
+			background-image: url("/img/Priest_back_black.png");			
+		}
+	}
+}
+
+.Ranger {
+	&.white{
+
+		&.front{
+			background-image: url("/img/Ranger_front.png");			
+		}
+		&.back {
+			background-image: url("/img/Ranger_back.png");			
+		}
+	}
+	&.black{
+		&.front{
+			background-image: url("/img/Ranger_front_black.png");			
+		}
+		&.back {
+			background-image: url("/img/Ranger_back_black.png");			
+		}
+	}
+}
+
+.Seer {
+	&.white{
+
+		&.front{
+			background-image: url("/img/Seer_front.png");			
+		}
+		&.back {
+			background-image: url("/img/Seer_back.png");			
+		}
+	}
+	&.black{
+		&.front{
+			background-image: url("/img/Seer_front_black.png");			
+		}
+		&.back {
+			background-image: url("/img/Seer_back_black.png");			
+		}
+	}
+}
+
+.Wizard {
+	&.white{
+
+		&.front{
+			background-image: url("/img/Wizard_front.png");			
+		}
+		&.back {
+			background-image: url("/img/Wizard_back.png");			
+		}
+	}
+	&.black{
+		&.front{
+			background-image: url("/img/Wizard_front_black.png");			
+		}
+		&.back {
+			background-image: url("/img/Wizard_back_black.png");			
+		}
+	}
 }
 

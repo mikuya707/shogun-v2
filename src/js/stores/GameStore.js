@@ -76,29 +76,29 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
             }).map(move => move.to)) : Set();
     },
 
-    showMoves(unit, from, inRange) {
-         if (!Object.keys(_lightup).length) {
-          inRange.filter(range => {
-              return isValidMove(unit, range);
-          }).forEach(move => {
-              var coordsStr = `[${move.x}, ${move.y}]`;
-              _lightup[coordsStr] = true;
-          })
-          _selected = {position: from, unit: unit};
-        }
-        else {
-          console.log('else');
-          _lightup = [];
-          _selected = null;
-        }
-        //this.setState({_lightup: validMoves});
+    // showMoves(unit, from, inRange) {
+    //      if (!Object.keys(_lightup).length) {
+    //       inRange.filter(range => {
+    //           return isValidMove(unit, range);
+    //       }).forEach(move => {
+    //           var coordsStr = `[${move.x}, ${move.y}]`;
+    //           _lightup[coordsStr] = true;
+    //       })
+    //       _selected = {position: from, unit: unit};
+    //     }
+    //     else {
+    //       console.log('else');
+    //       _lightup = [];
+    //       _selected = null;
+    //     }
+    //     //this.setState({_lightup: validMoves});
 
-        return true;
-        //console.log(this.getState());
-        // console.log('valid Moves:')
-        // console.log(validMoves);
+    //     return true;
+    //     //console.log(this.getState());
+    //     // console.log('valid Moves:')
+    //     // console.log(validMoves);
 
-    }
+    // }
 
 
 });
@@ -204,9 +204,9 @@ AppDispatcher.register(payload => {
                 action.from, action.to, action.capture, action.emitMove);
             break;
 
-        case GameConstants.SHOW_MOVES:
-            emitEvent = GameStore.showMoves(action.unit, action.from, action.inRange);
-            break;
+        // case GameConstants.SHOW_MOVES:
+        //     emitEvent = GameStore.showMoves(action.unit, action.from, action.inRange);
+        //     break;
 
         case GameConstants.CHANGE_PROMOTION:
             _promotion = action.promotion;

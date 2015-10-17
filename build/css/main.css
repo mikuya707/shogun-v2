@@ -799,6 +799,51 @@ span#game-type {
   100% {
     opacity: 0.1; } }
 
+.Assassin.white.front {
+  background-image: url("/img/Assassin_front.png"); }
+.Assassin.white.back {
+  background-image: url("/img/Assassin_back.png"); }
+.Assassin.black.front {
+  background-image: url("/img/Assassin_front_black.png"); }
+.Assassin.black.back {
+  background-image: url("/img/Assassin_back_black.png"); }
+
+.Bowman.white.front {
+  background-image: url("/img/Bowman_front.png"); }
+.Bowman.white.back {
+  background-image: url("/img/Bowman_back.png"); }
+.Bowman.black.front {
+  background-image: url("/img/Bowman_front_black.png"); }
+.Bowman.black.back {
+  background-image: url("/img/Bowman_back_black.png"); }
+
+.Champion.white.front {
+  background-image: url("/img/Champion_front.png"); }
+.Champion.white.back {
+  background-image: url("/img/Champion_back.png"); }
+.Champion.black.front {
+  background-image: url("/img/Champion_front_black.png"); }
+.Champion.black.back {
+  background-image: url("/img/Champion_back_black.png"); }
+
+.Dragoon.white.front {
+  background-image: url("/img/Dragoon_front.png"); }
+.Dragoon.white.back {
+  background-image: url("/img/Dragoon_back.png"); }
+.Dragoon.black.front {
+  background-image: url("/img/Dragoon_front_black.png"); }
+.Dragoon.black.back {
+  background-image: url("/img/Dragoon_back_black.png"); }
+
+.Duchess.white.front {
+  background-image: url("/img/Duchess_front.png"); }
+.Duchess.white.back {
+  background-image: url("/img/Duchess_back.png"); }
+.Duchess.black.front {
+  background-image: url("/img/Duchess_front_black.png"); }
+.Duchess.black.back {
+  background-image: url("/img/Duchess_back_black.png"); }
+
 .Duke.white.front {
   background-image: url("/img/Duke_front.png"); }
 .Duke.white.back {
@@ -816,6 +861,87 @@ span#game-type {
   background-image: url("/img/Footman_front_black.png"); }
 .Footman.black.back {
   background-image: url("/img/Footman_back_black.png"); }
+
+.Knight.white.front {
+  background-image: url("/img/Knight_front.png"); }
+.Knight.white.back {
+  background-image: url("/img/Knight_back.png"); }
+.Knight.black.front {
+  background-image: url("/img/Knight_front_black.png"); }
+.Knight.black.back {
+  background-image: url("/img/Knight_back_black.png"); }
+
+.Longbowman.white.front {
+  background-image: url("/img/Longbowman_front.png"); }
+.Longbowman.white.back {
+  background-image: url("/img/Longbowman_back.png"); }
+.Longbowman.black.front {
+  background-image: url("/img/Longbowman_front_black.png"); }
+.Longbowman.black.back {
+  background-image: url("/img/Longbowman_back_black.png"); }
+
+.Marshall.white.front {
+  background-image: url("/img/Marshall_front.png"); }
+.Marshall.white.back {
+  background-image: url("/img/Marshall_back.png"); }
+.Marshall.black.front {
+  background-image: url("/img/Marshall_front_black.png"); }
+.Marshall.black.back {
+  background-image: url("/img/Marshall_back_black.png"); }
+
+.Oracle.white.front {
+  background-image: url("/img/Oracle_front.png"); }
+.Oracle.white.back {
+  background-image: url("/img/Oracle_back.png"); }
+.Oracle.black.front {
+  background-image: url("/img/Oracle_front_black.png"); }
+.Oracle.black.back {
+  background-image: url("/img/Oracle_back_black.png"); }
+
+.Pikeman.white.front {
+  background-image: url("/img/Pikeman_front.png"); }
+.Pikeman.white.back {
+  background-image: url("/img/Pikeman_back.png"); }
+.Pikeman.black.front {
+  background-image: url("/img/Pikeman_front_black.png"); }
+.Pikeman.black.back {
+  background-image: url("/img/Pikeman_back_black.png"); }
+
+.Priest.white.front {
+  background-image: url("/img/Priest_front.png"); }
+.Priest.white.back {
+  background-image: url("/img/Priest_back.png"); }
+.Priest.black.front {
+  background-image: url("/img/Priest_front_black.png"); }
+.Priest.black.back {
+  background-image: url("/img/Priest_back_black.png"); }
+
+.Ranger.white.front {
+  background-image: url("/img/Ranger_front.png"); }
+.Ranger.white.back {
+  background-image: url("/img/Ranger_back.png"); }
+.Ranger.black.front {
+  background-image: url("/img/Ranger_front_black.png"); }
+.Ranger.black.back {
+  background-image: url("/img/Ranger_back_black.png"); }
+
+.Seer.white.front {
+  background-image: url("/img/Seer_front.png"); }
+.Seer.white.back {
+  background-image: url("/img/Seer_back.png"); }
+.Seer.black.front {
+  background-image: url("/img/Seer_front_black.png"); }
+.Seer.black.back {
+  background-image: url("/img/Seer_back_black.png"); }
+
+.Wizard.white.front {
+  background-image: url("/img/Wizard_front.png"); }
+.Wizard.white.back {
+  background-image: url("/img/Wizard_back.png"); }
+.Wizard.black.front {
+  background-image: url("/img/Wizard_front_black.png"); }
+.Wizard.black.back {
+  background-image: url("/img/Wizard_back_black.png"); }
 
 .alpha {
   font-size: 1.125rem; }

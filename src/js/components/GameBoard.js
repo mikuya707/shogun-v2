@@ -20,9 +20,6 @@ const GameBoard = React.createClass({
 		this.state = GameStore.getGameboardState();
 		console.log("state? ", this.state);
 		return this.state;
-		// {
-		// 	board: state.board;
-		// }
 	},
 	componentDidMount() {
 		GameStore.addChangeListener(this._onChange);
@@ -66,7 +63,6 @@ const GameBoard = React.createClass({
 								litup={lightup[`[${idx2}, ${idx1}]`]}
 								selected = {selected}
 								setSelected={this._setSelected}
-								//flip = {this._flip}
 								onClick={this._onCellClick}/>
 						</td>
 					)}
@@ -109,11 +105,6 @@ const GameBoard = React.createClass({
 	  return coords.x >= 0 && coords.y >= 0 && coords.x < 6 && coords.y < 6;
 	},
 
-	_flip() {
-		console.log('everyday im flippin');
-		//this.setState({ side: (this.state.side === 'front') ? 'back' : 'front' });
-	}
-
 });
 
 
@@ -145,13 +136,13 @@ const Cell = React.createClass({
 
 		const {isSelected} = this.state;
 		var boardState = GameStore.getGameboardState();
-		//var {board, lightup} = boardState;
 
 		//console.log("what things are before click: ", "unit ", unit, "position ", position, 'color ', color, 'side ', side, "isSelected ", isSelected, "selected", selected);
-		if (unit) {
-			if (!selected) {
-				console.log('board select')
+		
 
+		// if there is no currently selected unit, click a unit to select it
+		if (!selected) {
+			if (unit) {
 				var ranges = [];
 				var moves = behavior[unit][side];
 				var pos = JSON.parse(position);
@@ -162,28 +153,62 @@ const Cell = React.createClass({
 					ranges.push({x: x, y: y});
 				});
 				setSelected(position, ranges);
-
 			}
-			else {
-				console.log('board deselect')
+		}
+		// if there is currently a selected unit on the board, can do one of the following:
+		else {
+			if (this.props.litup) {
+				// move to a square with an opposite color unit to capture it
+				if (unit) {
+					GameActions.makeMove(selected, position, true, true);
+				}
+
+				// move to an unoccupied square
+				else {
+					GameActions.makeMove(selected, position, false, true);
+				}
+
 				setSelected(null, []);
 			}
-			//GameActions.showMoves({ unit: unit, color: color }, pos, ranges);
-			//this._flip();
-		}
-		//this is the condition where the player selects its own unit, and try to move to existing valid position
-		else {
-			if (selected && this.props.litup) {
-				GameActions.makeMove(selected, position, false, true);
-				setSelected(null, []);;
+			// deselect the current unit by clicking on it
+			else if (selected === position) {
+				setSelected(null, []);
 			}
 		}
-	},
 
-	_flip() {
-		//this.setState({ side: (this.state.side === 'front') ? 'back' : 'front' });
-	},
 
+
+		// if (unit) {
+		// 	if (!selected) {
+		// 		console.log('board select')
+
+		// 		var ranges = [];
+		// 		var moves = behavior[unit][side];
+		// 		var pos = JSON.parse(position);
+		// 		Object.keys(moves).map(function(move){
+		// 			move = JSON.parse(move);
+		// 			var x =  pos[0] + move[0], 
+		// 				y =  pos[1] + move[1];
+		// 			ranges.push({x: x, y: y});
+		// 		});
+		// 		setSelected(position, ranges);
+
+		// 	}
+		// 	else {
+		// 		console.log('board deselect')
+		// 		setSelected(null, []);
+		// 	}
+		// 	//GameActions.showMoves({ unit: unit, color: color }, pos, ranges);
+		// }
+		// //this is the condition where the player selects its own unit, and try to move to existing valid position
+		// else {
+		// 	if (selected && this.props.litup) {
+		// 		GameActions.makeMove(selected, position, false, true);
+		// 		setSelected(null, []);;
+		// 	}
+		// }
+		
+	},
 
 	render(){
 		var {unit, color, litup, side} = this.props;
