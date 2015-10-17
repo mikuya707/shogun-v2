@@ -22,7 +22,7 @@ var _lastMove;
 var _chess;
 
 var _board = {},
-    _lightup = {},
+    _lightup = [],
     _selected;
 
 
@@ -88,7 +88,7 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
         }
         else {
           console.log('else');
-          _lightup = {};
+          _lightup = [];
           _selected = null;
         }
         //this.setState({_lightup: validMoves});
@@ -142,15 +142,15 @@ function setInitialState() {
     _selected = null;
     //_chess = new Chess();
 
-    _lightup = [];
+    _lightup = {};
 
     _board = {
-        '[1, 0]': {unit: 'Footman', color: 'black'},
-        '[2, 0]': {unit: 'Duke', color: 'black'},
-        '[3, 0]': {unit: 'Footman', color: 'black'},
-        '[2, 5]': {unit: 'Footman', color: 'white'},
-        '[3, 5]': {unit: 'Duke', color: 'white'},
-        '[4, 5]': {unit: 'Footman', color: 'white'}
+        '[1, 0]': {unit: 'Footman', color: 'black', side: 'front'},
+        '[2, 0]': {unit: 'Duke', color: 'black', side: 'front'},
+        '[3, 0]': {unit: 'Footman', color: 'black', side: 'front'},
+        '[2, 5]': {unit: 'Footman', color: 'white', side: 'front'},
+        '[3, 5]': {unit: 'Duke', color: 'white', side: 'front'},
+        '[4, 5]': {unit: 'Footman', color: 'white', side: 'front'}
     };
 }
 
@@ -158,61 +158,20 @@ function draw() {
 
 }
 
-function  updateBoard(from, to) {
-        console.log("what is from and to", from, to);
-        
-       //from = JSON.stringify(from).replace(/,/g, ', ');
-       from = `[${from[0]}, ${from[1]}]`
-       //to = JSON.stringify(to).replace(/,/g, ', ');
-        console.log('from', from);
+function updateBoard(from, to) {
+    var unit = _board[from];
+    unit.side = (unit.side === 'front') ? 'back' : 'front';
 
-       var unit = _board[from];
-       console.log('what is the from unit', unit);
-       _board[from] = null;
-        _board[to] = unit;
-        _selected = null;
-        return _board;
-    }
+    _board[from] = null;
+    _board[to] = unit;
+    _selected = null;
+
+    return _board;
+}
+
 function makeMove(from, to, capture, emitMove) {
    
     updateBoard(from, to);
-    // const move = _chess.move({
-    //     from: from,
-    //     to: to,
-    // });
-
-    // if (!move) {
-    //     // move is not valid, return false and don't emit any event.
-    //     return false;
-    // }
-
-    // _turn = _chess.turn();
-    // _check = _chess.in_check();
-    // _lastMove = _lastMove.set('from', from).set('to', to);
-    // _moves = _moves.isEmpty() || _moves.last().size === 2 ?
-    //     _moves.push(List([move.san])) :
-    //     _moves.update(_moves.size - 1, list => list.push(move.san));
-
-    // if (capture || move.flags === 'e') {
-    //     const capturedPiece = capture ||
-    //         ChessPieces[_turn === 'w' ? 'P' : 'p']; // en passant
-
-    //     _capturedPieces = _capturedPieces
-    //         .update(_turn, list => list.push(capturedPiece));
-    // }
-
-    // if (_chess.game_over()) {
-    //     const type = _chess.in_checkmate() ? 'checkmate' :
-    //         _chess.in_stalemate() ? 'stalemate' :
-    //         _chess.in_threefold_repetition() ? 'threefoldRepetition' :
-    //         _chess.insufficient_material() ? 'insufficientMaterial' :
-    //         _chess.in_draw() ? 'draw' : null;
-
-    //     gameOver({
-    //         winner: _turn === 'b' ? 'White' : 'Black',
-    //         type: type
-    //     });
-    // }
 
     if (emitMove) {
         GameStore.emit(MOVE_EVENT, {
