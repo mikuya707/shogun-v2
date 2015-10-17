@@ -37,10 +37,11 @@ const GameBoard = React.createClass({
 		});
 	},
 	render() {
-		var {state, props} = this, {board} = state, {size} = props;
-		var {board, lightup} = state;
+		var {state, props} = this, 
+			{size} = props,
+			{board, selected} = state;
 
-
+		var lightup = this.state.lightup;
 		var cellArray = [];
 		for (var i=0; i<size; i++) {
 			var row = [];
@@ -49,6 +50,7 @@ const GameBoard = React.createClass({
 			}
 			cellArray.push(row);
 		}
+
 		return (
 
 			<table className="board">
@@ -60,14 +62,56 @@ const GameBoard = React.createClass({
 							 position={`[${idx2}, ${idx1}]`} 
 								unit={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].unit : null} 
 								color={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].color : null}
+								side={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].side : null}
 								litup={lightup[`[${idx2}, ${idx1}]`]}
+								selected = {selected}
+								setSelected={this._setSelected}
+								//flip = {this._flip}
 								onClick={this._onCellClick}/>
 						</td>
 					)}
 				</tr>
-				)}
-		</table>
+			)}
+			</table>
 		);
+	},
+
+	_setSelected(position, inRange) {
+		this.setState({
+			selected: position,
+			lightup: this._getValidMoves(position, inRange)
+		})
+
+	},
+
+	_getValidMoves(position, inRange) {
+		if (!inRange) return;
+		var output = {};
+		inRange.filter(range => {
+			// is on board
+			if (!this._isOnBoard(range)) return false;
+
+			// no unit of the same color on square
+			var coordsStr = `[${range.x}, ${range.y}]`;
+			var targetUnit = this.state.board[coordsStr];
+			if (targetUnit) {
+				if (this.state.board[position].color === targetUnit.color) return false;
+			}
+
+			return true;
+		}).forEach(range => {
+			output[`[${range.x}, ${range.y}]`] = true;
+		})
+		return output;
+	},
+
+	_isOnBoard(coords) {
+	  return coords.x >= 0 && coords.y >= 0 && coords.x < 6 && coords.y < 6;
+	},
+
+	_flip() {
+		console.log('everyday im flippin');
+		//this.setState({ side: (this.state.side === 'front') ? 'back' : 'front' });
 	}
 
 });
@@ -78,7 +122,7 @@ const Cell = React.createClass({
 	},
 	getInitialState: function() {
     	 return {
-    	 	side: 'front',
+    	 	//side: 'front',
     	 	isSelected: false
     	 };
   	},
@@ -97,23 +141,16 @@ const Cell = React.createClass({
 
 	_onClickSquare() {
 
-		const {unit, position, color} = this.props;
-		const {side, isSelected} = this.state;
-		var boardState = GameStore.getGameboardState();
-		var {board, lightup, selected} = boardState;
+		const {unit, position, color, selected, setSelected, litup, side} = this.props;
 
-		console.log("what things are before click: ", "unit ", unit, "position ", position, 'color ', color, 'side ', side, "isSelected ", isSelected, "selected", selected);
+		const {isSelected} = this.state;
+		var boardState = GameStore.getGameboardState();
+		//var {board, lightup} = boardState;
+
+		//console.log("what things are before click: ", "unit ", unit, "position ", position, 'color ', color, 'side ', side, "isSelected ", isSelected, "selected", selected);
 		if (unit) {
-			if (!isSelected) {
-				//check if the onclick unit has the same color as the player
-				//then selected = true;
-				//if(color === )
-				
-				this.setState({isSelected: true});	
-<<<<<<< HEAD
-=======
+			if (!selected) {
 				console.log('board select')
->>>>>>> 8b85c7bd5a9f262c5ded76ecafd0d55ae5344785
 
 				var ranges = [];
 				var moves = behavior[unit][side];
@@ -124,58 +161,32 @@ const Cell = React.createClass({
 						y =  pos[1] + move[1];
 					ranges.push({x: x, y: y});
 				});
-				//console.log(behavior[unit]);
+				setSelected(position, ranges);
 
 			}
 			else {
 				console.log('board deselect')
-				this.setState({isSelected: false});
+				setSelected(null, []);
 			}
-			GameActions.showMoves({ unit: unit, color: color }, pos, ranges);
+			//GameActions.showMoves({ unit: unit, color: color }, pos, ranges);
 			//this._flip();
 		}
 		//this is the condition where the player selects its own unit, and try to move to existing valid position
 		else {
-			console.log("we got here", selected);
-			if (selected && Object.keys(lightup).length) {
-				if(lightup[position]){
-					console.log("what is selected? ", selected);
-
-					console.log("what is current unit and position? ", unit, position);
-					Object.keys(lightup).forEach(function(unit) { 
-						console.log("what is looping ", lightup[unit]);
-						lightup[unit] = false });
-					
-					console.log("after remove color", lightup);
-					GameActions.makeMove(selected.position, position, false);
-
-					selected = null;
-					this._flip();
-					this.setState({isSelected: false});	
-					console.log("after deselected for isSelected", isSelected);
-					console.log("after deselected", selected);
-
-					this._flip();
-
-				}
-			//check if current position is in lightup
-			//if it does, then remove the current unit and add it to designated position
-			//set selected as false
-			//this.state.side change to back (if it's front, vice versa)
-			//clear lightup
+			if (selected && this.props.litup) {
+				GameActions.makeMove(selected, position, false, true);
+				setSelected(null, []);;
 			}
 		}
 	},
 
 	_flip() {
-		this.setState({ side: (this.state.side === 'front') ? 'back' : 'front' });
+		//this.setState({ side: (this.state.side === 'front') ? 'back' : 'front' });
 	},
 
 
 	render(){
-		var {unit, color, litup} = this.props;
-
-		var {side} = this.state;
+		var {unit, color, litup, side} = this.props;
 
 
 		var cxObj = {	
