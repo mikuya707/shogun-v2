@@ -28,9 +28,30 @@ const GameBoard = React.createClass({
 		this.state.drawUnit = GameStore.getGameboardState().drawUnit;
 		console.log(this.state.drawUnit);
 		console.log(Object.keys(this.state.drawUnit)[0]);
-		// document.getElementById('drawnUnit').css({'background-image', })
-		//'[1, 0]': {unit: 'Footman', color: 'black', side: 'front'},
+		var unit = Object.keys(this.state.drawUnit)[0];
+		var element = document.getElementById('drawnUnit');
+		console.log("element is retrived", element);
+		element.classList.add(`${unit}`);
+		element.classList.add("white");
+		element.classList.add("front");
+		// element.classList.add(`${unit}`);
+		// element.setAttribute("color", "white");
+		// element.setAttribute("side", "front");
+		//'[1, 0]': {unit: 'Footman', color: 'black', s`${ide: 'front'},
+
 		
+	},
+	_onDrawnUnitClick(){
+		var element = document.getElementById('drawnUnit');
+		//element.classList.remove("back");
+		if (element.classList.contains("front")) {
+			element.classList.remove("front");
+		 	element.classList.add("back");
+		}
+		else if(element.classList.contains("back")){
+			element.classList.remove("back");
+		 	element.classList.add("front");
+		}
 	},
 
 	componentDidMount() {
@@ -84,8 +105,8 @@ const GameBoard = React.createClass({
 			</table>
 			<div id="draw">
 				<button className="btn" onClick={this._onButtonClick}>DRAW</button>
-				<div id="drawnUnit" >
-				</div>
+				<div id="drawnUnit" onClick={this._onDrawnUnitClick}></div>
+			</div>
 			</div>
 		);
 	},

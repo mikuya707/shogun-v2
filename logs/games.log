@@ -1046,3 +1046,63 @@ Duplicate data property in object literal not allowed in strict mode date=Thu Oc
   104 | 		[36mvar[39m [37moutput[39m [37m[1m=[22m[39m [32m{[39m[32m}[39m[37m[1m;[22m[39m
   105 | 
   106 | 		[36mvar[39m [37minRange[39m [37m[1m=[22m[39m [33m[[39m[33m][39m[37m[1m;[22m[39m date=Sun Oct 18 2015 14:14:42 GMT-0400 (EDT), pid=31176, uid=501, gid=20, cwd=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2, execPath=/usr/local/Cellar/node/0.12.7_1/bin/node, version=v0.12.7, argv=[node, /Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/bin/www], rss=80236544, heapTotal=64862208, heapUsed=31075248, loadavg=[1.9453125, 2.00537109375, 2.01123046875], uptime=851440, trace=[column=15, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=raise, line=343, method=null, native=false, column=5, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=unexpected, line=2278, method=null, native=false, column=7, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=parseExprAtom, line=3281, method=null, native=false, column=16, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=parseExprSubscripts, line=3117, method=null, native=false, column=16, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=parseMaybeUnary, line=3099, method=null, native=false, column=16, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=parseExprOps, line=3053, method=null, native=false, column=16, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=parseMaybeConditional, line=3029, method=null, native=false, column=16, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=parseMaybeAssign, line=3008, method=null, native=false, column=16, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=parseExpression, line=2986, method=null, native=false, column=73, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=parseJSXExpressionContainer, line=4091, method=null, native=false], stack=[SyntaxError: /Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/src/js/components/GameBoard.js: Unexpected token (103:2),   101 | ,   102 | 	[37m_getValidMoves[39m[34m[1m([22m[39m[37mposition[39m[37m[1m,[22m[39m [37mmoves[39m[34m[1m)[22m[39m [32m{[39m, > 103 | 		[36mif[39m [34m[1m([22m[39m[37m[1m![22m[39m[37mmoves[39m[34m[1m)[22m[39m [36mreturn[39m[37m[1m;[22m[39m,       |   ^,   104 | 		[36mvar[39m [37moutput[39m [37m[1m=[22m[39m [32m{[39m[32m}[39m[37m[1m;[22m[39m,   105 | ,   106 | 		[36mvar[39m [37minRange[39m [37m[1m=[22m[39m [33m[[39m[33m][39m[37m[1m;[22m[39m,     at raise (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:343:15),     at unexpected (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:2278:5),     at parseExprAtom (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:3281:7),     at parseExprSubscripts (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:3117:16),     at parseMaybeUnary (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:3099:16),     at parseExprOps (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:3053:16),     at parseMaybeConditional (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:3029:16),     at parseMaybeAssign (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:3008:16),     at parseExpression (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:2986:16),     at parseJSXExpressionContainer (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:4091:73)]
+2015-10-18T18:53:45.762Z - error: uncaughtException: /Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/src/js/components/GameBoard.js: Unexpected token (103:2)
+  101 | 
+  102 | 	[37m_getValidMoves[39m[34m[1m([22m[39m[37mposition[39m[37m[1m,[22m[39m [37mmoves[39m[34m[1m)[22m[39m [32m{[39m
+> 103 | 		[36mif[39m [34m[1m([22m[39m[37m[1m![22m[39m[37mmoves[39m[34m[1m)[22m[39m [36mreturn[39m[37m[1m;[22m[39m
+      |   ^
+  104 | 		[36mvar[39m [37moutput[39m [37m[1m=[22m[39m [32m{[39m[32m}[39m[37m[1m;[22m[39m
+  105 | 
+  106 | 		[36mvar[39m [37minRange[39m [37m[1m=[22m[39m [33m[[39m[33m][39m[37m[1m;[22m[39m date=Sun Oct 18 2015 14:53:45 GMT-0400 (EDT), pid=32029, uid=501, gid=20, cwd=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2, execPath=/usr/local/Cellar/node/0.12.7_1/bin/node, version=v0.12.7, argv=[node, /Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/bin/www], rss=89387008, heapTotal=69997824, heapUsed=34812664, loadavg=[2.06201171875, 1.81884765625, 1.76171875], uptime=853783, trace=[column=15, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=raise, line=343, method=null, native=false, column=5, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=unexpected, line=2278, method=null, native=false, column=7, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=parseExprAtom, line=3281, method=null, native=false, column=16, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=parseExprSubscripts, line=3117, method=null, native=false, column=16, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=parseMaybeUnary, line=3099, method=null, native=false, column=16, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=parseExprOps, line=3053, method=null, native=false, column=16, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=parseMaybeConditional, line=3029, method=null, native=false, column=16, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=parseMaybeAssign, line=3008, method=null, native=false, column=16, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=parseExpression, line=2986, method=null, native=false, column=73, file=/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js, function=parseJSXExpressionContainer, line=4091, method=null, native=false], stack=[SyntaxError: /Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/src/js/components/GameBoard.js: Unexpected token (103:2),   101 | ,   102 | 	[37m_getValidMoves[39m[34m[1m([22m[39m[37mposition[39m[37m[1m,[22m[39m [37mmoves[39m[34m[1m)[22m[39m [32m{[39m, > 103 | 		[36mif[39m [34m[1m([22m[39m[37m[1m![22m[39m[37mmoves[39m[34m[1m)[22m[39m [36mreturn[39m[37m[1m;[22m[39m,       |   ^,   104 | 		[36mvar[39m [37moutput[39m [37m[1m=[22m[39m [32m{[39m[32m}[39m[37m[1m;[22m[39m,   105 | ,   106 | 		[36mvar[39m [37minRange[39m [37m[1m=[22m[39m [33m[[39m[33m][39m[37m[1m;[22m[39m,     at raise (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:343:15),     at unexpected (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:2278:5),     at parseExprAtom (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:3281:7),     at parseExprSubscripts (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:3117:16),     at parseMaybeUnary (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:3099:16),     at parseExprOps (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:3053:16),     at parseMaybeConditional (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:3029:16),     at parseMaybeAssign (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:3008:16),     at parseExpression (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:2986:16),     at parseJSXExpressionContainer (/Users/karenmaoMac/FS_Seniors/shougun/shogun-v2/node_modules/babel/node_modules/acorn-babel/acorn_csp.js:4091:73)]
+2015-10-18T18:57:00.097Z - error: Not Found
+2015-10-18T18:58:03.436Z - error: Not Found
+2015-10-18T18:59:51.157Z - error: Not Found
+2015-10-18T19:00:07.741Z - error: Not Found
+2015-10-18T19:00:55.848Z - error: Not Found
+2015-10-18T19:01:07.074Z - error: Not Found
+2015-10-18T19:01:26.700Z - error: Not Found
+2015-10-18T19:01:41.340Z - error: Not Found
+2015-10-18T19:01:50.597Z - error: Not Found
+2015-10-18T19:01:57.074Z - error: Not Found
+2015-10-18T19:02:04.978Z - error: Not Found
+2015-10-18T19:02:19.223Z - error: Not Found
+2015-10-18T19:02:58.550Z - error: Not Found
+2015-10-18T19:03:26.225Z - error: Not Found
+2015-10-18T19:04:35.886Z - error: Not Found
+2015-10-18T19:04:48.833Z - error: Not Found
+2015-10-18T19:04:50.954Z - error: Not Found
+2015-10-18T19:10:04.632Z - error: Not Found
+2015-10-18T19:10:11.647Z - error: Not Found
+2015-10-18T19:12:06.053Z - error: Not Found
+2015-10-18T19:13:30.867Z - error: Not Found
+2015-10-18T19:13:48.806Z - error: Not Found
+2015-10-18T19:14:29.435Z - error: Not Found
+2015-10-18T19:15:09.899Z - error: Not Found
+2015-10-18T19:15:14.736Z - error: Not Found
+2015-10-18T19:16:17.204Z - error: Not Found
+2015-10-18T19:17:25.081Z - error: Not Found
+2015-10-18T19:17:49.475Z - error: Not Found
+2015-10-18T19:18:20.956Z - error: Not Found
+2015-10-18T19:19:14.795Z - error: Not Found
+2015-10-18T19:19:37.413Z - error: Not Found
+2015-10-18T19:20:03.315Z - error: Not Found
+2015-10-18T19:20:24.138Z - error: Not Found
+2015-10-18T19:23:23.020Z - error: Not Found
+2015-10-18T19:24:49.304Z - error: Not Found
+2015-10-18T19:25:58.448Z - error: Not Found
+2015-10-18T19:26:34.546Z - error: Not Found
+2015-10-18T19:26:49.652Z - error: Not Found
+2015-10-18T19:26:58.147Z - error: Not Found
+2015-10-18T19:28:19.398Z - error: Not Found
+2015-10-18T19:28:38.523Z - error: Not Found
+2015-10-18T19:29:22.972Z - error: Not Found
+2015-10-18T19:30:47.093Z - error: Not Found
+2015-10-18T19:31:12.818Z - error: Not Found
+2015-10-18T19:31:39.956Z - error: Not Found
+2015-10-18T19:31:59.109Z - error: Not Found
+2015-10-18T19:33:11.661Z - error: Not Found
+2015-10-18T19:33:37.714Z - error: Not Found
+2015-10-18T19:34:54.636Z - error: Not Found
+2015-10-18T19:36:56.979Z - error: Not Found
+2015-10-18T19:37:05.129Z - error: Not Found
+2015-10-18T19:37:38.354Z - error: Not Found
