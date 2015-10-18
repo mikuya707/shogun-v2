@@ -80,12 +80,86 @@ const GameBoard = React.createClass({
 
 	},
 
-	_getValidMoves(position, inRange) {
-		if (!inRange) return;
+	_getValidMoves(position, moves) {
+		if (!moves) return;
 		var output = {};
+
+		var inRange = [];
+		var posArr = JSON.parse(position);
+		var theBoard = this.state.board;
+		Object.keys(moves).map(function(move){
+			var moveArr = JSON.parse(move);
+			if (moves[move] === 'move') {
+				var x =  posArr[0] + moveArr[0], 
+					y =  posArr[1] + moveArr[1];
+				inRange.push({x: x, y: y});					
+			}
+			else if (moves[move] === 'slide' || moves[move] === 'jump slide') {
+				console.log('theBoard');
+				console.log(theBoard);
+				console.log('me');
+				console.log(theBoard[position]);
+				if (moveArr[0] < 0) {	// slide left
+					for (let i=posArr[0]-1; i>=0; i--) {
+						var unitInTheWay = theBoard[`[${i}, ${posArr[1]}]`];
+						if (unitInTheWay) {
+							if (unitInTheWay.color !== theBoard[position].color) {
+								console.log(`ran into a bad guy at ${i}, ${posArr[1]}`);
+								inRange.push({x: i, y: posArr[1]});
+							}
+							break;
+						}
+						else inRange.push({x: i, y: posArr[1]});
+					}
+				}
+				else if (moveArr[0] > 0) {	// slide right
+					for (let i=posArr[0]+1; i<6; i++) {
+						var unitInTheWay = theBoard[`[${i}, ${posArr[1]}]`];
+						if (unitInTheWay) {
+							if (unitInTheWay.color !== theBoard[position].color) {
+								console.log(`ran into a bad guy at ${i}, ${posArr[1]}`);
+								inRange.push({x: i, y: posArr[1]});
+							}
+							break;
+						}
+						else inRange.push({x: i, y: posArr[1]});
+					}
+				}
+				else if (moveArr[1] < 0) {	// slide up
+					for (let i=posArr[1]-1; i>=0; i--) {
+						var unitInTheWay = theBoard[`[${posArr[0]}, ${i}]`];
+						if (unitInTheWay) {
+							if (unitInTheWay.color !== theBoard[position].color) {
+								console.log(`ran into a bad guy at ${posArr[0]}, ${i}`);
+								inRange.push({x: posArr[0], y: i});
+							}
+							break;
+						}
+						else inRange.push({x: posArr[0], y: i});
+					}
+				}
+				else if (moveArr[1] > 0) {	// slide down
+					for (let i=posArr[1]+1; i<6; i++) {
+						var unitInTheWay = theBoard[`[${posArr[0]}, ${i}]`];
+						if (unitInTheWay) {
+							if (unitInTheWay.color !== theBoard[position].color) {
+								console.log(`ran into a bad guy at ${posArr[0]}, ${i}`);
+								inRange.push({x: posArr[0], y: i});
+							}
+							break;
+						}
+						else inRange.push({x: posArr[0], y: i});
+					}
+				}
+			}
+		});
+
 		inRange.filter(range => {
 			// is on board
 			if (!this._isOnBoard(range)) return false;
+
+			// for slide, stop range at closest unit in the way
+
 
 			// no unit of the same color on square
 			var coordsStr = `[${range.x}, ${range.y}]`;
@@ -145,14 +219,40 @@ const Cell = React.createClass({
 			if (unit) {
 				var ranges = [];
 				var moves = behavior[unit][side];
-				var pos = JSON.parse(position);
-				Object.keys(moves).map(function(move){
-					move = JSON.parse(move);
-					var x =  pos[0] + move[0], 
-						y =  pos[1] + move[1];
-					ranges.push({x: x, y: y});
-				});
-				setSelected(position, ranges);
+				console.log(`show me ya moves, ${unit}`);
+				console.log(moves);
+				//var pos = JSON.parse(position);
+				// Object.keys(moves).map(function(move){
+				// 	var moveArr = JSON.parse(move);
+				// 	if (moves[move] === 'move') {
+				// 		var x =  pos[0] + moveArr[0], 
+				// 			y =  pos[1] + moveArr[1];
+				// 		ranges.push({x: x, y: y, type: 'move'});					
+				// 	}
+				// 	else if (moves[move] === 'slide' || moves[move] === 'jump slide') {
+				// 		if (moveArr[0] < 0) {	// slide left
+				// 			for (let i=pos[0]-1; i>=0; i--) {
+				// 				ranges.push({x: i, y: pos[1], type: 'slide'});
+				// 			}
+				// 		}
+				// 		else if (moveArr[0] > 0) {	// slide right
+				// 			for (let i=pos[0]+1; i<6; i++) {
+				// 				ranges.push({x: i, y: pos[1], type: 'slide'});
+				// 			}
+				// 		}
+				// 		else if (moveArr[1] < 0) {	// slide up
+				// 			for (let i=pos[1]-1; i>=0; i--) {
+				// 				ranges.push({x: pos[0], y: i, type: 'slide'});
+				// 			}
+				// 		}
+				// 		else if (moveArr[1] > 0) {	// slide down
+				// 			for (let i=pos[1]+1; i<6; i++) {
+				// 				ranges.push({x: pos[0], y: i, type: 'slide'});
+				// 			}
+				// 		}
+				// 	}
+				// });
+				setSelected(position, moves);
 			}
 		}
 		// if there is currently a selected unit on the board, can do one of the following:
