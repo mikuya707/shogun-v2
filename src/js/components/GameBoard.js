@@ -18,9 +18,21 @@ const GameBoard = React.createClass({
 	getInitialState() {
 		//return null;
 		this.state = GameStore.getGameboardState();
+		 //this.result;
 		console.log("state? ", this.state);
 		return this.state;
 	},
+	_onButtonClick(){
+		console.log("button is clicked!!");
+		GameStore.draw();
+		this.state.drawUnit = GameStore.getGameboardState().drawUnit;
+		console.log(this.state.drawUnit);
+		console.log(Object.keys(this.state.drawUnit)[0]);
+		 
+		//'[1, 0]': {unit: 'Footman', color: 'black', side: 'front'},
+		
+	},
+
 	componentDidMount() {
 		GameStore.addChangeListener(this._onChange);
 	},
@@ -49,7 +61,7 @@ const GameBoard = React.createClass({
 		}
 
 		return (
-
+			<div>
 			<table className="board">
 			{cellArray.map((row, idx1) => 
 				<tr>
@@ -69,6 +81,14 @@ const GameBoard = React.createClass({
 				</tr>
 			)}
 			</table>
+			<div id="draw">
+				<button className="btn" onClick={this._onButtonClick}>DRAW</button>
+				<div>
+					<Cell color="white" unit = {JSON.stringify(Object.keys(this.state.drawUnit)[0])} side='front'></Cell>
+				</div>
+
+			</div>
+			</div>
 		);
 	},
 
@@ -130,6 +150,7 @@ const Cell = React.createClass({
 	},
 	mixins: [],
 
+	
 	_onClickSquare() {
 
 		const {unit, position, color, selected, setSelected, litup, side} = this.props;

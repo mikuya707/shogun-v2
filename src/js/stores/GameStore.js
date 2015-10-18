@@ -6,6 +6,7 @@ import GameConstants from '../constants/GameConstants';
 import ChessPieces from '../constants/ChessPieces';
 import {Chess} from 'chess.js';
 import {List, Map, OrderedMap, Set} from 'immutable';
+import behavior from '../game/behavior';
 //import Utils from '../game/utils';
 // import behavior from '../game/behavior';
 
@@ -23,7 +24,10 @@ var _chess;
 
 var _board = {},
     _lightup = [],
-    _selected;
+    _selected,
+    _drawn = [],
+    _result;
+
 
 
 setInitialState();
@@ -63,10 +67,26 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
         return {
             board: _board,
             lightup: _lightup,
-            selected: _selected
+            selected: _selected,
+            drawUnit: _result
         }
     },
+    draw() {
+        var units = [];
 
+        Object.keys(behavior).forEach(function(unit){
+            // console.log("what is the key of behavior?", unit);
+            // console.log("what am i adding again??", behavior[`${unit}`]);
+            if(_drawn.indexOf(behavior[`${unit}`]) === -1){
+                var unitObj = {};
+                unitObj[`${unit}`] = behavior[`${unit}`];
+                units.push(unitObj);
+            }
+        });
+        var result = units[Math.floor(Math.random()*units.length)];
+        _drawn.push(result);
+        _result = result;
+    },
 
     getValidMoves(square) {
         return square ? Set(
@@ -152,11 +172,13 @@ function setInitialState() {
         '[3, 5]': {unit: 'Duke', color: 'white', side: 'front'},
         '[4, 5]': {unit: 'Footman', color: 'white', side: 'front'}
     };
+
+    for(var b in board){
+        _drawn.push(b);
+    }
 }
 
-function draw() {
 
-}
 
 function updateBoard(from, to) {
     var unit = _board[from];
