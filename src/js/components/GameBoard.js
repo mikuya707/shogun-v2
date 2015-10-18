@@ -38,7 +38,7 @@ const GameBoard = React.createClass({
 			{size} = props,
 			{board, selected} = state;
 
-		var lightup = this.state.lightup;
+		var lightup = this.state.lightup, strike = this.state.strike;
 		var cellArray = [];
 		for (var i=0; i<size; i++) {
 			var row = [];
@@ -61,6 +61,7 @@ const GameBoard = React.createClass({
 								color={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].color : null}
 								side={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].side : null}
 								litup={lightup[`[${idx2}, ${idx1}]`]}
+								strikable={strike[`[${idx2}, ${idx1}]`]}
 								selected = {selected}
 								setSelected={this._setSelected}
 								onClick={this._onCellClick}/>
@@ -75,7 +76,8 @@ const GameBoard = React.createClass({
 	_setSelected(position, inRange) {
 		this.setState({
 			selected: position,
-			lightup: this._getValidMoves(position, inRange)
+			lightup: this._getValidMoves(position, inRange).movableTiles,
+			strike: this._getValidMoves(position, inRange).strikableTiles
 		})
 
 	},
@@ -87,12 +89,14 @@ const GameBoard = React.createClass({
 		var inRange = [];
 		var posArr = JSON.parse(position);
 		var theBoard = this.state.board;
+
 		Object.keys(moves).map(function(move){
 			var moveArr = JSON.parse(move);
+
 			if (moves[move] === 'move' || moves[move] === 'jump') {
-				var x =  posArr[0] + moveArr[0], 
+				let x =  posArr[0] + moveArr[0], 
 					y =  posArr[1] + moveArr[1];
-				inRange.push({x: x, y: y});					
+				inRange.push({x: x, y: y, type: 'move'});					
 			}
 			else if (moves[move] === 'slide' || moves[move] === 'jump slide') {
 
@@ -104,36 +108,46 @@ const GameBoard = React.createClass({
 					let unitInTheWay = theBoard[`[${i}, ${j}]`];
 					if (unitInTheWay && moves[move] === 'slide') {
 						if (unitInTheWay.color !== theBoard[position].color) {
-							inRange.push({x: i, y: j});
+							inRange.push({x: i, y: j, type: 'move'});
 						}
 						break;						
 					}
-					else inRange.push({x: i, y: j});
+					else inRange.push({x: i, y: j, type: 'move'});
 					i += deltaX;
 					j += deltaY;
 				}
 			}
+			else if (moves[move] === 'strike') {
+				let x = posArr[0] + moveArr[0],
+					y = posArr[1] + moveArr[1];
+				inRange.push({x: x, y: y, type: 'strike'});
+			}		
 		});
 
+		var movableTiles = {}, strikableTiles = {};
 		inRange.filter(range => {
 			// is on board
 			if (!this._isOnBoard(range)) return false;
 
-			// for slide, stop range at closest unit in the way
-
-
 			// no unit of the same color on square
-			var coordsStr = `[${range.x}, ${range.y}]`;
-			var targetUnit = this.state.board[coordsStr];
+			let coordsStr = `[${range.x}, ${range.y}]`;
+			let targetUnit = this.state.board[coordsStr];
 			if (targetUnit) {
 				if (this.state.board[position].color === targetUnit.color) return false;
 			}
 
 			return true;
 		}).forEach(range => {
-			output[`[${range.x}, ${range.y}]`] = true;
-		})
-		return output;
+			if (range.type === 'move')
+				movableTiles[`[${range.x}, ${range.y}]`] = true;
+			else if (range.type === 'strike')
+				strikableTiles[`[${range.x}, ${range.y}]`] = true;
+		});
+
+		return {
+			movableTiles: movableTiles,
+			strikableTiles: strikableTiles
+		};
 	},
 
 	_isOnBoard(coords) {
@@ -154,20 +168,18 @@ const Cell = React.createClass({
   	},
   	componentDidMount() {
 
-		 //console.log("position is ", this.props.position);
 		
 	},
 
 	componentWillMount() {
 		
-		
-		
+	
 	},
 	mixins: [],
 
 	_onClickSquare() {
 
-		const {unit, position, color, selected, setSelected, litup, side} = this.props;
+		const {unit, position, color, selected, setSelected, litup, strikable, side} = this.props;
 
 		const {isSelected} = this.state;
 		var boardState = GameStore.getGameboardState();
@@ -178,41 +190,7 @@ const Cell = React.createClass({
 		// if there is no currently selected unit, click a unit to select it
 		if (!selected) {
 			if (unit) {
-				var ranges = [];
 				var moves = behavior[unit][side];
-				console.log(`show me ya moves, ${unit}`);
-				console.log(moves);
-				//var pos = JSON.parse(position);
-				// Object.keys(moves).map(function(move){
-				// 	var moveArr = JSON.parse(move);
-				// 	if (moves[move] === 'move') {
-				// 		var x =  pos[0] + moveArr[0], 
-				// 			y =  pos[1] + moveArr[1];
-				// 		ranges.push({x: x, y: y, type: 'move'});					
-				// 	}
-				// 	else if (moves[move] === 'slide' || moves[move] === 'jump slide') {
-				// 		if (moveArr[0] < 0) {	// slide left
-				// 			for (let i=pos[0]-1; i>=0; i--) {
-				// 				ranges.push({x: i, y: pos[1], type: 'slide'});
-				// 			}
-				// 		}
-				// 		else if (moveArr[0] > 0) {	// slide right
-				// 			for (let i=pos[0]+1; i<6; i++) {
-				// 				ranges.push({x: i, y: pos[1], type: 'slide'});
-				// 			}
-				// 		}
-				// 		else if (moveArr[1] < 0) {	// slide up
-				// 			for (let i=pos[1]-1; i>=0; i--) {
-				// 				ranges.push({x: pos[0], y: i, type: 'slide'});
-				// 			}
-				// 		}
-				// 		else if (moveArr[1] > 0) {	// slide down
-				// 			for (let i=pos[1]+1; i<6; i++) {
-				// 				ranges.push({x: pos[0], y: i, type: 'slide'});
-				// 			}
-				// 		}
-				// 	}
-				// });
 				setSelected(position, moves);
 			}
 		}
@@ -221,14 +199,18 @@ const Cell = React.createClass({
 			if (this.props.litup) {
 				// move to a square with an opposite color unit to capture it
 				if (unit) {
-					GameActions.makeMove(selected, position, true, true);
+					GameActions.makeMove(selected, position, true, 'move', true);
 				}
 
 				// move to an unoccupied square
 				else {
-					GameActions.makeMove(selected, position, false, true);
+					GameActions.makeMove(selected, position, false, 'move', true);
 				}
 
+				setSelected(null, []);
+			}
+			else if (this.props.strikable && unit) {
+				GameActions.makeMove(selected, position, true, 'strike', true);
 				setSelected(null, []);
 			}
 			// deselect the current unit by clicking on it
@@ -236,48 +218,17 @@ const Cell = React.createClass({
 				setSelected(null, []);
 			}
 		}
-
-
-
-		// if (unit) {
-		// 	if (!selected) {
-		// 		console.log('board select')
-
-		// 		var ranges = [];
-		// 		var moves = behavior[unit][side];
-		// 		var pos = JSON.parse(position);
-		// 		Object.keys(moves).map(function(move){
-		// 			move = JSON.parse(move);
-		// 			var x =  pos[0] + move[0], 
-		// 				y =  pos[1] + move[1];
-		// 			ranges.push({x: x, y: y});
-		// 		});
-		// 		setSelected(position, ranges);
-
-		// 	}
-		// 	else {
-		// 		console.log('board deselect')
-		// 		setSelected(null, []);
-		// 	}
-		// 	//GameActions.showMoves({ unit: unit, color: color }, pos, ranges);
-		// }
-		// //this is the condition where the player selects its own unit, and try to move to existing valid position
-		// else {
-		// 	if (selected && this.props.litup) {
-		// 		GameActions.makeMove(selected, position, false, true);
-		// 		setSelected(null, []);;
-		// 	}
-		// }
 		
 	},
 
 	render(){
-		var {unit, color, litup, side} = this.props;
+		var {unit, color, litup, strikable, side} = this.props;
 
 
 		var cxObj = {	
 			unit: !!unit,
-			litup: litup
+			litup: litup,
+			strikable: strikable
 		};
 		cxObj[side] = true;
 		if (unit) {
