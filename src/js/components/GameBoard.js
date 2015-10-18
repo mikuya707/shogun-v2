@@ -23,17 +23,21 @@ const GameBoard = React.createClass({
 		return this.state;
 	},
 	_onButtonClick(){
-		console.log("button is clicked!!");
-		GameStore.draw();
-		this.state.drawUnit = GameStore.getGameboardState().drawUnit;
-		console.log(this.state.drawUnit);
-		console.log(Object.keys(this.state.drawUnit)[0]);
-		var unit = Object.keys(this.state.drawUnit)[0];
 		var element = document.getElementById('drawnUnit');
-		console.log("element is retrived", element);
-		element.classList.add(`${unit}`);
-		element.classList.add("white");
-		element.classList.add("front");
+			element.className = "";
+			console.log("button is clicked!!");
+			GameStore.draw();
+			this.state.drawUnit = GameStore.getGameboardState().drawUnit;
+			console.log(this.state.drawUnit);
+			console.log(Object.keys(this.state.drawUnit)[0]);
+			var unit = Object.keys(this.state.drawUnit)[0];
+			
+			console.log("element is retrived", element);
+			element.classList.add(`${unit}`);
+			element.classList.add("white");
+			element.classList.add("front");
+		
+
 		// element.classList.add(`${unit}`);
 		// element.setAttribute("color", "white");
 		// element.setAttribute("side", "front");
