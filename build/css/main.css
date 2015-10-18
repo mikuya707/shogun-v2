@@ -603,6 +603,11 @@ div {
     margin-left: 50px;
     margin-top: 250px; }
 
+#drawnUnit {
+  width: 150px;
+  height: 150px;
+  border: 1px solid black; }
+
 #clock {
   width: 148px;
   height: 50px;
@@ -815,6 +820,11 @@ span#game-type {
     position: relative;
     margin-left: 50px;
     margin-top: 250px; }
+
+#drawnUnit {
+  width: 150px;
+  height: 150px;
+  border: 1px solid black; }
 
 .unit {
   /* 	height: auto; 

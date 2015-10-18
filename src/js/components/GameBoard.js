@@ -28,7 +28,7 @@ const GameBoard = React.createClass({
 		this.state.drawUnit = GameStore.getGameboardState().drawUnit;
 		console.log(this.state.drawUnit);
 		console.log(Object.keys(this.state.drawUnit)[0]);
-		 
+		// document.getElementById('drawnUnit').css({'background-image', })
 		//'[1, 0]': {unit: 'Footman', color: 'black', side: 'front'},
 		
 	},
@@ -84,11 +84,8 @@ const GameBoard = React.createClass({
 			</table>
 			<div id="draw">
 				<button className="btn" onClick={this._onButtonClick}>DRAW</button>
-				<div>
-					<Cell color="white" unit = {JSON.stringify(Object.keys(this.state.drawUnit)[0])} side='front'></Cell>
+				<div id="drawnUnit" >
 				</div>
-
-			</div>
 			</div>
 		);
 	},

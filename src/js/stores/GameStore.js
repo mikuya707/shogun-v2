@@ -24,15 +24,10 @@ var _chess;
 
 var _board = {},
     _lightup = [],
-
+    _strike = [],
     _selected,
     _drawn = [],
     _result;
-
-
-    _strike = [],
-    _selected;
-
 
 
 setInitialState();
@@ -72,20 +67,40 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
         return {
             board: _board,
             lightup: _lightup,
+            strike: _strike,
             selected: _selected,
             drawUnit: _result
         }
     },
+
     draw() {
         var units = [];
-
+           
         Object.keys(behavior).forEach(function(unit){
             // console.log("what is the key of behavior?", unit);
             // console.log("what am i adding again??", behavior[`${unit}`]);
-            if(_drawn.indexOf(behavior[`${unit}`]) === -1){
+            if(_drawn.indexOf(behavior[`${unit}`]) === -1 && unit !== 'Duke'){
                 var unitObj = {};
                 unitObj[`${unit}`] = behavior[`${unit}`];
                 units.push(unitObj);
+            }
+            else{
+                var pikeCounts = 0;
+                _drawn.forEach(function(unit){
+                     
+                    if(Object.keys(unit)[0] === 'Pikeman'){
+                        pikeCounts += 1;
+                    }
+                })
+                if(unit === 'Pikeman' && pikeCounts < 3){
+                    var i = 3 - pikeCounts;
+                    while(i > 0){
+                        var unitObj = {};
+                         unitObj[`${unit}`] = behavior[`${unit}`];
+                         units.push(unitObj);
+                         i--;
+                    }
+                }
             }
         });
         var result = units[Math.floor(Math.random()*units.length)];
@@ -93,13 +108,13 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
         _result = result;
     },
 
-    getValidMoves(square) {
-        return square ? Set(
-            _chess.moves({
-                square: square,
-                verbose: true
-            }).map(move => move.to)) : Set();
-    },
+    // getValidMoves(square) {
+    //     return square ? Set(
+    //         _chess.moves({
+    //             square: square,
+    //             verbose: true
+    //         }).map(move => move.to)) : Set();
+    // },
 
     // showMoves(unit, from, inRange) {
     //      if (!Object.keys(_lightup).length) {
@@ -126,10 +141,10 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
     // }
 
 
-            strike: _strike,
-            selected: _selected
-        }
-    },
+    //         strike: _strike,
+    //         selected: _selected
+    //     }
+    // },
 
 
 });
@@ -182,9 +197,6 @@ function setInitialState() {
         '[4, 5]': {unit: 'Footman', color: 'white', side: 'front'}
     };
 
-    for(var b in board){
-        _drawn.push(b);
-    }
 }
 
 
