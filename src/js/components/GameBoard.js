@@ -89,67 +89,28 @@ const GameBoard = React.createClass({
 		var theBoard = this.state.board;
 		Object.keys(moves).map(function(move){
 			var moveArr = JSON.parse(move);
-			if (moves[move] === 'move') {
+			if (moves[move] === 'move' || moves[move] === 'jump') {
 				var x =  posArr[0] + moveArr[0], 
 					y =  posArr[1] + moveArr[1];
 				inRange.push({x: x, y: y});					
 			}
 			else if (moves[move] === 'slide' || moves[move] === 'jump slide') {
-				console.log('theBoard');
-				console.log(theBoard);
-				console.log('me');
-				console.log(theBoard[position]);
-				if (moveArr[0] < 0) {	// slide left
-					for (let i=posArr[0]-1; i>=0; i--) {
-						var unitInTheWay = theBoard[`[${i}, ${posArr[1]}]`];
-						if (unitInTheWay) {
-							if (unitInTheWay.color !== theBoard[position].color) {
-								console.log(`ran into a bad guy at ${i}, ${posArr[1]}`);
-								inRange.push({x: i, y: posArr[1]});
-							}
-							break;
+
+				let deltaX = moveArr[0] ? moveArr[0]/Math.abs(moveArr[0]) : moveArr[0], 
+					deltaY = moveArr[1] ? moveArr[1]/Math.abs(moveArr[1]) : moveArr[1];
+
+				let i = posArr[0] + deltaX, j = posArr[1] + deltaY;
+				while (i>=0 && i<6 && j>=0 && j<6) {
+					let unitInTheWay = theBoard[`[${i}, ${j}]`];
+					if (unitInTheWay && moves[move] === 'slide') {
+						if (unitInTheWay.color !== theBoard[position].color) {
+							inRange.push({x: i, y: j});
 						}
-						else inRange.push({x: i, y: posArr[1]});
+						break;						
 					}
-				}
-				else if (moveArr[0] > 0) {	// slide right
-					for (let i=posArr[0]+1; i<6; i++) {
-						var unitInTheWay = theBoard[`[${i}, ${posArr[1]}]`];
-						if (unitInTheWay) {
-							if (unitInTheWay.color !== theBoard[position].color) {
-								console.log(`ran into a bad guy at ${i}, ${posArr[1]}`);
-								inRange.push({x: i, y: posArr[1]});
-							}
-							break;
-						}
-						else inRange.push({x: i, y: posArr[1]});
-					}
-				}
-				else if (moveArr[1] < 0) {	// slide up
-					for (let i=posArr[1]-1; i>=0; i--) {
-						var unitInTheWay = theBoard[`[${posArr[0]}, ${i}]`];
-						if (unitInTheWay) {
-							if (unitInTheWay.color !== theBoard[position].color) {
-								console.log(`ran into a bad guy at ${posArr[0]}, ${i}`);
-								inRange.push({x: posArr[0], y: i});
-							}
-							break;
-						}
-						else inRange.push({x: posArr[0], y: i});
-					}
-				}
-				else if (moveArr[1] > 0) {	// slide down
-					for (let i=posArr[1]+1; i<6; i++) {
-						var unitInTheWay = theBoard[`[${posArr[0]}, ${i}]`];
-						if (unitInTheWay) {
-							if (unitInTheWay.color !== theBoard[position].color) {
-								console.log(`ran into a bad guy at ${posArr[0]}, ${i}`);
-								inRange.push({x: posArr[0], y: i});
-							}
-							break;
-						}
-						else inRange.push({x: posArr[0], y: i});
-					}
+					else inRange.push({x: i, y: j});
+					i += deltaX;
+					j += deltaY;
 				}
 			}
 		});
