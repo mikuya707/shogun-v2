@@ -50,7 +50,7 @@ const GameBoard = React.createClass({
 			{size} = props,
 			{board, selected} = state;
 
-		var lightup = this.state.lightup;
+		var lightup = this.state.lightup, strike = this.state.strike;
 		var cellArray = [];
 		for (var i=0; i<size; i++) {
 			var row = [];
@@ -73,6 +73,7 @@ const GameBoard = React.createClass({
 								color={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].color : null}
 								side={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].side : null}
 								litup={lightup[`[${idx2}, ${idx1}]`]}
+								strikable={strike[`[${idx2}, ${idx1}]`]}
 								selected = {selected}
 								setSelected={this._setSelected}
 								onClick={this._onCellClick}/>
@@ -95,30 +96,78 @@ const GameBoard = React.createClass({
 	_setSelected(position, inRange) {
 		this.setState({
 			selected: position,
-			lightup: this._getValidMoves(position, inRange)
+			lightup: this._getValidMoves(position, inRange).movableTiles,
+			strike: this._getValidMoves(position, inRange).strikableTiles
 		})
 
 	},
 
-	_getValidMoves(position, inRange) {
-		if (!inRange) return;
+	_getValidMoves(position, moves) {
+		if (!moves) return;
 		var output = {};
+
+		var inRange = [];
+		var posArr = JSON.parse(position);
+		var theBoard = this.state.board;
+
+		Object.keys(moves).map(function(move){
+			var moveArr = JSON.parse(move);
+
+			if (moves[move] === 'move' || moves[move] === 'jump') {
+				let x =  posArr[0] + moveArr[0], 
+					y =  posArr[1] + moveArr[1];
+				inRange.push({x: x, y: y, type: 'move'});					
+			}
+			else if (moves[move] === 'slide' || moves[move] === 'jump slide') {
+
+				let deltaX = moveArr[0] ? moveArr[0]/Math.abs(moveArr[0]) : moveArr[0], 
+					deltaY = moveArr[1] ? moveArr[1]/Math.abs(moveArr[1]) : moveArr[1];
+
+				let i = posArr[0] + deltaX, j = posArr[1] + deltaY;
+				while (i>=0 && i<6 && j>=0 && j<6) {
+					let unitInTheWay = theBoard[`[${i}, ${j}]`];
+					if (unitInTheWay && moves[move] === 'slide') {
+						if (unitInTheWay.color !== theBoard[position].color) {
+							inRange.push({x: i, y: j, type: 'move'});
+						}
+						break;						
+					}
+					else inRange.push({x: i, y: j, type: 'move'});
+					i += deltaX;
+					j += deltaY;
+				}
+			}
+			else if (moves[move] === 'strike') {
+				let x = posArr[0] + moveArr[0],
+					y = posArr[1] + moveArr[1];
+				inRange.push({x: x, y: y, type: 'strike'});
+			}		
+		});
+
+		var movableTiles = {}, strikableTiles = {};
 		inRange.filter(range => {
 			// is on board
 			if (!this._isOnBoard(range)) return false;
 
 			// no unit of the same color on square
-			var coordsStr = `[${range.x}, ${range.y}]`;
-			var targetUnit = this.state.board[coordsStr];
+			let coordsStr = `[${range.x}, ${range.y}]`;
+			let targetUnit = this.state.board[coordsStr];
 			if (targetUnit) {
 				if (this.state.board[position].color === targetUnit.color) return false;
 			}
 
 			return true;
 		}).forEach(range => {
-			output[`[${range.x}, ${range.y}]`] = true;
-		})
-		return output;
+			if (range.type === 'move')
+				movableTiles[`[${range.x}, ${range.y}]`] = true;
+			else if (range.type === 'strike')
+				strikableTiles[`[${range.x}, ${range.y}]`] = true;
+		});
+
+		return {
+			movableTiles: movableTiles,
+			strikableTiles: strikableTiles
+		};
 	},
 
 	_isOnBoard(coords) {
@@ -139,21 +188,19 @@ const Cell = React.createClass({
   	},
   	componentDidMount() {
 
-		 //console.log("position is ", this.props.position);
 		
 	},
 
 	componentWillMount() {
 		
-		
-		
+	
 	},
 	mixins: [],
 
 	
 	_onClickSquare() {
 
-		const {unit, position, color, selected, setSelected, litup, side} = this.props;
+		const {unit, position, color, selected, setSelected, litup, strikable, side} = this.props;
 
 		const {isSelected} = this.state;
 		var boardState = GameStore.getGameboardState();
@@ -164,16 +211,8 @@ const Cell = React.createClass({
 		// if there is no currently selected unit, click a unit to select it
 		if (!selected) {
 			if (unit) {
-				var ranges = [];
 				var moves = behavior[unit][side];
-				var pos = JSON.parse(position);
-				Object.keys(moves).map(function(move){
-					move = JSON.parse(move);
-					var x =  pos[0] + move[0], 
-						y =  pos[1] + move[1];
-					ranges.push({x: x, y: y});
-				});
-				setSelected(position, ranges);
+				setSelected(position, moves);
 			}
 		}
 		// if there is currently a selected unit on the board, can do one of the following:
@@ -181,14 +220,18 @@ const Cell = React.createClass({
 			if (this.props.litup) {
 				// move to a square with an opposite color unit to capture it
 				if (unit) {
-					GameActions.makeMove(selected, position, true, true);
+					GameActions.makeMove(selected, position, true, 'move', true);
 				}
 
 				// move to an unoccupied square
 				else {
-					GameActions.makeMove(selected, position, false, true);
+					GameActions.makeMove(selected, position, false, 'move', true);
 				}
 
+				setSelected(null, []);
+			}
+			else if (this.props.strikable && unit) {
+				GameActions.makeMove(selected, position, true, 'strike', true);
 				setSelected(null, []);
 			}
 			// deselect the current unit by clicking on it
@@ -196,48 +239,17 @@ const Cell = React.createClass({
 				setSelected(null, []);
 			}
 		}
-
-
-
-		// if (unit) {
-		// 	if (!selected) {
-		// 		console.log('board select')
-
-		// 		var ranges = [];
-		// 		var moves = behavior[unit][side];
-		// 		var pos = JSON.parse(position);
-		// 		Object.keys(moves).map(function(move){
-		// 			move = JSON.parse(move);
-		// 			var x =  pos[0] + move[0], 
-		// 				y =  pos[1] + move[1];
-		// 			ranges.push({x: x, y: y});
-		// 		});
-		// 		setSelected(position, ranges);
-
-		// 	}
-		// 	else {
-		// 		console.log('board deselect')
-		// 		setSelected(null, []);
-		// 	}
-		// 	//GameActions.showMoves({ unit: unit, color: color }, pos, ranges);
-		// }
-		// //this is the condition where the player selects its own unit, and try to move to existing valid position
-		// else {
-		// 	if (selected && this.props.litup) {
-		// 		GameActions.makeMove(selected, position, false, true);
-		// 		setSelected(null, []);;
-		// 	}
-		// }
 		
 	},
 
 	render(){
-		var {unit, color, litup, side} = this.props;
+		var {unit, color, litup, strikable, side} = this.props;
 
 
 		var cxObj = {	
 			unit: !!unit,
-			litup: litup
+			litup: litup,
+			strikable: strikable
 		};
 		cxObj[side] = true;
 		if (unit) {

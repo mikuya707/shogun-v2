@@ -960,6 +960,7 @@ Duplicate data property in object literal not allowed in strict mode date=Thu Oc
 =======
 2015-10-16T02:20:11.627Z - info: Number of currently running games #=2
 >>>>>>> 8b85c7bd5a9f262c5ded76ecafd0d55ae5344785
+<<<<<<< HEAD
 2015-10-18T01:06:16.675Z - error: Cannot read property 'color' of undefined
 2015-10-18T01:06:18.629Z - error: Not Found
 2015-10-18T01:06:21.894Z - error: Cannot read property 'color' of undefined
@@ -1022,3 +1023,10 @@ Duplicate data property in object literal not allowed in strict mode date=Thu Oc
 2015-10-18T05:38:31.356Z - error: Not Found
 2015-10-18T05:38:41.797Z - error: Not Found
 2015-10-18T05:38:47.190Z - error: Not Found
+=======
+2015-10-18T00:29:35.714Z - info: Number of currently running games #=1
+2015-10-18T00:31:45.580Z - error: Not Found
+2015-10-18T00:31:51.251Z - error: Not Found
+2015-10-18T00:36:18.712Z - error: Not Found
+2015-10-18T00:36:29.841Z - error: Not Found
+>>>>>>> master

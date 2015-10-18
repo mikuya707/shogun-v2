@@ -2,12 +2,13 @@ import GameConstants from '../constants/GameConstants';
 import AppDispatcher from '../dispatcher/AppDispatcher';
 
 const GameActions = {
-  makeMove(from, to, capture, emitMove) {
+  makeMove(from, to, capture, type, emitMove) {
     AppDispatcher.handleViewAction({
       actionType: GameConstants.MAKE_MOVE,
       from: from,
       to: to,
       capture: capture,
+      type: type,
       emitMove: emitMove
     });
   },

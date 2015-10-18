@@ -24,9 +24,14 @@ var _chess;
 
 var _board = {},
     _lightup = [],
+
     _selected,
     _drawn = [],
     _result;
+
+
+    _strike = [],
+    _selected;
 
 
 
@@ -121,28 +126,31 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
     // }
 
 
+            strike: _strike,
+            selected: _selected
+        }
+    },
+
+
 });
 
-function isOnBoard(coords) {
-  if (!coords.hasOwnProperty('x') || !coords.hasOwnProperty('y')) return false;
-  var coordsStr = `[${coords.y}, ${coords.x}]`
-  //console.log('coordsStr:', coordsStr);
-  //console.log('_board:', _board);
-  // console.log(`on tile ${coordsStr}`, _board[coordsStr]);
-  return coords.x >= 0 && coords.y >= 0 && coords.x < 6 && coords.y < 6;
-}
+// function isOnBoard(coords) {
+//   if (!coords.hasOwnProperty('x') || !coords.hasOwnProperty('y')) return false;
+//   var coordsStr = `[${coords.y}, ${coords.x}]`
+//   return coords.x >= 0 && coords.y >= 0 && coords.x < 6 && coords.y < 6;
+// }
 
-function isValidMove(unit, coords) {
-  var coordsStr = `[${coords.x}, ${coords.y}]`;
-  var targetUnit = _board[coordsStr];
+// function isValidMove(unit, coords) {
+//   var coordsStr = `[${coords.x}, ${coords.y}]`;
+//   var targetUnit = _board[coordsStr];
 
-  if (targetUnit) {
-    //console.log(`unit.color: ${unit.color}`);
-    console.log(`targetUnit.color: ${targetUnit.color}`);
-    if (unit.color === targetUnit.color) return false;
-  }
-  return isOnBoard(coords);
-}
+//   if (targetUnit) {
+//     //console.log(`unit.color: ${unit.color}`);
+//     console.log(`targetUnit.color: ${targetUnit.color}`);
+//     if (unit.color === targetUnit.color) return false;
+//   }
+//   return isOnBoard(coords);
+// }
 
 function setInitialState() {
     _gameOver = Map({
@@ -163,6 +171,7 @@ function setInitialState() {
     //_chess = new Chess();
 
     _lightup = {};
+    _strike = {};
 
     _board = {
         '[1, 0]': {unit: 'Footman', color: 'black', side: 'front'},
@@ -180,26 +189,32 @@ function setInitialState() {
 
 
 
-function updateBoard(from, to) {
+function updateBoard(from, to, type) {
     var unit = _board[from];
     unit.side = (unit.side === 'front') ? 'back' : 'front';
 
-    _board[from] = null;
-    _board[to] = unit;
+    if (type === 'move') {
+      _board[from] = null;
+      _board[to] = unit;
+    }
+    else if (type === 'strike') {
+      _board[to] = null;
+    }
+    
     _selected = null;
-
     return _board;
 }
 
-function makeMove(from, to, capture, emitMove) {
+function makeMove(from, to, capture, type, emitMove) {
    
-    updateBoard(from, to);
+    updateBoard(from, to, type);
 
     if (emitMove) {
         GameStore.emit(MOVE_EVENT, {
             from: from,
             to: to,
             capture: capture,
+            type: type,
             board: _board    
             //gameOver: _chess.game_over()
         });
@@ -223,12 +238,8 @@ AppDispatcher.register(payload => {
     switch (action.actionType) {
         case GameConstants.MAKE_MOVE:
             emitEvent = makeMove(
-                action.from, action.to, action.capture, action.emitMove);
+                action.from, action.to, action.capture, action.type, action.emitMove);
             break;
-
-        // case GameConstants.SHOW_MOVES:
-        //     emitEvent = GameStore.showMoves(action.unit, action.from, action.inRange);
-        //     break;
 
         case GameConstants.CHANGE_PROMOTION:
             _promotion = action.promotion;

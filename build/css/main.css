@@ -829,6 +829,12 @@ span#game-type {
   background-color: red;
   animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite; }
 
+.strikable {
+  width: 98px;
+  height: 98px;
+  background-color: yellow;
+  animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite; }
+
 @keyframes loopGlow {
   0% {
     opacity: 0.1; }
