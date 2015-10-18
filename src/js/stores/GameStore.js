@@ -111,10 +111,10 @@ function setInitialState() {
     _strike = {};
 
     _board = {
-        '[1, 0]': {unit: 'Champion', color: 'black', side: 'front'},
+        '[1, 0]': {unit: 'Footman', color: 'black', side: 'front'},
         '[2, 0]': {unit: 'Duke', color: 'black', side: 'front'},
-        '[3, 0]': {unit: 'Assassin', color: 'black', side: 'front'},
-        '[2, 5]': {unit: 'Priest', color: 'white', side: 'front'},
+        '[3, 0]': {unit: 'Footman', color: 'black', side: 'front'},
+        '[2, 5]': {unit: 'Footman', color: 'white', side: 'front'},
         '[3, 5]': {unit: 'Duke', color: 'white', side: 'front'},
         '[4, 5]': {unit: 'Footman', color: 'white', side: 'front'}
     };
