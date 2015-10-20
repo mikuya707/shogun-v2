@@ -546,8 +546,6 @@ div {
         transform: rotate(45deg); }
       .board tr td a {
         font-family: 'Smart Regular';
-        width: 62.5px;
-        height: 62.5px;
         font-size: 3.5rem;
         color: #424242;
         text-decoration: none;
@@ -768,8 +766,6 @@ span#game-type {
         transform: rotate(45deg); }
       .board tr td a {
         font-family: 'Smart Regular';
-        width: 62.5px;
-        height: 62.5px;
         font-size: 3.5rem;
         color: #424242;
         text-decoration: none;
@@ -851,6 +847,12 @@ span#game-type {
   width: 98px;
   height: 98px;
   background-color: yellow;
+  animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite; }
+
+.droppable {
+  width: 98px;
+  height: 98px;
+  background-color: #00ffd2;
   animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite; }
 
 @keyframes loopGlow {
