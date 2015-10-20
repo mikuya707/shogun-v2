@@ -286,8 +286,11 @@ const Cell = React.createClass({
 	},
 	_onDrop(e) {
 		e.preventDefault();
-		const {position, unit, color, selected} = this.props;
-		GameActions.makeMove(selected, position, false, 'move', true);
+		const {position, unit, color, selected, setSelected} = this.props;
+		if (selected !== position) {
+			GameActions.makeMove(selected, position, false, 'move', true);
+		}
+		setSelected(null, []);
 
 	},
 
