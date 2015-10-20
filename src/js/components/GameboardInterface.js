@@ -53,7 +53,7 @@ const GameboardInterface = React.createClass({
 					}
 				</span>
 
-
+			<button className="btn">donate</button>
 			</div>
 		)
 	},

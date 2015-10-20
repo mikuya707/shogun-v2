@@ -35,6 +35,7 @@ const GameBoard = React.createClass({
 			if (this._isOnBoard({x: adjX, y: adjY}) && !board[`[${adjX}, ${adjY}]`]) 
 				droppableTiles[`[${adjX}, ${adjY}]`] = true;
 		})
+		if (!Object.keys(droppableTiles).length) console.log('No available tiles adjacent to the Duke - cannot draw new unit');
 		this.setState({
 			drop: droppableTiles
 		});
@@ -272,6 +273,24 @@ const Cell = React.createClass({
 		
 	},
 
+	_onDragStart(e) {
+		e.dataTransfer.effectAllowed = 'move';
+		e.dataTransfer.setData('text/plain', '');
+
+		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side} = this.props;
+		setSelected(position, behavior[unit][side]);
+	},
+	_onDragOver(e) {
+		e.preventDefault();
+		e.dataTransfer.dropEffect = 'move';
+	},
+	_onDrop(e) {
+		e.preventDefault();
+		const {position, unit, color, selected} = this.props;
+		GameActions.makeMove(selected, position, false, 'move', true);
+
+	},
+
 	render(){
 		var {unit, color, litup, strikable, droppable, side} = this.props;
 
@@ -289,10 +308,16 @@ const Cell = React.createClass({
 		}
 		
 		return (
-			<div>
-				<div className={cx(cxObj)}
-					onClick={this._onClickSquare}>
-				</div>
+			<div 
+				onDragOver={this._onDragOver}
+				onDrop={this._onDrop}
+			>
+					<a className={cx(cxObj)}
+						onClick={this._onClickSquare}
+						onDragStart={this._onDragStart}
+
+						draggable>
+					</a>
 			</div>
 		);
 	}

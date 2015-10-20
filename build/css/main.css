@@ -546,8 +546,6 @@ div {
         transform: rotate(45deg); }
       .board tr td a {
         font-family: 'Smart Regular';
-        width: 62.5px;
-        height: 62.5px;
         font-size: 3.5rem;
         color: #424242;
         text-decoration: none;
@@ -768,8 +766,6 @@ span#game-type {
         transform: rotate(45deg); }
       .board tr td a {
         font-family: 'Smart Regular';
-        width: 62.5px;
-        height: 62.5px;
         font-size: 3.5rem;
         color: #424242;
         text-decoration: none;
