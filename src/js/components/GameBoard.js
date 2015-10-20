@@ -109,7 +109,7 @@ const GameBoard = React.createClass({
 			</table>
 			<div id="draw">
 				<button className="btn" onClick={this._onButtonClick}>DRAW</button>
-				<div id="drawnUnit" onClick={this._onDrawnUnitClick}></div>
+				<div draggable="true" id="drawnUnit" onClick={this._onDrawnUnitClick}></div>
 			</div>
 			</div>
 		);
@@ -281,7 +281,7 @@ const Cell = React.createClass({
 		
 		return (
 			<div>
-				<div className={cx(cxObj)}
+				<div droppable="true" className={cx(cxObj)}
 					onClick={this._onClickSquare}>
 				</div>
 			</div>
