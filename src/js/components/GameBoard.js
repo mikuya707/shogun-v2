@@ -23,31 +23,39 @@ const GameBoard = React.createClass({
 		return this.state;
 	},
 	_onButtonClick(){
-		var element = document.getElementById('drawnUnit');
-			element.className = "";
-			console.log("button is clicked!!");
-			GameStore.draw();
-			this.state.drawUnit = GameStore.getGameboardState().drawUnit;
-			console.log(this.state.drawUnit);
-			console.log(Object.keys(this.state.drawUnit)[0]);
-			var unit = Object.keys(this.state.drawUnit)[0];
-			
-			console.log("element is retrived", element);
-			element.classList.add(`${unit}`);
-			element.classList.add("white");
-			element.classList.add("front");
-		
 
-		// element.classList.add(`${unit}`);
-		// element.setAttribute("color", "white");
-		// element.setAttribute("side", "front");
-		//'[1, 0]': {unit: 'Footman', color: 'black', s`${ide: 'front'},
+		// assume white player for now (so racist)
+		const {board} = this.state;
+		var dukePosition = Object.keys(board).filter(pos => (board[pos] && board[pos].unit === "Duke" && board[pos].color === 'white'))[0];
+		var dukePosArr = JSON.parse(dukePosition);
+
+		var droppableTiles = {};
+		[[0,1], [0,-1], [1,0], [-1,0]].forEach(adj => {
+			var adjX = dukePosArr[0]+adj[0], adjY = dukePosArr[1]+adj[1];
+			if (this._isOnBoard({x: adjX, y: adjY}) && !board[`[${adjX}, ${adjY}]`]) 
+				droppableTiles[`[${adjX}, ${adjY}]`] = true;
+		})
+		this.setState({
+			drop: droppableTiles
+		});
+
+		var element = document.getElementById('drawnUnit');
+		element.className = "";
+		GameStore.draw();
+		this.state.drawUnit = GameStore.getGameboardState().drawUnit;
+		// console.log(this.state.drawUnit);
+		// console.log(Object.keys(this.state.drawUnit)[0]);
+		var unit = Object.keys(this.state.drawUnit)[0];
+
+		element.classList.add(`${unit}`);
+		element.classList.add("white");
+		element.classList.add("front");
 
 		
 	},
 	_onDrawnUnitClick(){
+
 		var element = document.getElementById('drawnUnit');
-		//element.classList.remove("back");
 		if (element.classList.contains("front")) {
 			element.classList.remove("front");
 		 	element.classList.add("back");
@@ -73,9 +81,8 @@ const GameBoard = React.createClass({
 	render() {
 		var {state, props} = this, 
 			{size} = props,
-			{board, selected} = state;
+			{board, selected, lightup, strike, drop} = state;
 
-		var lightup = this.state.lightup, strike = this.state.strike;
 		var cellArray = [];
 		for (var i=0; i<size; i++) {
 			var row = [];
@@ -99,6 +106,7 @@ const GameBoard = React.createClass({
 								side={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].side : null}
 								litup={lightup[`[${idx2}, ${idx1}]`]}
 								strikable={strike[`[${idx2}, ${idx1}]`]}
+								droppable={drop[`[${idx2}, ${idx1}]`]}
 								selected = {selected}
 								setSelected={this._setSelected}
 								onClick={this._onCellClick}/>
@@ -222,7 +230,7 @@ const Cell = React.createClass({
 	
 	_onClickSquare() {
 
-		const {unit, position, color, selected, setSelected, litup, strikable, side} = this.props;
+		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side} = this.props;
 
 		const {isSelected} = this.state;
 		var boardState = GameStore.getGameboardState();
@@ -265,13 +273,14 @@ const Cell = React.createClass({
 	},
 
 	render(){
-		var {unit, color, litup, strikable, side} = this.props;
+		var {unit, color, litup, strikable, droppable, side} = this.props;
 
 
 		var cxObj = {	
 			unit: !!unit,
 			litup: litup,
-			strikable: strikable
+			strikable: strikable,
+			droppable: droppable
 		};
 		cxObj[side] = true;
 		if (unit) {

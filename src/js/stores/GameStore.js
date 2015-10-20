@@ -25,6 +25,7 @@ var _chess;
 var _board = {},
     _lightup = [],
     _strike = [],
+    _drop = [],
     _selected,
     _drawn = [],
     _result;
@@ -68,6 +69,7 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
             board: _board,
             lightup: _lightup,
             strike: _strike,
+            drop: _drop,
             selected: _selected,
             drawUnit: _result
         }
@@ -108,64 +110,10 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
         _result = result;
     },
 
-    // getValidMoves(square) {
-    //     return square ? Set(
-    //         _chess.moves({
-    //             square: square,
-    //             verbose: true
-    //         }).map(move => move.to)) : Set();
-    // },
-
-    // showMoves(unit, from, inRange) {
-    //      if (!Object.keys(_lightup).length) {
-    //       inRange.filter(range => {
-    //           return isValidMove(unit, range);
-    //       }).forEach(move => {
-    //           var coordsStr = `[${move.x}, ${move.y}]`;
-    //           _lightup[coordsStr] = true;
-    //       })
-    //       _selected = {position: from, unit: unit};
-    //     }
-    //     else {
-    //       console.log('else');
-    //       _lightup = [];
-    //       _selected = null;
-    //     }
-    //     //this.setState({_lightup: validMoves});
-
-    //     return true;
-    //     //console.log(this.getState());
-    //     // console.log('valid Moves:')
-    //     // console.log(validMoves);
-
-    // }
-
-
-    //         strike: _strike,
-    //         selected: _selected
-    //     }
-    // },
 
 
 });
 
-// function isOnBoard(coords) {
-//   if (!coords.hasOwnProperty('x') || !coords.hasOwnProperty('y')) return false;
-//   var coordsStr = `[${coords.y}, ${coords.x}]`
-//   return coords.x >= 0 && coords.y >= 0 && coords.x < 6 && coords.y < 6;
-// }
-
-// function isValidMove(unit, coords) {
-//   var coordsStr = `[${coords.x}, ${coords.y}]`;
-//   var targetUnit = _board[coordsStr];
-
-//   if (targetUnit) {
-//     //console.log(`unit.color: ${unit.color}`);
-//     console.log(`targetUnit.color: ${targetUnit.color}`);
-//     if (unit.color === targetUnit.color) return false;
-//   }
-//   return isOnBoard(coords);
-// }
 
 function setInitialState() {
     _gameOver = Map({
@@ -187,6 +135,7 @@ function setInitialState() {
 
     _lightup = {};
     _strike = {};
+    _drop = {};
 
     _board = {
         '[1, 0]': {unit: 'Footman', color: 'black', side: 'front'},
