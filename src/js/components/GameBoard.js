@@ -317,10 +317,10 @@ const Cell = React.createClass({
 					onClick={this._onClickSquare}>
 				</div>
 
-			<div 
+				<div 
 				onDragOver={this._onDragOver}
 				onDrop={this._onDrop}
-			>
+				>
 					<a className={cx(cxObj)}
 						onClick={this._onClickSquare}
 						onDragStart={this._onDragStart}
@@ -328,6 +328,7 @@ const Cell = React.createClass({
 						draggable>
 					</a>
 
+				</div>
 			</div>
 		);
 	}
