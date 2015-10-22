@@ -151,6 +151,10 @@ function setInitialState() {
 
 
 function updateBoard(from, to, type) {
+    // if (from === '[-1, -1]') {
+    //   _board[to] = 
+    // }
+
     var unit = _board[from];
     unit.side = (unit.side === 'front') ? 'back' : 'front';
 

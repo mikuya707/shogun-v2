@@ -5,7 +5,7 @@ import GameStore from '../stores/GameStore';
 import GameActions from '../actions/GameActions';
 //import ChessPieces from '../constants/ChessPieces';
 //import onGameChange from '../mixins/onGameChange';
-//import maybeReverse from '../mixins/maybeReverse';
+import maybeReverse from '../mixins/maybeReverse';
 import behavior from '../game/behavior';
 import omit from 'lodash.omit';
 import cx from 'classnames';
@@ -14,7 +14,7 @@ const GameBoard = React.createClass({
 	propTypes: {
 
 	},
-	mixins: [],
+	mixins: [maybeReverse],
 	getInitialState() {
 		//return null;
 		this.state = GameStore.getGameboardState();
@@ -44,7 +44,7 @@ const GameBoard = React.createClass({
 		element.className = "";
 		GameStore.draw();
 		this.state.drawUnit = GameStore.getGameboardState().drawUnit;
-		// console.log(this.state.drawUnit);
+		console.log(this.state.drawUnit);
 		// console.log(Object.keys(this.state.drawUnit)[0]);
 		var unit = Object.keys(this.state.drawUnit)[0];
 
@@ -118,10 +118,18 @@ const GameBoard = React.createClass({
 			</table>
 			<div id="draw">
 				<button className="btn" onClick={this._onButtonClick}>DRAW</button>
-				<div id="drawnUnit" onClick={this._onDrawnUnitClick}></div>
+				<div id="drawnUnit" draggable onClick={this._onDrawnUnitClick} onDragStart={this._onDrawnDragStart}></div>
 			</div>
 			</div>
 		);
+	},
+
+	_onDrawnDragStart(e) {
+		e.dataTransfer.effectAllowed = 'move';
+		e.dataTransfer.setData('text/plain', '');
+
+		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side} = this.props;
+		setSelected('[-1,-1]', 'draw');
 	},
 
 	_setSelected(position, inRange) {
@@ -286,12 +294,14 @@ const Cell = React.createClass({
 	},
 	_onDrop(e) {
 		e.preventDefault();
-		const {position, unit, color, selected, setSelected} = this.props;
-		if (selected !== position) {
-			GameActions.makeMove(selected, position, false, 'move', true);
+		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side} = this.props;
+		if (this.props.litup) {
+			if (unit) GameActions.makeMove(selected, position, true, 'move', true);
+			else GameActions.makeMove(selected, position, false, 'move', true);
 		}
+		else if (this.props.strikable && unit)
+			GameActions.makeMove(selected, position, true, 'strike', true);
 		setSelected(null, []);
-
 	},
 
 	render(){
