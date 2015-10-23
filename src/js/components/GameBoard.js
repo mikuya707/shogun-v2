@@ -5,7 +5,7 @@ import GameStore from '../stores/GameStore';
 import GameActions from '../actions/GameActions';
 //import ChessPieces from '../constants/ChessPieces';
 //import onGameChange from '../mixins/onGameChange';
-//import maybeReverse from '../mixins/maybeReverse';
+import maybeReverse from '../mixins/maybeReverse';
 import behavior from '../game/behavior';
 import omit from 'lodash.omit';
 import cx from 'classnames';
@@ -14,7 +14,7 @@ const GameBoard = React.createClass({
 	propTypes: {
 
 	},
-	mixins: [],
+	mixins: [maybeReverse],
 	getInitialState() {
 		//return null;
 		this.state = GameStore.getGameboardState();
@@ -58,7 +58,16 @@ const GameBoard = React.createClass({
 		this.setState({
 			drawn: drawn
 		});
+<<<<<<< HEAD
 		// console.log(this.state.drawUnit);
+=======
+
+		var element = document.getElementById('drawnUnit');
+		element.className = "";
+		GameStore.draw();
+		this.state.drawUnit = GameStore.getGameboardState().drawUnit;
+		console.log(this.state.drawUnit);
+>>>>>>> master
 		// console.log(Object.keys(this.state.drawUnit)[0]);
 		// var position = Object.keys(this.state.drawUnit)[0];
 		// var unit = this.state.drawUnit[position].unit;
@@ -140,10 +149,22 @@ const GameBoard = React.createClass({
 			</table>
 			<div id="draw">
 				<button className="btn" onClick={this._onButtonClick}>DRAW</button>
+<<<<<<< HEAD
 				<DrawnComponent selected="[-1, -1]" position="[-1, -1]" unit={drawn? drawn.unit : null} color={drawn? drawn.color : null} side={drawn? drawn.side : null} drawAUnit={this._onDrawCellClick} ></DrawnComponent>
+=======
+				<div id="drawnUnit" draggable onClick={this._onDrawnUnitClick} onDragStart={this._onDrawnDragStart}></div>
+>>>>>>> master
 			</div>
 			</div>
 		);
+	},
+
+	_onDrawnDragStart(e) {
+		e.dataTransfer.effectAllowed = 'move';
+		e.dataTransfer.setData('text/plain', '');
+
+		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side} = this.props;
+		setSelected('[-1,-1]', 'draw');
 	},
 
 	_setSelected(position, inRange) {
@@ -317,6 +338,7 @@ const Cell = React.createClass({
 	},
 	_onDrop(e) {
 		e.preventDefault();
+<<<<<<< HEAD
 		console.log("i am dropping draw unit");
 		const {position, unit, color, selected, setSelected, setDroppable} = this.props;
 		console.log("what's in position", position);
@@ -327,14 +349,25 @@ const Cell = React.createClass({
 		if (selected !== position) {
 			GameActions.makeMove(selected, position, false, 'move', true);
 			
+=======
+		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side} = this.props;
+		if (this.props.litup) {
+			if (unit) GameActions.makeMove(selected, position, true, 'move', true);
+			else GameActions.makeMove(selected, position, false, 'move', true);
+>>>>>>> master
 		}
+		else if (this.props.strikable && unit)
+			GameActions.makeMove(selected, position, true, 'strike', true);
 		setSelected(null, []);
+<<<<<<< HEAD
 		setDroppable({});
 
 		// this.setState({
 		// 		drawn: null
 		// 	});
 
+=======
+>>>>>>> master
 	},
 
 	render(){
