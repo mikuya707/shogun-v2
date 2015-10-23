@@ -10,7 +10,7 @@ const Chat = React.createClass({
     io: React.PropTypes.object.isRequired,
     token: React.PropTypes.string.isRequired,
     color: React.PropTypes.oneOf(['white', 'black']).isRequired,
-    soundsEnabled: React.PropTypes.bool.isRequired,
+    // soundsEnabled: React.PropTypes.bool.isRequired,
     isOpponentAvailable: React.PropTypes.bool.isRequired,
     openModal: React.PropTypes.func.isRequired
   },
@@ -105,9 +105,9 @@ const Chat = React.createClass({
     chatNode.scrollTop = chatNode.scrollHeight;
   },
   _maybePlaySound() {
-    if (this.props.soundsEnabled) {
-      this.refs.msgSnd.getDOMNode().play();
-    }
+    // if (this.props.soundsEnabled) {
+    //   this.refs.msgSnd.getDOMNode().play();
+    // }
   }
 });
 

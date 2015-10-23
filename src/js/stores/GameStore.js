@@ -136,9 +136,9 @@ function setInitialState() {
     _drop = {};
 
     _board = {
-        '[1, 0]': {unit: 'Footman', color: 'black', side: 'front'},
-        '[2, 0]': {unit: 'Duke', color: 'black', side: 'front'},
-        '[3, 0]': {unit: 'Footman', color: 'black', side: 'front'},
+        '[1, 1]': {unit: 'Bowman', color: 'black', side: 'front'},
+        '[2, 1]': {unit: 'Duke', color: 'black', side: 'front'},
+        '[3, 1]': {unit: 'Footman', color: 'black', side: 'front'},
         '[2, 5]': {unit: 'Footman', color: 'white', side: 'front'},
         '[3, 5]': {unit: 'Duke', color: 'white', side: 'front'},
         '[4, 5]': {unit: 'Footman', color: 'white', side: 'front'}
@@ -173,8 +173,6 @@ function makeMove(from, to, capture, type, emitMove) {
     updateBoard(from, to, type);
 
     _turn = _turn === 'w' ? 'b' : 'w';
-
-    console.log('turn: ', _turn);
 
     if (emitMove) {
         GameStore.emit(MOVE_EVENT, {

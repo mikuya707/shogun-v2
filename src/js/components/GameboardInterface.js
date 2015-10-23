@@ -33,6 +33,7 @@ const GameboardInterface = React.createClass({
 			<div id="board-moves-wrapper" className="clearfix">
 				<div id="board-wrapper">
 
+					<p>Im {this.props.color}</p>
 					<CapturedPieces />
 
 					<Board size={6}

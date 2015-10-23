@@ -8,6 +8,9 @@
 	background-size:contain;
 	//background-color: red;
 
+	&.black {
+		transform: rotate(180deg);
+	}
 }
 
 .litup {
@@ -37,6 +40,9 @@
 	50% {opacity: 0.5; }
 	100% {opacity: 0.1; }
 }
+
+
+
 
 .Assassin {
 	&.white{

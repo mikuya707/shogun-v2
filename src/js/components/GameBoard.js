@@ -16,9 +16,7 @@ const GameBoard = React.createClass({
 	},
 	mixins: [maybeReverse],
 	getInitialState() {
-		//return null;
 		this.state = GameStore.getGameboardState();
-		 //this.result;
 		console.log("state? ", this.state);
 		return this.state;
 	},
@@ -101,6 +99,17 @@ const GameBoard = React.createClass({
 	// 		lightup: GameStore.getGameboardState().lightup
 	// 	});
 	// },
+
+	_reverseBoard() {
+		const {board} = this.state, {size} = this.props;
+		var newBoard = {};
+		Object.keys(board).forEach(function(pos) {
+			let posArr = JSON.parse(pos);
+			newBoard[`[${size-1-posArr[0]}, ${size-1-posArr[1]}]`] = board[pos];
+		})
+		return newBoard;
+	},
+
 	_onGameChange(cb) {
 		const state = GameStore.getGameboardState();
 		this.setState({
@@ -124,8 +133,10 @@ const GameBoard = React.createClass({
 	},
 	render() {
 		var {state, props} = this, 
-			{size} = props,
+			{size, color} = props,
 			{board, selected, lightup, strike, drop, turn} = state;
+
+		if (color === 'black') board = this._reverseBoard();
 
 		var cellArray = [];
 		for (var i=0; i<size; i++) {
@@ -147,7 +158,7 @@ const GameBoard = React.createClass({
 							 position={`[${idx2}, ${idx1}]`} 
 								unit={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].unit : null} 
 								color={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].color : null}
-								playerColor={this.props.color}
+								playerColor={color}
 								side={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].side : null}
 								litup={lightup[`[${idx2}, ${idx1}]`]}
 								strikable={strike[`[${idx2}, ${idx1}]`]}

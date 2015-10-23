@@ -836,6 +836,8 @@ span#game-type {
   width: 98px;
   height: 98px;
   background-size: contain; }
+  .unit.black {
+    transform: rotate(180deg); }
 
 .litup {
   width: 98px;
