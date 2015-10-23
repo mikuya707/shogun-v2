@@ -25,6 +25,7 @@ const GameBoard = React.createClass({
 	_onButtonClick(){
 
 		// assume white player for now (so racist)
+
 		const {board} = this.state;
 		var dukePosition = Object.keys(board).filter(pos => (board[pos] && board[pos].unit === "Duke" && board[pos].color === 'white'))[0];
 		var dukePosArr = JSON.parse(dukePosition);
@@ -39,32 +40,45 @@ const GameBoard = React.createClass({
 		this.setState({
 			drop: droppableTiles
 		});
-
-		var element = document.getElementById('drawnUnit');
-		element.className = "";
+		this._setSelected("[-1, -1]", droppableTiles);
+		//var element = document.getElementById('drawnUnit');
+		//console.log('what is element here?', element);
 		GameStore.draw();
-		this.state.drawUnit = GameStore.getGameboardState().drawUnit;
+		//console.log(result);
+		var drawnUnit = GameStore.getGameboardState().drawUnit;
+		console.log(drawnUnit);
+		var drawn = drawnUnit[Object.keys(drawnUnit)[0]];
+		this.setState({
+			drawn: drawn
+		});
 		// console.log(this.state.drawUnit);
 		// console.log(Object.keys(this.state.drawUnit)[0]);
-		var unit = Object.keys(this.state.drawUnit)[0];
+		// var position = Object.keys(this.state.drawUnit)[0];
+		// var unit = this.state.drawUnit[position].unit;
+		// var color = this.state.drawUnit[position].color;
+		// var side = this.state.drawUnit[position].side;
 
-		element.classList.add(`${unit}`);
-		element.classList.add("white");
-		element.classList.add("front");
+		//element.classList.add(`${unit}`);
+		//element.classList.add("white");
+		//element.classList.add("front");
 
 		
 	},
-	_onDrawnUnitClick(){
-
-		var element = document.getElementById('drawnUnit');
-		if (element.classList.contains("front")) {
-			element.classList.remove("front");
-		 	element.classList.add("back");
+	_onDrawCellClick(){
+		console.log("i clicked!!");
+		var newDrawn;
+		if(this.state.drawn.side==='front'){
+			newDrawn = this.state.drawn;
+			newDrawn.side='back';
 		}
-		else if(element.classList.contains("back")){
-			element.classList.remove("back");
-		 	element.classList.add("front");
+		else if (this.state.drawn.side==='back'){
+			newDrawn = this.state.drawn;
+			newDrawn.side='front';
 		}
+		console.log(newDrawn);
+		this.setState({
+				drawn: newDrawn
+			});
 	},
 
 	componentDidMount() {
@@ -82,7 +96,7 @@ const GameBoard = React.createClass({
 	render() {
 		var {state, props} = this, 
 			{size} = props,
-			{board, selected, lightup, strike, drop} = state;
+			{board, selected, lightup, strike, drop, drawn} = state;
 
 		var cellArray = [];
 		for (var i=0; i<size; i++) {
@@ -107,7 +121,7 @@ const GameBoard = React.createClass({
 								side={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].side : null}
 								litup={lightup[`[${idx2}, ${idx1}]`]}
 								strikable={strike[`[${idx2}, ${idx1}]`]}
-								droppable={drop[`[${idx2}, ${idx1}]`]}
+								canDrop={drop[`[${idx2}, ${idx1}]`]}
 								selected = {selected}
 								setSelected={this._setSelected}
 								onClick={this._onCellClick}/>
@@ -118,7 +132,7 @@ const GameBoard = React.createClass({
 			</table>
 			<div id="draw">
 				<button className="btn" onClick={this._onButtonClick}>DRAW</button>
-				<div draggable="true" id="drawnUnit" onClick={this._onDrawnUnitClick}></div>
+				<DrawnComponent selected="[-1, -1]" position="[-1, -1]" canDrop='false' unit={drawn? drawn.unit : null} color={drawn? drawn.color : null} side={drawn? drawn.side : null} drawAUnit={this._onDrawCellClick} ></DrawnComponent>
 			</div>
 			</div>
 		);
@@ -226,12 +240,13 @@ const Cell = React.createClass({
 		
 	
 	},
+
 	mixins: [],
 
 	
 	_onClickSquare() {
 
-		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side} = this.props;
+		const {unit, position, color, selected, setSelected, litup, strikable, canDrop, side} = this.props;
 
 		const {isSelected} = this.state;
 		var boardState = GameStore.getGameboardState();
@@ -277,7 +292,7 @@ const Cell = React.createClass({
 		e.dataTransfer.effectAllowed = 'move';
 		e.dataTransfer.setData('text/plain', '');
 
-		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side} = this.props;
+		const {unit, position, color, selected, setSelected, litup, strikable, canDrop, side} = this.props;
 		setSelected(position, behavior[unit][side]);
 	},
 	_onDragOver(e) {
@@ -286,23 +301,30 @@ const Cell = React.createClass({
 	},
 	_onDrop(e) {
 		e.preventDefault();
+		console.log("i am dropping draw unit");
 		const {position, unit, color, selected, setSelected} = this.props;
 		if (selected !== position) {
 			GameActions.makeMove(selected, position, false, 'move', true);
 		}
 		setSelected(null, []);
+		this.setState({
+			drop: null
+		});
+
+		this.setState({
+				drawn: null
+			});
 
 	},
 
 	render(){
-		var {unit, color, litup, strikable, droppable, side} = this.props;
-
+		var {unit, color, litup, strikable, canDrop, side} = this.props;
 
 		var cxObj = {	
 			unit: !!unit,
 			litup: litup,
 			strikable: strikable,
-			droppable: droppable
+			canDrop: canDrop
 		};
 		cxObj[side] = true;
 		if (unit) {
@@ -311,12 +333,6 @@ const Cell = React.createClass({
 		}
 		
 		return (
-
-			<div>
-				<div droppable="true" className={cx(cxObj)}
-					onClick={this._onClickSquare}>
-				</div>
-
 				<div 
 				onDragOver={this._onDragOver}
 				onDrop={this._onDrop}
@@ -329,10 +345,128 @@ const Cell = React.createClass({
 					</a>
 
 				</div>
-			</div>
+
 		);
 	}
 
 });
 
-export default {Board: GameBoard, Cell: Cell};
+const DrawnComponent = React.createClass({
+	propTypes: {
+	},
+	getInitialState: function() {
+    	 return {
+    	 	//side: 'front',
+    	 	drawn: false
+    	 };
+  	},
+  	componentDidMount() {
+
+		
+	},
+
+	componentWillMount() {
+		
+	
+	},
+
+
+  	// onPropsChanged: function() {
+   // 		 //console.log(this.state.drawn); // it is ALWAYS true
+ 	 // },
+	// componentWillReceiveProps: function(nextProps) {
+ //  		this.setState({
+ //   		 likesIncreasing: nextProps.likeCount > this.props.likeCount
+ //  		});
+	// },
+
+	// _onChange() {
+	
+	// 	this.setState({
+	// 		lightup: GameStore.getGameboardState().lightup
+	// 	});
+	// },
+
+	mixins: [],
+
+
+	_onDragStart(e) {
+		e.dataTransfer.effectAllowed = 'move';
+		e.dataTransfer.setData('text/plain', '');
+
+		const {unit, position, color, canDrop, side} = this.props;
+	},
+	_onDragOver(e) {
+		e.preventDefault();
+		e.dataTransfer.dropEffect = 'move';
+	},
+	// _onDrop(e) {
+	// 	e.preventDefault();
+	// 	const {position, unit, color, selected, litup} = this.props;
+
+	// 		//GameActions.makeMove(position, false, 'move', true);
+	// 		console.log("is this where i am dropping it?", position);
+	// 		//GameActions.moveToBoard(position);
+
+
+	// },
+	
+	_onDrawnUnitClick(){
+		this.setState({
+			drawn: drawn
+		});
+		this.setState({
+
+		});
+		// var element = document.getElementById('drawnUnit');
+		// if (element.classList.contains("front")) {
+		// 	element.classList.remove("front");
+		//  	element.classList.add("back");
+		// }
+		// else if(element.classList.contains("back")){
+		// 	element.classList.remove("back");
+		//  	element.classList.add("front");
+		// }
+	},
+
+
+
+	render(){
+		var {unit, color, draggable, side, drawAUnit, position, canDrop} = this.props;
+
+
+
+		//<div draggable="true" id="drawnUnit" onClick={this._onDrawnUnitClick}></div>
+
+		var cxObj = {	
+			unit: !!unit
+		};
+		cxObj[side] = true;
+		if (unit) {
+			cxObj[unit] = true;
+			cxObj[color] = true;
+		}
+		
+		return (
+				// <div>
+				// 	<div id="drawnUnit" draggable className={cx(cxObj)} 
+				// 		onClick={drawAUnit}> 
+				// 	</div>
+				<div id="drawnUnit" draggable className={cx(cxObj)}
+				onDragOver={this._onDragOver}
+				>
+					<a className={cx(cxObj)}
+						onClick={drawAUnit}
+						onDragStart={this._onDragStart}
+
+						draggable>
+					</a>
+				</div>
+					
+				//</div>
+			);
+		}
+
+	});
+
+export default {Board: GameBoard, Cell: Cell, DrawnComponent: DrawnComponent};

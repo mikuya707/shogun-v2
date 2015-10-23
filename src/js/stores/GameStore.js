@@ -76,6 +76,7 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
     },
 
     draw() {
+        //'[1, 0]': {unit: 'Footman', color: 'black', side: 'front'},
         var units = [];
            
         Object.keys(behavior).forEach(function(unit){
@@ -107,7 +108,9 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
         });
         var result = units[Math.floor(Math.random()*units.length)];
         _drawn.push(result);
-        _result = result;
+        var resultToReturn = {};
+        resultToReturn['[-1, -1]'] = {unit: `${Object.keys(result)[0]}`, color: 'white', side: 'front'};
+        _result = resultToReturn;
     },
 
 
@@ -148,10 +151,46 @@ function setInitialState() {
 
 }
 
+function moveToBoard() {
 
+
+    if (emitMove) {
+        GameStore.emit(MOVE_EVENT, {
+            to: to,
+            capture: capture,
+            type: type,
+            board: _board    
+            //gameOver: _chess.game_over()
+        });
+    }
+
+    return true;
+}
 
 function updateBoard(from, to, type) {
-    var unit = _board[from];
+    console.log("where is from", from);
+    console.log("where is to", to);
+     var unit;
+    if(from === '[-1, -1]'){
+         console.log("what is unit after drop?", _result);
+         console.log("what is unit after drop?", _result[from]);
+         _board[to] = _result[from];
+
+         //unit = _result;
+
+     // _board[from] = null;
+     // _board[to] = unit;
+    
+    
+    _selected = null;
+    return _board;
+    
+    }
+    else{
+         unit = _board[from];
+
+    
+    //console.log("what is unit after drop?", unit);
     unit.side = (unit.side === 'front') ? 'back' : 'front';
 
     if (type === 'move') {
@@ -164,6 +203,7 @@ function updateBoard(from, to, type) {
     
     _selected = null;
     return _board;
+    }
 }
 
 function makeMove(from, to, capture, type, emitMove) {
