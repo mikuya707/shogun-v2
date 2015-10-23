@@ -35,7 +35,9 @@ const GameboardInterface = React.createClass({
 
 					<CapturedPieces />
 
-					<Board size={6}/>
+					<Board size={6}
+						{...omit(this.props, 'gameOver')}
+						gameOver={gameOver.get('status')} />
 
 				</div>
 

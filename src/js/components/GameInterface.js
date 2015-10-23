@@ -153,7 +153,10 @@ const GameInterface = React.createClass({
         <Board />
         */}
 
-          <GameboardInterface />
+          <GameboardInterface 
+            {...commonProps}
+            token={params[0]}
+            gameOver={gameOver} />
 
 
 

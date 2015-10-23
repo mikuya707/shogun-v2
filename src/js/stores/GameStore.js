@@ -16,7 +16,6 @@ const MOVE_EVENT = 'new-move';
 var _gameOver;
 var _capturedPieces;
 var _moves;
-var _promotion;
 var _turn;
 var _check;
 var _lastMove;
@@ -44,7 +43,6 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
     getState() {
         return {
             gameOver: _gameOver,
-            promotion: _promotion,
             turn: _turn,
             check: _check,
         };
@@ -126,7 +124,6 @@ function setInitialState() {
         ['b', List()]
     ]);
     _moves = List();
-    _promotion = 'q';
     _turn = 'w';
     _check = false;
     _lastMove = Map();
@@ -174,13 +171,15 @@ function makeMove(from, to, capture, type, emitMove) {
    
     updateBoard(from, to, type);
 
+    _turn = _turn === 'w' ? 'b' : 'w';
+
     if (emitMove) {
         GameStore.emit(MOVE_EVENT, {
             from: from,
             to: to,
             capture: capture,
             type: type,
-            board: _board    
+            // board: _board    
             //gameOver: _chess.game_over()
         });
     }
@@ -206,9 +205,6 @@ AppDispatcher.register(payload => {
                 action.from, action.to, action.capture, action.type, action.emitMove);
             break;
 
-        case GameConstants.CHANGE_PROMOTION:
-            _promotion = action.promotion;
-            break;
 
         case GameConstants.DRAW:
 

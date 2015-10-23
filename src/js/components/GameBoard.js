@@ -68,7 +68,29 @@ const GameBoard = React.createClass({
 	},
 
 	componentDidMount() {
-		GameStore.addChangeListener(this._onChange);
+		//GameStore.addChangeListener(this._onChange);
+
+		const {io, token} = this.props;
+
+		GameStore.on('change', this._onGameChange);
+		GameStore.on('new-move', this._onNewMove);
+
+		io.on('move', data => {
+			GameActions.makeMove(data.from, data.to, data.capture, data.type, false);
+
+			if (!data.gameOver) {
+			  this._runClock();
+			}
+
+			if (document.hidden) {
+			  let title = document.getElementsByTagName('title')[0];
+			  title.text = '* ' + title.text;
+
+			  window.addEventListener('focus', this._removeAsteriskFromTitle);
+			}
+		});
+
+
 	},
 	componentWillUnmount() {
 		GameStore.removeChangeListener(this._onChange);
@@ -79,10 +101,22 @@ const GameBoard = React.createClass({
 			lightup: GameStore.getGameboardState().lightup
 		});
 	},
+	_onGameChange() {
+
+	},
+	_onNewMove(move) {
+		const {io, token} = this.props;
+
+		io.emit('new-move', {
+			token: token,
+			move: move
+		})
+
+	},
 	render() {
 		var {state, props} = this, 
 			{size} = props,
-			{board, selected, lightup, strike, drop} = state;
+			{board, selected, lightup, strike, drop, color} = state;
 
 		var cellArray = [];
 		for (var i=0; i<size; i++) {
@@ -212,6 +246,20 @@ const GameBoard = React.createClass({
 	_isOnBoard(coords) {
 	  return coords.x >= 0 && coords.y >= 0 && coords.x < 6 && coords.y < 6;
 	},
+
+	_runClock() {
+	  const {io, token, color} = this.props;
+
+	  io.emit('clock-run', {
+	    token: token,
+	    color: color
+	  });
+	},
+	_removeAsteriskFromTitle() {
+	  let title = document.getElementsByTagName('title')[0];
+	  title.text = title.text.replace('* ', '');
+	  window.removeEventListener('focus', this._removeAsteriskFromTitle);
+	}
 
 });
 
