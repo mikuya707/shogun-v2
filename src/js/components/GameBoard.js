@@ -99,16 +99,23 @@ const GameBoard = React.createClass({
 	// 		lightup: GameStore.getGameboardState().lightup
 	// 	});
 	// },
+	_reversePosition(pos) {
+		const {size} = this.props;
+		let posArr = JSON.parse(pos);
+		return `[${size-1-posArr[0]}, ${size-1-posArr[1]}]`;
+	},
 
 	_reverseBoard() {
-		const {board} = this.state, {size} = this.props;
-		var newBoard = {};
+		const {board} = this.state;
+		let newBoard = {}, self = this;
 		Object.keys(board).forEach(function(pos) {
-			let posArr = JSON.parse(pos);
-			newBoard[`[${size-1-posArr[0]}, ${size-1-posArr[1]}]`] = board[pos];
+			// let posArr = JSON.parse(pos);
+			// newBoard[`[${size-1-posArr[0]}, ${size-1-posArr[1]}]`] = board[pos];
+			newBoard[self._reversePosition(pos)] = board[pos];
 		})
 		return newBoard;
 	},
+
 
 	_onGameChange(cb) {
 		const state = GameStore.getGameboardState();
