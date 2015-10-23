@@ -174,14 +174,15 @@ function updateBoard(from, to, type) {
     if(from === '[-1, -1]'){
          console.log("what is unit after drop?", _result);
          console.log("what is unit after drop?", _result[from]);
+         _result[from].side = 'front';
          _board[to] = _result[from];
 
          //unit = _result;
 
      // _board[from] = null;
      // _board[to] = unit;
-    
-    
+    //console.log("what are the true drops ?", _drop);
+    _drop = null;
     _selected = null;
     return _board;
     

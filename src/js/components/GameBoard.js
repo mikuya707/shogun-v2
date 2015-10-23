@@ -22,6 +22,11 @@ const GameBoard = React.createClass({
 		console.log("state? ", this.state);
 		return this.state;
 	},
+
+	// _getValidDrops(position, inRange){
+
+	// },
+
 	_onButtonClick(){
 
 		// assume white player for now (so racist)
@@ -37,9 +42,11 @@ const GameBoard = React.createClass({
 				droppableTiles[`[${adjX}, ${adjY}]`] = true;
 		})
 		if (!Object.keys(droppableTiles).length) console.log('No available tiles adjacent to the Duke - cannot draw new unit');
-		this.setState({
-			drop: droppableTiles
-		});
+		this._setDroppable(droppableTiles);
+		// this.setState({
+		// 	drop: droppableTiles
+		// });
+		console.log('what are droppableTiles', droppableTiles);
 		this._setSelected("[-1, -1]", droppableTiles);
 		//var element = document.getElementById('drawnUnit');
 		//console.log('what is element here?', element);
@@ -124,6 +131,7 @@ const GameBoard = React.createClass({
 								canDrop={drop[`[${idx2}, ${idx1}]`]}
 								selected = {selected}
 								setSelected={this._setSelected}
+								setDroppable={this._setDroppable}
 								onClick={this._onCellClick}/>
 						</td>
 					)}
@@ -132,7 +140,7 @@ const GameBoard = React.createClass({
 			</table>
 			<div id="draw">
 				<button className="btn" onClick={this._onButtonClick}>DRAW</button>
-				<DrawnComponent selected="[-1, -1]" position="[-1, -1]" canDrop='false' unit={drawn? drawn.unit : null} color={drawn? drawn.color : null} side={drawn? drawn.side : null} drawAUnit={this._onDrawCellClick} ></DrawnComponent>
+				<DrawnComponent selected="[-1, -1]" position="[-1, -1]" unit={drawn? drawn.unit : null} color={drawn? drawn.color : null} side={drawn? drawn.side : null} drawAUnit={this._onDrawCellClick} ></DrawnComponent>
 			</div>
 			</div>
 		);
@@ -143,6 +151,14 @@ const GameBoard = React.createClass({
 			selected: position,
 			lightup: this._getValidMoves(position, inRange).movableTiles,
 			strike: this._getValidMoves(position, inRange).strikableTiles
+		})
+
+	},
+
+
+	_setDroppable(tiles) {
+		this.setState({
+			drop: tiles
 		})
 
 	},
@@ -302,18 +318,22 @@ const Cell = React.createClass({
 	_onDrop(e) {
 		e.preventDefault();
 		console.log("i am dropping draw unit");
-		const {position, unit, color, selected, setSelected} = this.props;
+		const {position, unit, color, selected, setSelected, setDroppable} = this.props;
+		console.log("what's in position", position);
+		//console.log("what's in drop", this.state.drop);
+		//setSelected(null, []);
+		
+		console.log("what is the state now", this.state);
 		if (selected !== position) {
 			GameActions.makeMove(selected, position, false, 'move', true);
+			
 		}
 		setSelected(null, []);
-		this.setState({
-			drop: null
-		});
+		setDroppable({});
 
-		this.setState({
-				drawn: null
-			});
+		// this.setState({
+		// 		drawn: null
+		// 	});
 
 	},
 
@@ -357,7 +377,7 @@ const DrawnComponent = React.createClass({
 	getInitialState: function() {
     	 return {
     	 	//side: 'front',
-    	 	drawn: false
+    	 	drawn: null
     	 };
   	},
   	componentDidMount() {
@@ -390,16 +410,16 @@ const DrawnComponent = React.createClass({
 	mixins: [],
 
 
-	_onDragStart(e) {
-		e.dataTransfer.effectAllowed = 'move';
-		e.dataTransfer.setData('text/plain', '');
+	// _onDragStart(e) {
+	// 	e.dataTransfer.effectAllowed = 'move';
+	// 	e.dataTransfer.setData('text/plain', '');
 
-		const {unit, position, color, canDrop, side} = this.props;
-	},
-	_onDragOver(e) {
-		e.preventDefault();
-		e.dataTransfer.dropEffect = 'move';
-	},
+	// 	const {unit, position, color, side} = this.props;
+	// },
+	// _onDragOver(e) {
+	// 	e.preventDefault();
+	// 	e.dataTransfer.dropEffect = 'move';
+	// },
 	// _onDrop(e) {
 	// 	e.preventDefault();
 	// 	const {position, unit, color, selected, litup} = this.props;
@@ -411,13 +431,13 @@ const DrawnComponent = React.createClass({
 
 	// },
 	
-	_onDrawnUnitClick(){
-		this.setState({
-			drawn: drawn
-		});
-		this.setState({
+	// _onDrawnUnitClick(){
+	// 	this.setState({
+	// 		drawn: drawn
+	// 	});
+		// this.setState({
 
-		});
+		// });
 		// var element = document.getElementById('drawnUnit');
 		// if (element.classList.contains("front")) {
 		// 	element.classList.remove("front");
@@ -427,12 +447,12 @@ const DrawnComponent = React.createClass({
 		// 	element.classList.remove("back");
 		//  	element.classList.add("front");
 		// }
-	},
+	//},
 
 
 
 	render(){
-		var {unit, color, draggable, side, drawAUnit, position, canDrop} = this.props;
+		var {unit, color, draggable, side, drawAUnit, position} = this.props;
 
 
 
@@ -453,12 +473,10 @@ const DrawnComponent = React.createClass({
 				// 		onClick={drawAUnit}> 
 				// 	</div>
 				<div id="drawnUnit" draggable className={cx(cxObj)}
-				onDragOver={this._onDragOver}
-				>
+				onDragOver={this._onDragOver} onClick={drawAUnit}>
 					<a className={cx(cxObj)}
 						onClick={drawAUnit}
 						onDragStart={this._onDragStart}
-
 						draggable>
 					</a>
 				</div>
