@@ -53,13 +53,13 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
     getMoves() {
         return _moves;
     },
-    getChessboardState() {
-        return {
-            fen: _chess.fen(),
-            lastMove: _lastMove,
-            check: _check
-        };
-    },
+    // getChessboardState() {
+    //     return {
+    //         fen: _chess.fen(),
+    //         lastMove: _lastMove,
+    //         check: _check
+    //     };
+    // },
 
 
     getGameboardState() {
@@ -69,7 +69,8 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
             strike: _strike,
             drop: _drop,
             selected: _selected,
-            drawUnit: _result
+            drawUnit: _result,
+            turn: _turn
         }
     },
 
@@ -172,6 +173,8 @@ function makeMove(from, to, capture, type, emitMove) {
     updateBoard(from, to, type);
 
     _turn = _turn === 'w' ? 'b' : 'w';
+
+    console.log('turn: ', _turn);
 
     if (emitMove) {
         GameStore.emit(MOVE_EVENT, {

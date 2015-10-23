@@ -95,14 +95,23 @@ const GameBoard = React.createClass({
 	componentWillUnmount() {
 		GameStore.removeChangeListener(this._onChange);
 	},
-	_onChange() {
+	// _onChange() {
 	
+	// 	this.setState({
+	// 		lightup: GameStore.getGameboardState().lightup
+	// 	});
+	// },
+	_onGameChange(cb) {
+		const state = GameStore.getGameboardState();
 		this.setState({
-			lightup: GameStore.getGameboardState().lightup
-		});
-	},
-	_onGameChange() {
-
+			board: state.board,
+			lightup: state.lightup,
+			strike: state.strike,
+			drop: state.drop,
+			selected: state.selected,
+			drawUnit: state.drawUnit,
+			turn: state.turn
+		}, cb);
 	},
 	_onNewMove(move) {
 		const {io, token} = this.props;
@@ -116,7 +125,7 @@ const GameBoard = React.createClass({
 	render() {
 		var {state, props} = this, 
 			{size} = props,
-			{board, selected, lightup, strike, drop, color} = state;
+			{board, selected, lightup, strike, drop, turn} = state;
 
 		var cellArray = [];
 		for (var i=0; i<size; i++) {
@@ -138,11 +147,13 @@ const GameBoard = React.createClass({
 							 position={`[${idx2}, ${idx1}]`} 
 								unit={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].unit : null} 
 								color={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].color : null}
+								playerColor={this.props.color}
 								side={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].side : null}
 								litup={lightup[`[${idx2}, ${idx1}]`]}
 								strikable={strike[`[${idx2}, ${idx1}]`]}
 								droppable={drop[`[${idx2}, ${idx1}]`]}
-								selected = {selected}
+								selected={selected}
+								turn={turn}
 								setSelected={this._setSelected}
 								onClick={this._onCellClick}/>
 						</td>
@@ -163,7 +174,7 @@ const GameBoard = React.createClass({
 		e.dataTransfer.setData('text/plain', '');
 
 		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side} = this.props;
-		setSelected('[-1,-1]', 'draw');
+		this._setSelected('[-1,-1]', 'draw');
 	},
 
 	_setSelected(position, inRange) {
@@ -287,17 +298,18 @@ const Cell = React.createClass({
 	
 	_onClickSquare() {
 
-		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side} = this.props;
+		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side, playerColor, turn} = this.props;
 
 		const {isSelected} = this.state;
 		var boardState = GameStore.getGameboardState();
 
 		//console.log("what things are before click: ", "unit ", unit, "position ", position, 'color ', color, 'side ', side, "isSelected ", isSelected, "selected", selected);
 		
+		if (turn !== playerColor.charAt(0)) return;
 
-		// if there is no currently selected unit, click a unit to select it
+		// if there is no currently selected unit, click a unit (of the same color) to select it
 		if (!selected) {
-			if (unit) {
+			if (unit && color === playerColor) {
 				var moves = behavior[unit][side];
 				setSelected(position, moves);
 			}
@@ -306,7 +318,7 @@ const Cell = React.createClass({
 		else {
 			if (this.props.litup) {
 				// move to a square with an opposite color unit to capture it
-				if (unit) {
+				if (unit && color !== playerColor) {
 					GameActions.makeMove(selected, position, true, 'move', true);
 				}
 
@@ -317,7 +329,7 @@ const Cell = React.createClass({
 
 				setSelected(null, []);
 			}
-			else if (this.props.strikable && unit) {
+			else if (this.props.strikable && unit && color !== playerColor) {
 				GameActions.makeMove(selected, position, true, 'strike', true);
 				setSelected(null, []);
 			}
@@ -333,8 +345,14 @@ const Cell = React.createClass({
 		e.dataTransfer.effectAllowed = 'move';
 		e.dataTransfer.setData('text/plain', '');
 
-		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side} = this.props;
-		setSelected(position, behavior[unit][side]);
+		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side, playerColor} = this.props;
+		if (!selected) {
+			if (unit && color === playerColor) {
+				var moves = behavior[unit][side];
+				setSelected(position, moves);
+			}
+		}
+		//setSelected(position, behavior[unit][side]);
 	},
 	_onDragOver(e) {
 		e.preventDefault();

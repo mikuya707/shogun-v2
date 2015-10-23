@@ -17,7 +17,7 @@ const GameboardInterface = React.createClass({
 	propTypes: {
 
 	},
-	mixins: [],
+	mixins: [onGameChange],		// this mixin is responsible for dynamically changing the state of GameboardInterface
 	getInitialState() {
 		return GameStore.getState();
 	},
