@@ -206,11 +206,12 @@ const GameBoard = React.createClass({
 
 	_getValidMoves(position, moves) {
 		if (!moves) return;
+		const playerColor = this.props.color;
 		var output = {};
 
 		var inRange = [];
 		var posArr = JSON.parse(position);
-		var theBoard = this.state.board;
+		var theBoard = playerColor === 'black' ? this._reverseBoard() : this.state.board;
 
 		Object.keys(moves).map(function(move){
 			var moveArr = JSON.parse(move);
@@ -247,15 +248,16 @@ const GameBoard = React.createClass({
 		});
 
 		var movableTiles = {}, strikableTiles = {};
+		//let board = playerColor === 'black' ? this._reverseBoard() : this.state.board;
 		inRange.filter(range => {
 			// is on board
 			if (!this._isOnBoard(range)) return false;
 
 			// no unit of the same color on square
 			let coordsStr = `[${range.x}, ${range.y}]`;
-			let targetUnit = this.state.board[coordsStr];
+			let targetUnit = theBoard[coordsStr];
 			if (targetUnit) {
-				if (this.state.board[position].color === targetUnit.color) return false;
+				if (theBoard[position].color === targetUnit.color) return false;
 			}
 
 			return true;
@@ -316,12 +318,9 @@ const Cell = React.createClass({
 	
 	_onClickSquare() {
 
-		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side, playerColor, turn} = this.props;
+		const {unit, color, setSelected, litup, strikable, droppable, side, playerColor, turn} = this.props;
 
-		const {isSelected} = this.state;
-		var boardState = GameStore.getGameboardState();
-
-		//console.log("what things are before click: ", "unit ", unit, "position ", position, 'color ', color, 'side ', side, "isSelected ", isSelected, "selected", selected);
+		var {position, selected} = this.props;
 		
 		if (turn !== playerColor.charAt(0)) return;
 
@@ -334,6 +333,11 @@ const Cell = React.createClass({
 		}
 		// if there is currently a selected unit on the board, can do one of the following:
 		else {
+			if (playerColor === 'black') {
+				position = this._reversePosition(position);
+				selected = this._reversePosition(selected);
+			}
+
 			if (this.props.litup) {
 				// move to a square with an opposite color unit to capture it
 				if (unit && color !== playerColor) {
@@ -378,7 +382,12 @@ const Cell = React.createClass({
 	},
 	_onDrop(e) {
 		e.preventDefault();
-		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side} = this.props;
+		const {unit, color, setSelected, litup, strikable, droppable, side, playerColor} = this.props;
+		var {position, selected} = this.props;
+		if (playerColor === 'black') {
+			position = this._reversePosition(position);
+			selected = this._reversePosition(selected);
+		}
 		if (this.props.litup) {
 			if (unit) GameActions.makeMove(selected, position, true, 'move', true);
 			else GameActions.makeMove(selected, position, false, 'move', true);
@@ -388,15 +397,22 @@ const Cell = React.createClass({
 		setSelected(null, []);
 	},
 
+	_reversePosition(pos) {
+		//const {size} = this.props;
+		let posArr = JSON.parse(pos);
+		return `[${5-posArr[0]}, ${5-posArr[1]}]`;
+	},
+
 	render(){
-		var {unit, color, litup, strikable, droppable, side} = this.props;
+		var {unit, color, litup, strikable, droppable, side, playerColor} = this.props;
 
 
 		var cxObj = {	
 			unit: !!unit,
 			litup: litup,
 			strikable: strikable,
-			droppable: droppable
+			droppable: droppable,
+			opponent: color !== playerColor
 		};
 		cxObj[side] = true;
 		if (unit) {

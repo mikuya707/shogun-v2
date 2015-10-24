@@ -154,6 +154,14 @@ function updateBoard(from, to, type) {
     // }
 
     var unit = _board[from];
+
+    console.log('updateBoard unit:');
+    console.log(unit);
+    console.log('_board');
+    console.log(_board);
+    console.log(`from: ${from}`);
+    console.log(`to: ${to}`);
+
     unit.side = (unit.side === 'front') ? 'back' : 'front';
 
     if (type === 'move') {
