@@ -6,7 +6,16 @@
 	width: 98px;
 	height: 98px;
 	background-size:contain;
-	//background-color: red;
+	top: 0px;
+	left: 0px;
+	position: absolute;
+	transform-style: preserve-3d;
+	// transition: transform 1s;
+
+
+	&.opponent {
+		transform: rotateZ(180deg);
+	}
 
 }
 
@@ -37,6 +46,9 @@
 	50% {opacity: 0.5; }
 	100% {opacity: 0.1; }
 }
+
+
+
 
 .Assassin {
 	&.white{
@@ -165,7 +177,7 @@
 			background-image: url("/img/Footman_front.png");			
 		}
 		&.back {
-			background-image: url("/img/Footman_back.png");			
+			background-image: url("/img/Footman_back.png");		
 		}
 	}
 	&.black{

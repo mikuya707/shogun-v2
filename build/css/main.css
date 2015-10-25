@@ -610,6 +610,9 @@ div {
   background-image: no-repeat;
   background-size: contain; }
 
+.cellContainer {
+  perspective: 600px; }
+
 #clock {
   width: 148px;
   height: 50px;
@@ -830,12 +833,21 @@ span#game-type {
   background-image: no-repeat;
   background-size: contain; }
 
+.cellContainer {
+  perspective: 600px; }
+
 .unit {
   /* 	height: auto; 
     width: auto;  */
   width: 98px;
   height: 98px;
-  background-size: contain; }
+  background-size: contain;
+  top: 0px;
+  left: 0px;
+  position: absolute;
+  transform-style: preserve-3d; }
+  .unit.opponent {
+    transform: rotateZ(180deg); }
 
 .litup {
   width: 98px;

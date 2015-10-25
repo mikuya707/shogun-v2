@@ -16,9 +16,7 @@ const GameBoard = React.createClass({
 	},
 	mixins: [maybeReverse],
 	getInitialState() {
-		//return null;
 		this.state = GameStore.getGameboardState();
-		 //this.result;
 		console.log("state? ", this.state);
 		return this.state;
 	},
@@ -95,21 +93,89 @@ const GameBoard = React.createClass({
 	},
 
 	componentDidMount() {
-		GameStore.addChangeListener(this._onChange);
+		//GameStore.addChangeListener(this._onChange);
+
+		const {io, token} = this.props;
+
+		GameStore.on('change', this._onGameChange);
+		GameStore.on('new-move', this._onNewMove);
+
+		io.on('move', data => {
+			GameActions.makeMove(data.from, data.to, data.capture, data.type, false);
+
+			if (!data.gameOver) {
+			  this._runClock();
+			}
+
+			if (document.hidden) {
+			  let title = document.getElementsByTagName('title')[0];
+			  title.text = '* ' + title.text;
+
+			  window.addEventListener('focus', this._removeAsteriskFromTitle);
+			}
+		});
+
+
 	},
 	componentWillUnmount() {
 		GameStore.removeChangeListener(this._onChange);
 	},
-	_onChange() {
+	// _onChange() {
 	
+	// 	this.setState({
+	// 		lightup: GameStore.getGameboardState().lightup
+	// 	});
+	// },
+	_reversePosition(pos) {
+		const {size} = this.props;
+		let posArr = JSON.parse(pos);
+		return `[${size-1-posArr[0]}, ${size-1-posArr[1]}]`;
+	},
+
+	_reverseBoard() {
+		const {board} = this.state;
+		let newBoard = {}, self = this;
+		Object.keys(board).forEach(function(pos) {
+			// let posArr = JSON.parse(pos);
+			// newBoard[`[${size-1-posArr[0]}, ${size-1-posArr[1]}]`] = board[pos];
+			newBoard[self._reversePosition(pos)] = board[pos];
+		})
+		return newBoard;
+	},
+
+
+	_onGameChange(cb) {
+		const state = GameStore.getGameboardState();
 		this.setState({
-			lightup: GameStore.getGameboardState().lightup
-		});
+			board: state.board,
+			lightup: state.lightup,
+			strike: state.strike,
+			drop: state.drop,
+			selected: state.selected,
+			drawUnit: state.drawUnit,
+			turn: state.turn
+		}, cb);
+	},
+	_onNewMove(move) {
+		const {io, token} = this.props;
+
+		io.emit('new-move', {
+			token: token,
+			move: move
+		})
+
 	},
 	render() {
 		var {state, props} = this, 
-			{size} = props,
-			{board, selected, lightup, strike, drop, drawn} = state;
+// <<<<<<< HEAD
+// 			{size} = props,
+// 			{board, selected, lightup, strike, drop, drawn} = state;
+// =======
+			{size, color} = props,
+			{board, selected, lightup, strike, drop, turn} = state;
+
+		if (color === 'black') board = this._reverseBoard();
+
 
 		var cellArray = [];
 		for (var i=0; i<size; i++) {
@@ -131,11 +197,18 @@ const GameBoard = React.createClass({
 							 position={`[${idx2}, ${idx1}]`} 
 								unit={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].unit : null} 
 								color={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].color : null}
+								playerColor={color}
 								side={board[`[${idx2}, ${idx1}]`] ? board[`[${idx2}, ${idx1}]`].side : null}
 								litup={lightup[`[${idx2}, ${idx1}]`]}
 								strikable={strike[`[${idx2}, ${idx1}]`]}
+// <<<<<<< HEAD
 								canDrop={drop[`[${idx2}, ${idx1}]`]}
 								selected = {selected}
+// =======
+								// droppable={drop[`[${idx2}, ${idx1}]`]}
+								// selected={selected}
+								turn={turn}
+
 								setSelected={this._setSelected}
 								setDroppable={this._setDroppable}
 								onClick={this._onCellClick}/>
@@ -157,8 +230,13 @@ const GameBoard = React.createClass({
 		e.dataTransfer.effectAllowed = 'move';
 		e.dataTransfer.setData('text/plain', '');
 
-		const {unit, position, color, selected, setSelected, litup, drop, strikable, droppable, side} = this.props;
+
+		//const {unit, position, color, selected, setSelected, litup, drop, strikable, droppable, side} = this.props;
 		//setSelected('[-1,-1]', 'draw');
+
+		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side} = this.props;
+		this._setSelected('[-1,-1]', 'draw');
+
 	},
 
 	_setSelected(position, inRange) {
@@ -180,11 +258,12 @@ const GameBoard = React.createClass({
 
 	_getValidMoves(position, moves) {
 		if (!moves) return;
+		const playerColor = this.props.color;
 		var output = {};
 
 		var inRange = [];
 		var posArr = JSON.parse(position);
-		var theBoard = this.state.board;
+		var theBoard = playerColor === 'black' ? this._reverseBoard() : this.state.board;
 
 		Object.keys(moves).map(function(move){
 			var moveArr = JSON.parse(move);
@@ -221,15 +300,16 @@ const GameBoard = React.createClass({
 		});
 
 		var movableTiles = {}, strikableTiles = {};
+		//let board = playerColor === 'black' ? this._reverseBoard() : this.state.board;
 		inRange.filter(range => {
 			// is on board
 			if (!this._isOnBoard(range)) return false;
 
 			// no unit of the same color on square
 			let coordsStr = `[${range.x}, ${range.y}]`;
-			let targetUnit = this.state.board[coordsStr];
+			let targetUnit = theBoard[coordsStr];
 			if (targetUnit) {
-				if (this.state.board[position].color === targetUnit.color) return false;
+				if (theBoard[position].color === targetUnit.color) return false;
 			}
 
 			return true;
@@ -249,6 +329,20 @@ const GameBoard = React.createClass({
 	_isOnBoard(coords) {
 	  return coords.x >= 0 && coords.y >= 0 && coords.x < 6 && coords.y < 6;
 	},
+
+	_runClock() {
+	  const {io, token, color} = this.props;
+
+	  io.emit('clock-run', {
+	    token: token,
+	    color: color
+	  });
+	},
+	_removeAsteriskFromTitle() {
+	  let title = document.getElementsByTagName('title')[0];
+	  title.text = title.text.replace('* ', '');
+	  window.removeEventListener('focus', this._removeAsteriskFromTitle);
+	}
 
 });
 
@@ -277,26 +371,36 @@ const Cell = React.createClass({
 	
 	_onClickSquare() {
 
+
 		const {unit, position, color, selected, setSelected, litup, strikable, canDrop, side} = this.props;
 
 		const {isSelected} = this.state;
 		var boardState = GameStore.getGameboardState();
+// =======
+// 		const {unit, color, setSelected, litup, strikable, droppable, side, playerColor, turn} = this.props;
+// >>>>>>> master
 
-		//console.log("what things are before click: ", "unit ", unit, "position ", position, 'color ', color, 'side ', side, "isSelected ", isSelected, "selected", selected);
+		var {position, selected} = this.props;
 		
+		if (turn !== playerColor.charAt(0)) return;
 
-		// if there is no currently selected unit, click a unit to select it
+		// if there is no currently selected unit, click a unit (of the same color) to select it
 		if (!selected) {
-			if (unit) {
+			if (unit && color === playerColor) {
 				var moves = behavior[unit][side];
 				setSelected(position, moves);
 			}
 		}
 		// if there is currently a selected unit on the board, can do one of the following:
 		else {
+			if (playerColor === 'black') {
+				position = this._reversePosition(position);
+				selected = this._reversePosition(selected);
+			}
+
 			if (this.props.litup) {
 				// move to a square with an opposite color unit to capture it
-				if (unit) {
+				if (unit && color !== playerColor) {
 					GameActions.makeMove(selected, position, true, 'move', true);
 				}
 
@@ -307,7 +411,7 @@ const Cell = React.createClass({
 
 				setSelected(null, []);
 			}
-			else if (this.props.strikable && unit) {
+			else if (this.props.strikable && unit && color !== playerColor) {
 				GameActions.makeMove(selected, position, true, 'strike', true);
 				setSelected(null, []);
 			}
@@ -323,8 +427,19 @@ const Cell = React.createClass({
 		e.dataTransfer.effectAllowed = 'move';
 		e.dataTransfer.setData('text/plain', '');
 
-		const {unit, position, color, selected, setSelected, litup, strikable, canDrop, side} = this.props;
-		setSelected(position, behavior[unit][side]);
+// <<<<<<< HEAD
+// 		const {unit, position, color, selected, setSelected, litup, strikable, canDrop, side} = this.props;
+// 		setSelected(position, behavior[unit][side]);
+// =======
+		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side, playerColor} = this.props;
+		if (!selected) {
+			if (unit && color === playerColor) {
+				var moves = behavior[unit][side];
+				setSelected(position, moves);
+			}
+		}
+		//setSelected(position, behavior[unit][side]);
+// >>>>>>> master
 	},
 	_onDragOver(e) {
 		e.preventDefault();
@@ -332,29 +447,41 @@ const Cell = React.createClass({
 	},
 	_onDrop(e) {
 		e.preventDefault();
+// <<<<<<< HEAD
 
-		console.log("i am dropping draw unit");
-		//const {position, unit, color, selected, setSelected, setDroppable} = this.props;
-		const {unit, position, color, selected, setSelected, litup, setDroppable, canDrop, strikable, droppable, side} = this.props;
+		// console.log("i am dropping draw unit");
+		// //const {position, unit, color, selected, setSelected, setDroppable} = this.props;
+		// const {unit, position, color, selected, setSelected, litup, setDroppable, canDrop, strikable, droppable, side} = this.props;
 
-		console.log("what's in position", position);
-		//console.log("what's in drop", this.state.drop);
-		//setSelected(null, []);
+		// console.log("what's in position", position);
+		// //console.log("what's in drop", this.state.drop);
+		// //setSelected(null, []);
 		
-		console.log("what is selected?", selected, "what is position", position);
-		if (selected !== position) {
-			//GameActions.makeMove(selected, position, false, 'move', true);
-			console.log("what is drop???", this.props.drop);
-			if (this.props.litup) {
-				if (unit) GameActions.makeMove(selected, position, true, 'move', true);
-				else GameActions.makeMove(selected, position, false, 'move', true);
+		// console.log("what is selected?", selected, "what is position", position);
+		// if (selected !== position) {
+		// 	//GameActions.makeMove(selected, position, false, 'move', true);
+		// 	console.log("what is drop???", this.props.drop);
+		// 	if (this.props.litup) {
+		// 		if (unit) GameActions.makeMove(selected, position, true, 'move', true);
+		// 		else GameActions.makeMove(selected, position, false, 'move', true);
 
-			}
-			if(this.props.canDrop){
-				GameActions.makeMove(selected, position, false, 'move', true);
-				//this.setState({drawn: null});
-			}
+		// 	}
+		// 	if(this.props.canDrop){
+		// 		GameActions.makeMove(selected, position, false, 'move', true);
+		// 		//this.setState({drawn: null});
+		// 	}
 			
+// =======
+		const {unit, color, setSelected, litup, strikable, droppable, side, playerColor} = this.props;
+		var {position, selected} = this.props;
+		if (playerColor === 'black') {
+			position = this._reversePosition(position);
+			selected = this._reversePosition(selected);
+		}
+		if (this.props.litup) {
+			if (unit) GameActions.makeMove(selected, position, true, 'move', true);
+			else GameActions.makeMove(selected, position, false, 'move', true);
+// >>>>>>> master
 		}
 		
 		
@@ -371,14 +498,25 @@ const Cell = React.createClass({
 
 	},
 
+	_reversePosition(pos) {
+		//const {size} = this.props;
+		let posArr = JSON.parse(pos);
+		return `[${5-posArr[0]}, ${5-posArr[1]}]`;
+	},
+
 	render(){
-		var {unit, color, litup, strikable, canDrop, side} = this.props;
+// <<<<<<< HEAD
+// 		var {unit, color, litup, strikable, canDrop, side} = this.props;
+// =======
+		var {unit, color, litup, strikable, canDrop side, playerColor} = this.props;
+
 
 		var cxObj = {	
 			unit: !!unit,
 			litup: litup,
 			strikable: strikable,
 			canDrop: canDrop
+			opponent: color !== playerColor
 		};
 		cxObj[side] = true;
 		if (unit) {
@@ -387,7 +525,10 @@ const Cell = React.createClass({
 		}
 		
 		return (
-				<div 
+
+
+			<div className="cellContainer"
+
 				onDragOver={this._onDragOver}
 				onDrop={this._onDrop}
 				>

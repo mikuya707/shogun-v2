@@ -32,7 +32,6 @@ const GameInterface = React.createClass({
           decline: this._declineRematch
         }
       }),
-      soundsEnabled: false,
       gameOver: GameStore.getState().gameOver
     };
   },
@@ -121,7 +120,7 @@ const GameInterface = React.createClass({
 
   render() {
     const {io, params} = this.props;
-    const {color, soundsEnabled, gameOver, isOpponentAvailable} = this.state;
+    const {color, gameOver, isOpponentAvailable} = this.state;
     const commonProps = {
       io: io,
       color: color,
@@ -138,8 +137,7 @@ const GameInterface = React.createClass({
 
         <Chat
           {...commonProps}
-          token={params[0]}
-          soundsEnabled={soundsEnabled} />
+          token={params[0]} />
 
           {/*
         <ChessboardInterface
@@ -153,7 +151,10 @@ const GameInterface = React.createClass({
         <Board />
         */}
 
-          <GameboardInterface />
+          <GameboardInterface 
+            {...commonProps}
+            token={params[0]}
+            gameOver={gameOver} />
 
 
 

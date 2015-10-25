@@ -17,7 +17,7 @@ const GameboardInterface = React.createClass({
 	propTypes: {
 
 	},
-	mixins: [],
+	mixins: [onGameChange],		// this mixin is responsible for dynamically changing the state of GameboardInterface
 	getInitialState() {
 		return GameStore.getState();
 	},
@@ -33,9 +33,12 @@ const GameboardInterface = React.createClass({
 			<div id="board-moves-wrapper" className="clearfix">
 				<div id="board-wrapper">
 
+					<p>Im {this.props.color}</p>
 					<CapturedPieces />
 
-					<Board size={6}/>
+					<Board size={6}
+						{...omit(this.props, 'gameOver')}
+						gameOver={gameOver.get('status')} />
 
 				</div>
 
