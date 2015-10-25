@@ -198,20 +198,21 @@ table{
     // padding-left: 50px;
     // padding-top: 250px;
   }
-}
-
-
-
-#drawnUnit {
+  #drawnUnit {
+  position: absolute;
   width: 150px;
   height: 150px;
   border: 2px dashed black;
   margin-top: 250px;
   margin-left: 50px;
-  //background-color: #d590ff;
   background-image: no-repeat;
   background-size: contain;
 }
+}
+
+
+
+
 
 .cellContainer {
   perspective: 600px;
