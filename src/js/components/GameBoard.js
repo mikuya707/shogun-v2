@@ -11,6 +11,7 @@ import omit from 'lodash.omit';
 import cx from 'classnames';
 
 
+
 const GameBoard = React.createClass({
 	propTypes: {
 
@@ -214,7 +215,7 @@ const GameBoard = React.createClass({
 			</table>
 			<div id="draw">
 				<button className="btn" onClick={this._onButtonClick}>DRAW</button>
-				<DrawnComponent unit={drawn? drawn.unit : null} color={drawn? drawn.color : null} side={drawn? drawn.side : null} drawAUnit={this._onDrawCellClick}></DrawnComponent>
+				<DrawnComponent position='[-1, -1]' unit={drawn? drawn.unit : null} color={drawn? drawn.color : null} side={drawn? drawn.side : null} drawAUnit={this._onDrawCellClick}></DrawnComponent>
 			</div>
 		</div>
 		);
