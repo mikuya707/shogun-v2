@@ -58,16 +58,13 @@ const GameBoard = React.createClass({
 		this.setState({
 			drawn: drawn
 		});
-<<<<<<< HEAD
-		// console.log(this.state.drawUnit);
-=======
 
-		var element = document.getElementById('drawnUnit');
-		element.className = "";
-		GameStore.draw();
-		this.state.drawUnit = GameStore.getGameboardState().drawUnit;
-		console.log(this.state.drawUnit);
->>>>>>> master
+		// var element = document.getElementById('drawnUnit');
+		// element.className = "";
+		// GameStore.draw();
+		// this.state.drawUnit = GameStore.getGameboardState().drawUnit;
+		// console.log(this.state.drawUnit);
+
 		// console.log(Object.keys(this.state.drawUnit)[0]);
 		// var position = Object.keys(this.state.drawUnit)[0];
 		// var unit = this.state.drawUnit[position].unit;
@@ -149,11 +146,8 @@ const GameBoard = React.createClass({
 			</table>
 			<div id="draw">
 				<button className="btn" onClick={this._onButtonClick}>DRAW</button>
-<<<<<<< HEAD
 				<DrawnComponent selected="[-1, -1]" position="[-1, -1]" unit={drawn? drawn.unit : null} color={drawn? drawn.color : null} side={drawn? drawn.side : null} drawAUnit={this._onDrawCellClick} ></DrawnComponent>
-=======
-				<div id="drawnUnit" draggable onClick={this._onDrawnUnitClick} onDragStart={this._onDrawnDragStart}></div>
->>>>>>> master
+
 			</div>
 			</div>
 		);
@@ -163,8 +157,8 @@ const GameBoard = React.createClass({
 		e.dataTransfer.effectAllowed = 'move';
 		e.dataTransfer.setData('text/plain', '');
 
-		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side} = this.props;
-		setSelected('[-1,-1]', 'draw');
+		const {unit, position, color, selected, setSelected, litup, drop, strikable, droppable, side} = this.props;
+		//setSelected('[-1,-1]', 'draw');
 	},
 
 	_setSelected(position, inRange) {
@@ -338,36 +332,43 @@ const Cell = React.createClass({
 	},
 	_onDrop(e) {
 		e.preventDefault();
-<<<<<<< HEAD
+
 		console.log("i am dropping draw unit");
-		const {position, unit, color, selected, setSelected, setDroppable} = this.props;
+		//const {position, unit, color, selected, setSelected, setDroppable} = this.props;
+		const {unit, position, color, selected, setSelected, litup, setDroppable, canDrop, strikable, droppable, side} = this.props;
+
 		console.log("what's in position", position);
 		//console.log("what's in drop", this.state.drop);
 		//setSelected(null, []);
 		
-		console.log("what is the state now", this.state);
+		console.log("what is selected?", selected, "what is position", position);
 		if (selected !== position) {
-			GameActions.makeMove(selected, position, false, 'move', true);
+			//GameActions.makeMove(selected, position, false, 'move', true);
+			console.log("what is drop???", this.props.drop);
+			if (this.props.litup) {
+				if (unit) GameActions.makeMove(selected, position, true, 'move', true);
+				else GameActions.makeMove(selected, position, false, 'move', true);
+
+			}
+			if(this.props.canDrop){
+				GameActions.makeMove(selected, position, false, 'move', true);
+				//this.setState({drawn: null});
+			}
 			
-=======
-		const {unit, position, color, selected, setSelected, litup, strikable, droppable, side} = this.props;
-		if (this.props.litup) {
-			if (unit) GameActions.makeMove(selected, position, true, 'move', true);
-			else GameActions.makeMove(selected, position, false, 'move', true);
->>>>>>> master
 		}
-		else if (this.props.strikable && unit)
+		
+		
+		else if (this.props.strikable && unit){
 			GameActions.makeMove(selected, position, true, 'strike', true);
+		}
 		setSelected(null, []);
-<<<<<<< HEAD
+
 		setDroppable({});
 
 		// this.setState({
 		// 		drawn: null
 		// 	});
 
-=======
->>>>>>> master
 	},
 
 	render(){
@@ -443,16 +444,16 @@ const DrawnComponent = React.createClass({
 	mixins: [],
 
 
-	// _onDragStart(e) {
-	// 	e.dataTransfer.effectAllowed = 'move';
-	// 	e.dataTransfer.setData('text/plain', '');
+	_onDragStart(e) {
+		e.dataTransfer.effectAllowed = 'move';
+		e.dataTransfer.setData('text/plain', '');
 
-	// 	const {unit, position, color, side} = this.props;
-	// },
-	// _onDragOver(e) {
-	// 	e.preventDefault();
-	// 	e.dataTransfer.dropEffect = 'move';
-	// },
+		const {unit, position, color, side} = this.props;
+	},
+	_onDragOver(e) {
+		e.preventDefault();
+		e.dataTransfer.dropEffect = 'move';
+	},
 	// _onDrop(e) {
 	// 	e.preventDefault();
 	// 	const {position, unit, color, selected, litup} = this.props;

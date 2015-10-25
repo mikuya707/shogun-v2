@@ -168,7 +168,7 @@ function moveToBoard() {
 }
 
 function updateBoard(from, to, type) {
-<<<<<<< HEAD
+
     console.log("where is from", from);
     console.log("where is to", to);
      var unit;
@@ -193,13 +193,11 @@ function updateBoard(from, to, type) {
 
     
     //console.log("what is unit after drop?", unit);
-=======
+
     // if (from === '[-1, -1]') {
     //   _board[to] = 
     // }
 
-    var unit = _board[from];
->>>>>>> master
     unit.side = (unit.side === 'front') ? 'back' : 'front';
 
     if (type === 'move') {
