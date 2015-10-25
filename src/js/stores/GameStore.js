@@ -136,12 +136,12 @@ function setInitialState() {
     _drop = {};
 
     _board = {
-        '[1, 1]': {unit: 'Bowman', color: 'black', side: 'front'},
-        '[2, 1]': {unit: 'Duke', color: 'black', side: 'front'},
-        '[3, 1]': {unit: 'Knight', color: 'black', side: 'front'},
-        '[1, 5]': {unit: 'Footman', color: 'white', side: 'front'},
+        '[1, 0]': {unit: 'Footman', color: 'black', side: 'front'},
+        '[2, 0]': {unit: 'Duke', color: 'black', side: 'front'},
+        '[3, 0]': {unit: 'Footman', color: 'black', side: 'front'},
+        '[2, 5]': {unit: 'Footman', color: 'white', side: 'front'},
         '[3, 5]': {unit: 'Duke', color: 'white', side: 'front'},
-        '[4, 4]': {unit: 'Dragoon', color: 'white', side: 'front'}
+        '[4, 5]': {unit: 'Footman', color: 'white', side: 'front'}
     };
 
 }

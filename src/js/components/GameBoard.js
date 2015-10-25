@@ -421,7 +421,7 @@ const Cell = React.createClass({
 		}
 		
 		return (
-			<div 
+			<div className="cellContainer"
 				onDragOver={this._onDragOver}
 				onDrop={this._onDrop}
 			>
