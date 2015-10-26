@@ -1,372 +1,450 @@
+.cellContainer {
+    //perspective: 600px;
+    transform: translateZ(-5px);
+    transform-style: preserve-3d;
+    transition: transform 1s;
+    figure {
+        margin: 0;
+        display: block;
+        position: absolute;
+        background-size: contain;
+        pointer-events: none;
+    }
+}
+
 .unit {
-/* 	height: auto; 
-    width: auto;  */
-    // max-width: 98px; 
-    // max-height: 98px;
-	width: 98px;
-	height: 98px;
-	background-size:contain;
-	top: 0px;
-	left: 0px;
-	position: absolute;
-	transform-style: preserve-3d;
-	// transition: transform 1s;
+    width: 98px;
+    height: 98px;
+    background-size: contain;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+}
 
-
-	&.opponent {
-		transform: rotateZ(180deg);
-	}
-
+.glow {
+    width: 98px;
+    height: 98px;
+    opacity: 0;
 }
 
 .litup {
-  width: 98px;
-  height: 98px;
-  background-color: red;
-  animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite;
-
+    width: 98px;
+    height: 98px;
+    background-color: red;
+    animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite;
+    &.front {
+        transform: translateZ( 10px);
+    }
+    &.back {
+        transform: translateZ( -10px);
+    }
 }
 
 .strikable {
-	width: 98px;
-	height: 98px;
-	background-color: yellow;
-	animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite;
+    width: 98px;
+    height: 98px;
+    background-color: yellow;
+    animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite;
+    &.front {
+        transform: translateZ( 10px);
+    }
+    &.back {
+        transform: translateZ( -10px);
+    }
 }
 
 .droppable {
-	width: 98px;
-	height: 98px;
-	background-color: #00ffd2;
-	animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite;
+    width: 98px;
+    height: 98px;
+    background-color: #00ffd2;
+    animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite;
+    &.front {
+        transform: translateZ( 10px);
+    }
+    &.back {
+        transform: translateZ( -10px);
+    }
 }
 
 @keyframes loopGlow {
-	0% {opacity: 0.1; }
-	50% {opacity: 0.5; }
-	100% {opacity: 0.1; }
+    0% {
+        opacity: 0.1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 0.1;
+    }
 }
 
-
-
+.cellContainer {
+    .unit {
+        ~ .front-face {
+            width: 98px;
+            height: 98px;
+            transform: rotateY( 0deg) translateZ( 5px);
+            &.opponent {
+                transform: rotateY( 0deg) rotateZ( 180deg) translateZ( 5px);
+            }
+        }
+        ~ .back-face {
+            width: 98px;
+            height: 98px;
+            transform: rotateY( 180deg) translateZ( 5px);
+            &.opponent {
+                transform: rotateY( 180deg) rotateZ( 180deg) translateZ( 5px);
+            }
+        }
+        ~ .left-face {
+            width: 10px;
+            height: 98px;
+            left: 45px;
+            transform: rotateY( -90deg) translateZ( 50px);
+            background-color: #ccc;
+            border: 1px solid black;
+        }
+        ~ .right-face {
+            width: 10px;
+            height: 98px;
+            left: 42px;
+            transform: rotateY( 90deg) translateZ( 50px);
+            background-color: #ccc;
+            border: 1px solid black;
+        }
+        ~ .top-face {
+            width: 98px;
+            height: 8px;
+            transform: rotateX( 90deg) translateZ( 50px);
+            //background-color: red;
+        }
+        ~ .bottom-face {
+            width: 98px;
+            height: 8px;
+            transform: rotateX( -90deg) translateZ( 50px);
+            //background-color: red;
+        }
+    }
+    &.front {
+        transform: translateZ( -5px) rotateY( 0deg);
+    }
+    &.back {
+        transform: translateZ( -5px) rotateY( -180deg);
+    }
+    &.left {
+        transform: translateZ( -50px) rotateY( 90deg);
+    }
+    &.right {
+        transform: translateZ( -50px) rotateY( -90deg);
+    }
+    &.top {
+        transform: translateZ( -50px) rotateX( -90deg);
+    }
+    &.bottom {
+        transform: translateZ( -50px) rotateX( 90deg);
+    }
+}
 
 .Assassin {
-	&.white{
-
-		&.front{
-			background-image: url("/img/Assassin_front.png");			
-		}
-		&.back {
-			background-image: url("/img/Assassin_back.png");			
-		}
-	}
-	&.black{
-		&.front{
-			background-image: url("/img/Assassin_front_black.png");			
-		}
-		&.back {
-			background-image: url("/img/Assassin_back_black.png");			
-		}
-	}
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/Assassin_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Assassin_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/Assassin_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Assassin_back_black.png");
+        }
+    }
 }
 
 .Bowman {
-	&.white{
-
-		&.front{
-			background-image: url("/img/Bowman_front.png");			
-		}
-		&.back {
-			background-image: url("/img/Bowman_back.png");			
-		}
-	}
-	&.black{
-		&.front{
-			background-image: url("/img/Bowman_front_black.png");			
-		}
-		&.back {
-			background-image: url("/img/Bowman_back_black.png");			
-		}
-	}
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/Bowman_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Bowman_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/Bowman_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Bowman_back_black.png");
+        }
+    }
 }
 
 .Champion {
-	&.white{
-
-		&.front{
-			background-image: url("/img/Champion_front.png");			
-		}
-		&.back {
-			background-image: url("/img/Champion_back.png");			
-		}
-	}
-	&.black{
-		&.front{
-			background-image: url("/img/Champion_front_black.png");			
-		}
-		&.back {
-			background-image: url("/img/Champion_back_black.png");			
-		}
-	}
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/Champion_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Champion_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/Champion_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Champion_back_black.png");
+        }
+    }
 }
 
 .Dragoon {
-	&.white{
-
-		&.front{
-			background-image: url("/img/Dragoon_front.png");			
-		}
-		&.back {
-			background-image: url("/img/Dragoon_back.png");			
-		}
-	}
-	&.black{
-		&.front{
-			background-image: url("/img/Dragoon_front_black.png");			
-		}
-		&.back {
-			background-image: url("/img/Dragoon_back_black.png");			
-		}
-	}
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/Dragoon_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Dragoon_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/Dragoon_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Dragoon_back_black.png");
+        }
+    }
 }
 
 .Duchess {
-	&.white{
-
-		&.front{
-			background-image: url("/img/Duchess_front.png");			
-		}
-		&.back {
-			background-image: url("/img/Duchess_back.png");			
-		}
-	}
-	&.black{
-		&.front{
-			background-image: url("/img/Duchess_front_black.png");			
-		}
-		&.back {
-			background-image: url("/img/Duchess_back_black.png");			
-		}
-	}
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/Duchess_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Duchess_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/Duchess_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Duchess_back_black.png");
+        }
+    }
 }
 
 .Duke {
-	&.white{
-
-		&.front{
-			background-image: url("/img/Duke_front.png");			
-		}
-		&.back {
-			background-image: url("/img/Duke_back.png");			
-		}
-	}
-	&.black{
-		&.front{
-			background-image: url("/img/Duke_front_black.png");			
-		}
-		&.back {
-			background-image: url("/img/Duke_back_black.png");			
-		}
-	}
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/Duke_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Duke_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/Duke_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Duke_back_black.png");
+        }
+    }
 }
 
 .Footman {
-	&.white{
-
-		&.front{
-			background-image: url("/img/Footman_front.png");			
-		}
-		&.back {
-			background-image: url("/img/Footman_back.png");		
-		}
-	}
-	&.black{
-		&.front{
-			background-image: url("/img/Footman_front_black.png");			
-		}
-		&.back {
-			background-image: url("/img/Footman_back_black.png");			
-		}
-	}
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/Footman_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Footman_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/Footman_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Footman_back_black.png");
+        }
+    }
 }
 
 .Knight {
-	&.white{
-
-		&.front{
-			background-image: url("/img/Knight_front.png");			
-		}
-		&.back {
-			background-image: url("/img/Knight_back.png");			
-		}
-	}
-	&.black{
-		&.front{
-			background-image: url("/img/Knight_front_black.png");			
-		}
-		&.back {
-			background-image: url("/img/Knight_back_black.png");			
-		}
-	}
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/Knight_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Knight_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/Knight_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Knight_back_black.png");
+        }
+    }
 }
 
 .Longbowman {
-	&.white{
-
-		&.front{
-			background-image: url("/img/Longbowman_front.png");			
-		}
-		&.back {
-			background-image: url("/img/Longbowman_back.png");			
-		}
-	}
-	&.black{
-		&.front{
-			background-image: url("/img/Longbowman_front_black.png");			
-		}
-		&.back {
-			background-image: url("/img/Longbowman_back_black.png");			
-		}
-	}
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/Longbowman_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Longbowman_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/Longbowman_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Longbowman_back_black.png");
+        }
+    }
 }
 
 .Marshall {
-	&.white{
-
-		&.front{
-			background-image: url("/img/Marshall_front.png");			
-		}
-		&.back {
-			background-image: url("/img/Marshall_back.png");			
-		}
-	}
-	&.black{
-		&.front{
-			background-image: url("/img/Marshall_front_black.png");			
-		}
-		&.back {
-			background-image: url("/img/Marshall_back_black.png");			
-		}
-	}
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/Marshall_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Marshall_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/Marshall_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Marshall_back_black.png");
+        }
+    }
 }
 
 .Oracle {
-	&.white{
-
-		&.front{
-			background-image: url("/img/Oracle_front.png");			
-		}
-		&.back {
-			background-image: url("/img/Oracle_back.png");			
-		}
-	}
-	&.black{
-		&.front{
-			background-image: url("/img/Oracle_front_black.png");			
-		}
-		&.back {
-			background-image: url("/img/Oracle_back_black.png");			
-		}
-	}
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/Oracle_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Oracle_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/Oracle_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Oracle_back_black.png");
+        }
+    }
 }
 
 .Pikeman {
-	&.white{
-
-		&.front{
-			background-image: url("/img/Pikeman_front.png");			
-		}
-		&.back {
-			background-image: url("/img/Pikeman_back.png");			
-		}
-	}
-	&.black{
-		&.front{
-			background-image: url("/img/Pikeman_front_black.png");			
-		}
-		&.back {
-			background-image: url("/img/Pikeman_back_black.png");			
-		}
-	}
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/Pikeman_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Pikeman_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/Pikeman_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Pikeman_back_black.png");
+        }
+    }
 }
 
 .Priest {
-	&.white{
-
-		&.front{
-			background-image: url("/img/Priest_front.png");			
-		}
-		&.back {
-			background-image: url("/img/Priest_back.png");			
-		}
-	}
-	&.black{
-		&.front{
-			background-image: url("/img/Priest_front_black.png");			
-		}
-		&.back {
-			background-image: url("/img/Priest_back_black.png");			
-		}
-	}
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/Priest_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Priest_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/Priest_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Priest_back_black.png");
+        }
+    }
 }
 
 .Ranger {
-	&.white{
-
-		&.front{
-			background-image: url("/img/Ranger_front.png");			
-		}
-		&.back {
-			background-image: url("/img/Ranger_back.png");			
-		}
-	}
-	&.black{
-		&.front{
-			background-image: url("/img/Ranger_front_black.png");			
-		}
-		&.back {
-			background-image: url("/img/Ranger_back_black.png");			
-		}
-	}
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/Ranger_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Ranger_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/Ranger_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Ranger_back_black.png");
+        }
+    }
 }
 
 .Seer {
-	&.white{
-
-		&.front{
-			background-image: url("/img/Seer_front.png");			
-		}
-		&.back {
-			background-image: url("/img/Seer_back.png");			
-		}
-	}
-	&.black{
-		&.front{
-			background-image: url("/img/Seer_front_black.png");			
-		}
-		&.back {
-			background-image: url("/img/Seer_back_black.png");			
-		}
-	}
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/Seer_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Seer_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/Seer_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Seer_back_black.png");
+        }
+    }
 }
 
 .Wizard {
-	&.white{
-
-		&.front{
-			background-image: url("/img/Wizard_front.png");			
-		}
-		&.back {
-			background-image: url("/img/Wizard_back.png");			
-		}
-	}
-	&.black{
-		&.front{
-			background-image: url("/img/Wizard_front_black.png");			
-		}
-		&.back {
-			background-image: url("/img/Wizard_back_black.png");			
-		}
-	}
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/Wizard_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Wizard_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/Wizard_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/Wizard_back_black.png");
+        }
+    }
 }
-

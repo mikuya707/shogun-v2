@@ -3,7 +3,6 @@
 import React from 'react/addons';
 import GameStore from '../stores/GameStore';
 import GameActions from '../actions/GameActions';
-//import ChessPieces from '../constants/ChessPieces';
 //import onGameChange from '../mixins/onGameChange';
 import maybeReverse from '../mixins/maybeReverse';
 import behavior from '../game/behavior';
@@ -52,6 +51,7 @@ const GameBoard = React.createClass({
 
 		
 	},
+
 	_onDrawnUnitClick(){
 
 		var element = document.getElementById('drawnUnit');
@@ -66,7 +66,6 @@ const GameBoard = React.createClass({
 	},
 
 	componentDidMount() {
-		//GameStore.addChangeListener(this._onChange);
 
 		const {io, token} = this.props;
 
@@ -87,18 +86,12 @@ const GameBoard = React.createClass({
 			  window.addEventListener('focus', this._removeAsteriskFromTitle);
 			}
 		});
-
-
 	},
+
 	componentWillUnmount() {
 		GameStore.removeChangeListener(this._onChange);
 	},
-	// _onChange() {
-	
-	// 	this.setState({
-	// 		lightup: GameStore.getGameboardState().lightup
-	// 	});
-	// },
+
 	_reversePosition(pos) {
 		const {size} = this.props;
 		let posArr = JSON.parse(pos);
@@ -109,8 +102,6 @@ const GameBoard = React.createClass({
 		const {board} = this.state;
 		let newBoard = {}, self = this;
 		Object.keys(board).forEach(function(pos) {
-			// let posArr = JSON.parse(pos);
-			// newBoard[`[${size-1-posArr[0]}, ${size-1-posArr[1]}]`] = board[pos];
 			newBoard[self._reversePosition(pos)] = board[pos];
 		})
 		return newBoard;
@@ -139,16 +130,16 @@ const GameBoard = React.createClass({
 
 	},
 	render() {
-		var {state, props} = this, 
+		let {state, props} = this, 
 			{size, color} = props,
 			{board, selected, lightup, strike, drop, turn} = state;
 
 		if (color === 'black') board = this._reverseBoard();
 
-		var cellArray = [];
-		for (var i=0; i<size; i++) {
-			var row = [];
-			for (var j=0; j<size; j++) {
+		let cellArray = [];
+		for (let i=0; i<size; i++) {
+			let row = [];
+			for (let j=0; j<size; j++) {
 				row.push({x:j, y:i})
 			}
 			cellArray.push(row);
@@ -172,8 +163,7 @@ const GameBoard = React.createClass({
 								droppable={drop[`[${idx2}, ${idx1}]`]}
 								selected={selected}
 								turn={turn}
-								setSelected={this._setSelected}
-								onClick={this._onCellClick}/>
+								setSelected={this._setSelected} />
 						</td>
 					)}
 				</tr>
@@ -207,60 +197,46 @@ const GameBoard = React.createClass({
 	_getValidMoves(position, moves) {
 		if (!moves) return;
 		const playerColor = this.props.color;
-		var output = {};
+		let output = {};
 
-		var inRange = [];
-		var posArr = JSON.parse(position);
-		var theBoard = playerColor === 'black' ? this._reverseBoard() : this.state.board;
+		let inRange = [];
+		let posArr = JSON.parse(position);
+		let theBoard = playerColor === 'black' ? this._reverseBoard() : this.state.board;
 
 		Object.keys(moves).map(function(move){
-			var moveArr = JSON.parse(move);
+			let moveArr = JSON.parse(move);
 
-			if (moves[move] === 'move' || moves[move] === 'jump') {
-				let x =  posArr[0] + moveArr[0], 
-					y =  posArr[1] + moveArr[1];
-				inRange.push({x: x, y: y, type: 'move'});					
-			}
-			else if (moves[move] === 'slide' || moves[move] === 'jump slide') {
-
+			let x = posArr[0] + moveArr[0], y = posArr[1] + moveArr[1];
+			if (moves[move] === 'strike') inRange.push({x: x, y: y, type: 'strike'});
+			else if (moves[move] === 'jump') inRange.push({x: x, y: y, type: 'move'});
+			else {
 				let deltaX = moveArr[0] ? moveArr[0]/Math.abs(moveArr[0]) : moveArr[0], 
-					deltaY = moveArr[1] ? moveArr[1]/Math.abs(moveArr[1]) : moveArr[1];
+					deltaY = moveArr[1] ? moveArr[1]/Math.abs(moveArr[1]) : moveArr[1],
+					i = posArr[0] + deltaX, 
+					j = posArr[1] + deltaY;
 
-				let i = posArr[0] + deltaX, j = posArr[1] + deltaY;
 				while (i>=0 && i<6 && j>=0 && j<6) {
+					if (moves[move].slice(-5) === 'slide' || (x === i && y === j))
+						inRange.push({x: i, y: j, type: 'move'});
 					let unitInTheWay = theBoard[`[${i}, ${j}]`];
-					if (unitInTheWay && moves[move] === 'slide') {
-						if (unitInTheWay.color !== theBoard[position].color) {
-							inRange.push({x: i, y: j, type: 'move'});
-						}
-						break;						
-					}
-					else inRange.push({x: i, y: j, type: 'move'});
+					if (unitInTheWay && moves[move].slice(0,4) !== 'jump') break;
 					i += deltaX;
 					j += deltaY;
-				}
+				}					
 			}
-			else if (moves[move] === 'strike') {
-				let x = posArr[0] + moveArr[0],
-					y = posArr[1] + moveArr[1];
-				inRange.push({x: x, y: y, type: 'strike'});
-			}		
+	
 		});
 
 		var movableTiles = {}, strikableTiles = {};
-		//let board = playerColor === 'black' ? this._reverseBoard() : this.state.board;
 		inRange.filter(range => {
 			// is on board
 			if (!this._isOnBoard(range)) return false;
 
 			// no unit of the same color on square
-			let coordsStr = `[${range.x}, ${range.y}]`;
-			let targetUnit = theBoard[coordsStr];
-			if (targetUnit) {
-				if (theBoard[position].color === targetUnit.color) return false;
-			}
+			let coordsStr = `[${range.x}, ${range.y}]`,
+				targetUnit = theBoard[coordsStr];
+			return !(targetUnit && theBoard[position].color === targetUnit.color);
 
-			return true;
 		}).forEach(range => {
 			if (range.type === 'move')
 				movableTiles[`[${range.x}, ${range.y}]`] = true;
@@ -268,10 +244,7 @@ const GameBoard = React.createClass({
 				strikableTiles[`[${range.x}, ${range.y}]`] = true;
 		});
 
-		return {
-			movableTiles: movableTiles,
-			strikableTiles: strikableTiles
-		};
+		return { movableTiles, strikableTiles };
 	},
 
 	_isOnBoard(coords) {
@@ -406,13 +379,14 @@ const Cell = React.createClass({
 	render(){
 		var {unit, color, litup, strikable, droppable, side, playerColor} = this.props;
 
-
+		var cxContainer = {cellContainer: true};
+		cxContainer[side] = true;
 		var cxObj = {	
 			unit: !!unit,
 			litup: litup,
 			strikable: strikable,
 			droppable: droppable,
-			opponent: color !== playerColor
+			opponent: color && color !== playerColor
 		};
 		cxObj[side] = true;
 		if (unit) {
@@ -421,16 +395,30 @@ const Cell = React.createClass({
 		}
 		
 		return (
-			<div className="cellContainer"
-				onDragOver={this._onDragOver}
-				onDrop={this._onDrop}
-			>
-					<a className={cx(cxObj)}
-						onClick={this._onClickSquare}
-						onDragStart={this._onDragStart}
+			<div>
+				<div 
+					className={cx(cxContainer)}
+					onDragOver={this._onDragOver}
+					onDrop={this._onDrop}
+				>
+						<a className={cx(cxObj)}
+							onClick={this._onClickSquare}
+							onDragStart={this._onDragStart}
 
-						draggable>
-					</a>
+							draggable>
+						</a>
+
+							<figure className={cx({"front-face": true, opponent: color && color !== playerColor})} />
+							<figure className={cx({"back-face": true, opponent: color && color !== playerColor})} />
+							<figure className="left-face" />
+							<figure className="right-face" />
+							<figure className="top-face" />
+							<figure className="bottom-face" />
+
+							
+						
+
+				</div>
 			</div>
 		);
 	}
