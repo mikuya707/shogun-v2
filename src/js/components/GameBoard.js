@@ -158,6 +158,7 @@ const GameBoard = React.createClass({
 		let cellArray = [];
 		for (let i=0; i<size; i++) {
 			let row = [];
+			for (let j=0; j<size; j++) {
 				row.push({x:j, y:i})
 			}
 			cellArray.push(row);
@@ -198,6 +199,7 @@ const GameBoard = React.createClass({
 					<div id="draw">
 						<button className="btn" onClick={this._onButtonClick}>DRAW</button>
 						<DrawnComponent position='[-1, -1]' unit={drawn? drawn.unit : null} color={drawn? drawn.color : null} side={drawn? drawn.side : null} drawAUnit={this._onDrawCellClick}></DrawnComponent>
+					</div>
 				</div>
 			</div>
 		);
@@ -567,7 +569,7 @@ const DrawnComponent = React.createClass({
 		return (
 			<div id="drawnUnit" draggable 
 				className={cx({	
-					unit: !!unit
+					unit: !!unit,
 					[unit]: true,
 					[color]: true,
 					[side]: true
