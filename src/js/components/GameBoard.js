@@ -220,7 +220,7 @@ const GameBoard = React.createClass({
 					j = posArr[1] + deltaY;
 
 				// loop through all tiles on board in a straight path between starting tile and marked tile
-				while (i>=0 && i<6 && j>=0 && j<6) {
+				while (this._isOnBoard({x: i, y: j})) {
 					// sliding units can land on any tile within a straight path
 					// non-sliding units can only land on the marked tile
 					if (moveName.includes('slide') || (x === i && y === j))
