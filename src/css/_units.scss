@@ -21,12 +21,6 @@
     position: absolute;
 }
 
-.glow {
-    width: 98px;
-    height: 98px;
-    opacity: 0;
-}
-
 .litup {
     width: 98px;
     height: 98px;
@@ -116,13 +110,11 @@
             width: 98px;
             height: 8px;
             transform: rotateX( 90deg) translateZ( 50px);
-            //background-color: red;
         }
         ~ .bottom-face {
             width: 98px;
             height: 8px;
             transform: rotateX( -90deg) translateZ( 50px);
-            //background-color: red;
         }
     }
     &.front {
