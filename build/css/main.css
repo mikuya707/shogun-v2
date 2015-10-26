@@ -610,9 +610,6 @@ div {
     background-image: no-repeat;
     background-size: contain; }
 
-.cellContainer {
-  perspective: 600px; }
-
 #clock {
   width: 148px;
   height: 50px;
@@ -834,38 +831,53 @@ span#game-type {
     background-size: contain; }
 
 .cellContainer {
-  perspective: 600px; }
+  transform: translateZ(-5px);
+  transform-style: preserve-3d;
+  transition: transform 1s; }
+  .cellContainer figure {
+    margin: 0;
+    display: block;
+    position: absolute;
+    background-size: contain;
+    pointer-events: none; }
 
 .unit {
-  /* 	height: auto; 
-    width: auto;  */
   width: 98px;
   height: 98px;
   background-size: contain;
   top: 0px;
   left: 0px;
-  position: absolute;
-  transform-style: preserve-3d; }
-  .unit.opponent {
-    transform: rotateZ(180deg); }
+  position: absolute; }
 
 .litup {
   width: 98px;
   height: 98px;
   background-color: red;
   animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite; }
+  .litup.front {
+    transform: translateZ(10px); }
+  .litup.back {
+    transform: translateZ(-10px); }
 
 .strikable {
   width: 98px;
   height: 98px;
   background-color: yellow;
   animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite; }
+  .strikable.front {
+    transform: translateZ(10px); }
+  .strikable.back {
+    transform: translateZ(-10px); }
 
 .canDrop {
   width: 98px;
   height: 98px;
   background-color: #00ffd2;
   animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite; }
+  .canDrop.front {
+    transform: translateZ(10px); }
+  .canDrop.back {
+    transform: translateZ(-10px); }
 
 @keyframes loopGlow {
   0% {
@@ -877,148 +889,195 @@ span#game-type {
   100% {
     opacity: 0.1; } }
 
-.Assassin.white.front {
+.cellContainer .unit ~ .front-face {
+  width: 98px;
+  height: 98px;
+  transform: rotateY(0deg) translateZ(5px); }
+  .cellContainer .unit ~ .front-face.opponent {
+    transform: rotateY(0deg) rotateZ(180deg) translateZ(5px); }
+.cellContainer .unit ~ .back-face {
+  width: 98px;
+  height: 98px;
+  transform: rotateY(180deg) translateZ(5px); }
+  .cellContainer .unit ~ .back-face.opponent {
+    transform: rotateY(180deg) rotateZ(180deg) translateZ(5px); }
+.cellContainer .unit ~ .left-face {
+  width: 10px;
+  height: 98px;
+  left: 45px;
+  transform: rotateY(-90deg) translateZ(50px);
+  background-color: #ccc;
+  border: 1px solid black; }
+.cellContainer .unit ~ .right-face {
+  width: 10px;
+  height: 98px;
+  left: 42px;
+  transform: rotateY(90deg) translateZ(50px);
+  background-color: #ccc;
+  border: 1px solid black; }
+.cellContainer .unit ~ .top-face {
+  width: 98px;
+  height: 8px;
+  transform: rotateX(90deg) translateZ(50px); }
+.cellContainer .unit ~ .bottom-face {
+  width: 98px;
+  height: 8px;
+  transform: rotateX(-90deg) translateZ(50px); }
+.cellContainer.front {
+  transform: translateZ(-5px) rotateY(0deg); }
+.cellContainer.back {
+  transform: translateZ(-5px) rotateY(-180deg); }
+.cellContainer.left {
+  transform: translateZ(-50px) rotateY(90deg); }
+.cellContainer.right {
+  transform: translateZ(-50px) rotateY(-90deg); }
+.cellContainer.top {
+  transform: translateZ(-50px) rotateX(-90deg); }
+.cellContainer.bottom {
+  transform: translateZ(-50px) rotateX(90deg); }
+
+.Assassin.white ~ .front-face {
   background-image: url("/img/Assassin_front.png"); }
-.Assassin.white.back {
+.Assassin.white ~ .back-face {
   background-image: url("/img/Assassin_back.png"); }
-.Assassin.black.front {
+.Assassin.black ~ .front-face {
   background-image: url("/img/Assassin_front_black.png"); }
-.Assassin.black.back {
+.Assassin.black ~ .back-face {
   background-image: url("/img/Assassin_back_black.png"); }
 
-.Bowman.white.front {
+.Bowman.white ~ .front-face {
   background-image: url("/img/Bowman_front.png"); }
-.Bowman.white.back {
+.Bowman.white ~ .back-face {
   background-image: url("/img/Bowman_back.png"); }
-.Bowman.black.front {
+.Bowman.black ~ .front-face {
   background-image: url("/img/Bowman_front_black.png"); }
-.Bowman.black.back {
+.Bowman.black ~ .back-face {
   background-image: url("/img/Bowman_back_black.png"); }
 
-.Champion.white.front {
+.Champion.white ~ .front-face {
   background-image: url("/img/Champion_front.png"); }
-.Champion.white.back {
+.Champion.white ~ .back-face {
   background-image: url("/img/Champion_back.png"); }
-.Champion.black.front {
+.Champion.black ~ .front-face {
   background-image: url("/img/Champion_front_black.png"); }
-.Champion.black.back {
+.Champion.black ~ .back-face {
   background-image: url("/img/Champion_back_black.png"); }
 
-.Dragoon.white.front {
+.Dragoon.white ~ .front-face {
   background-image: url("/img/Dragoon_front.png"); }
-.Dragoon.white.back {
+.Dragoon.white ~ .back-face {
   background-image: url("/img/Dragoon_back.png"); }
-.Dragoon.black.front {
+.Dragoon.black ~ .front-face {
   background-image: url("/img/Dragoon_front_black.png"); }
-.Dragoon.black.back {
+.Dragoon.black ~ .back-face {
   background-image: url("/img/Dragoon_back_black.png"); }
 
-.Duchess.white.front {
+.Duchess.white ~ .front-face {
   background-image: url("/img/Duchess_front.png"); }
-.Duchess.white.back {
+.Duchess.white ~ .back-face {
   background-image: url("/img/Duchess_back.png"); }
-.Duchess.black.front {
+.Duchess.black ~ .front-face {
   background-image: url("/img/Duchess_front_black.png"); }
-.Duchess.black.back {
+.Duchess.black ~ .back-face {
   background-image: url("/img/Duchess_back_black.png"); }
 
-.Duke.white.front {
+.Duke.white ~ .front-face {
   background-image: url("/img/Duke_front.png"); }
-.Duke.white.back {
+.Duke.white ~ .back-face {
   background-image: url("/img/Duke_back.png"); }
-.Duke.black.front {
+.Duke.black ~ .front-face {
   background-image: url("/img/Duke_front_black.png"); }
-.Duke.black.back {
+.Duke.black ~ .back-face {
   background-image: url("/img/Duke_back_black.png"); }
 
-.Footman.white.front {
+.Footman.white ~ .front-face {
   background-image: url("/img/Footman_front.png"); }
-.Footman.white.back {
+.Footman.white ~ .back-face {
   background-image: url("/img/Footman_back.png"); }
-.Footman.black.front {
+.Footman.black ~ .front-face {
   background-image: url("/img/Footman_front_black.png"); }
-.Footman.black.back {
+.Footman.black ~ .back-face {
   background-image: url("/img/Footman_back_black.png"); }
 
-.Knight.white.front {
+.Knight.white ~ .front-face {
   background-image: url("/img/Knight_front.png"); }
-.Knight.white.back {
+.Knight.white ~ .back-face {
   background-image: url("/img/Knight_back.png"); }
-.Knight.black.front {
+.Knight.black ~ .front-face {
   background-image: url("/img/Knight_front_black.png"); }
-.Knight.black.back {
+.Knight.black ~ .back-face {
   background-image: url("/img/Knight_back_black.png"); }
 
-.Longbowman.white.front {
+.Longbowman.white ~ .front-face {
   background-image: url("/img/Longbowman_front.png"); }
-.Longbowman.white.back {
+.Longbowman.white ~ .back-face {
   background-image: url("/img/Longbowman_back.png"); }
-.Longbowman.black.front {
+.Longbowman.black ~ .front-face {
   background-image: url("/img/Longbowman_front_black.png"); }
-.Longbowman.black.back {
+.Longbowman.black ~ .back-face {
   background-image: url("/img/Longbowman_back_black.png"); }
 
-.Marshall.white.front {
+.Marshall.white ~ .front-face {
   background-image: url("/img/Marshall_front.png"); }
-.Marshall.white.back {
+.Marshall.white ~ .back-face {
   background-image: url("/img/Marshall_back.png"); }
-.Marshall.black.front {
+.Marshall.black ~ .front-face {
   background-image: url("/img/Marshall_front_black.png"); }
-.Marshall.black.back {
+.Marshall.black ~ .back-face {
   background-image: url("/img/Marshall_back_black.png"); }
 
-.Oracle.white.front {
+.Oracle.white ~ .front-face {
   background-image: url("/img/Oracle_front.png"); }
-.Oracle.white.back {
+.Oracle.white ~ .back-face {
   background-image: url("/img/Oracle_back.png"); }
-.Oracle.black.front {
+.Oracle.black ~ .front-face {
   background-image: url("/img/Oracle_front_black.png"); }
-.Oracle.black.back {
+.Oracle.black ~ .back-face {
   background-image: url("/img/Oracle_back_black.png"); }
 
-.Pikeman.white.front {
+.Pikeman.white ~ .front-face {
   background-image: url("/img/Pikeman_front.png"); }
-.Pikeman.white.back {
+.Pikeman.white ~ .back-face {
   background-image: url("/img/Pikeman_back.png"); }
-.Pikeman.black.front {
+.Pikeman.black ~ .front-face {
   background-image: url("/img/Pikeman_front_black.png"); }
-.Pikeman.black.back {
+.Pikeman.black ~ .back-face {
   background-image: url("/img/Pikeman_back_black.png"); }
 
-.Priest.white.front {
+.Priest.white ~ .front-face {
   background-image: url("/img/Priest_front.png"); }
-.Priest.white.back {
+.Priest.white ~ .back-face {
   background-image: url("/img/Priest_back.png"); }
-.Priest.black.front {
+.Priest.black ~ .front-face {
   background-image: url("/img/Priest_front_black.png"); }
-.Priest.black.back {
+.Priest.black ~ .back-face {
   background-image: url("/img/Priest_back_black.png"); }
 
-.Ranger.white.front {
+.Ranger.white ~ .front-face {
   background-image: url("/img/Ranger_front.png"); }
-.Ranger.white.back {
+.Ranger.white ~ .back-face {
   background-image: url("/img/Ranger_back.png"); }
-.Ranger.black.front {
+.Ranger.black ~ .front-face {
   background-image: url("/img/Ranger_front_black.png"); }
-.Ranger.black.back {
+.Ranger.black ~ .back-face {
   background-image: url("/img/Ranger_back_black.png"); }
 
-.Seer.white.front {
+.Seer.white ~ .front-face {
   background-image: url("/img/Seer_front.png"); }
-.Seer.white.back {
+.Seer.white ~ .back-face {
   background-image: url("/img/Seer_back.png"); }
-.Seer.black.front {
+.Seer.black ~ .front-face {
   background-image: url("/img/Seer_front_black.png"); }
-.Seer.black.back {
+.Seer.black ~ .back-face {
   background-image: url("/img/Seer_back_black.png"); }
 
-.Wizard.white.front {
+.Wizard.white ~ .front-face {
   background-image: url("/img/Wizard_front.png"); }
-.Wizard.white.back {
+.Wizard.white ~ .back-face {
   background-image: url("/img/Wizard_back.png"); }
-.Wizard.black.front {
+.Wizard.black ~ .front-face {
   background-image: url("/img/Wizard_front_black.png"); }
-.Wizard.black.back {
+.Wizard.black ~ .back-face {
   background-image: url("/img/Wizard_back_black.png"); }
 
 body.stop-scrolling {

@@ -139,12 +139,25 @@ function setInitialState() {
     _drop = {};
 
     _board = {
+        '[1, 2]': {unit: 'Footman', color: 'black', side: 'front'},
+        '[2, 0]': {unit: 'Duke', color: 'black', side: 'front'},
+        '[2, 1]': {unit: 'Footman', color: 'black', side: 'front'},
+        '[1, 3]': {unit: 'Assassin', color: 'white', side: 'front'},
+        '[2, 4]': {unit: 'Longbowman', color: 'white', side: 'back'},
+        '[3, 5]': {unit: 'Footman', color: 'white', side: 'back'},
+        '[4, 5]': {unit: 'Footman', color: 'white', side: 'back'},
+        '[4, 4]': {unit: 'Priest', color: 'black', side: 'back'},
+        '[3, 4]': {unit: 'Dragoon', color: 'white', side: 'front'},
+        '[1, 5]': {unit: 'Duke', color: 'white', side: 'front'}
+
+        /*
         '[1, 0]': {unit: 'Footman', color: 'black', side: 'front'},
         '[2, 0]': {unit: 'Duke', color: 'black', side: 'front'},
         '[3, 0]': {unit: 'Footman', color: 'black', side: 'front'},
         '[2, 5]': {unit: 'Footman', color: 'white', side: 'front'},
         '[3, 5]': {unit: 'Duke', color: 'white', side: 'front'},
         '[4, 5]': {unit: 'Footman', color: 'white', side: 'front'}
+        */
     };
 
 }
@@ -169,7 +182,7 @@ function updateBoard(from, to, type) {
 
     console.log("where is from", from);
     console.log("where is to", to);
-     var unit;
+     
     if(from === '[-1, -1]'){
          console.log("what is unit after drop?", _result);
          console.log("what is unit after drop?", _result[from]);
@@ -178,46 +191,38 @@ function updateBoard(from, to, type) {
 
          //unit = _result;
 
-     // _board[from] = null;
-     // _board[to] = unit;
-    //console.log("what are the true drops ?", _drop);
-    _drop = null;
-    _selected = null;
-    return _board;
+         // _board[from] = null;
+         // _board[to] = unit;
+         //console.log("what are the true drops ?", _drop);
+         _drop = null;
+         _selected = null;
+         return _board;
     
     }
     else{
-         //unit = _board[from];
 
-    
-    //console.log("what is unit after drop?", unit);
+        var unit = _board[from];
 
-    // if (from === '[-1, -1]') {
-    //   _board[to] = 
-    // }
-
-    var unit = _board[from];
-
-    console.log('updateBoard unit:');
-    console.log(unit);
-    console.log('_board');
-    console.log(_board);
-    console.log(`from: ${from}`);
-    console.log(`to: ${to}`);
+        console.log('updateBoard unit:');
+        console.log(unit);
+        console.log('_board');
+        console.log(_board);
+        console.log(`from: ${from}`);
+        console.log(`to: ${to}`);
 
 
-    unit.side = (unit.side === 'front') ? 'back' : 'front';
+        unit.side = (unit.side === 'front') ? 'back' : 'front';
 
-    if (type === 'move') {
-      _board[from] = null;
-      _board[to] = unit;
-    }
-    else if (type === 'strike') {
-      _board[to] = null;
-    }
-    
-    _selected = null;
-    return _board;
+        if (type === 'move') {
+          _board[from] = null;
+          _board[to] = unit;
+        }
+        else if (type === 'strike') {
+          _board[to] = null;
+        }
+        
+        _selected = null;
+        return _board;
     }
 }
 
