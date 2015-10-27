@@ -33,8 +33,11 @@ const GameBoard = React.createClass({
 
 		swal("Hey", "listen!", "success");
 
-		const {board} = this.state;
-		var dukePosition = Object.keys(board).find(pos => (board[pos] && board[pos].unit === "Duke" && board[pos].color === 'white'));
+		const {color} = this.props;
+
+		let {board} = this.state;
+		if (color === 'black') board = this._reverseBoard(board);
+		var dukePosition = Object.keys(board).find(pos => (board[pos] && board[pos].unit === "Duke" && board[pos].color === color));
 		var dukePosArr = JSON.parse(dukePosition);
 
 		var droppableTiles = {};
@@ -263,6 +266,10 @@ const GameBoard = React.createClass({
 				while (this._isOnBoard({x: i, y: j})) {
 					// sliding units can land on any tile within a straight path
 					// non-sliding units can only land on the marked tile
+
+
+					console.log('what the heck is moveName???', moveName);
+
 					if (moveName.includes('slide') || (x === i && y === j))
 						inRange.push({x: i, y: j, type: 'move'});
 
