@@ -38,7 +38,7 @@ var dependencies = [
 
 var browserifyTask = function() {
 
-  ['index.js', 'play.js'].forEach(function(bundle) {
+  ['index.js', 'play.js', 'sweetalert.min.js'].forEach(function(bundle) {
     var appBundler = browserify({
       entries: './src/js/' + bundle,
       transform: [babelify],

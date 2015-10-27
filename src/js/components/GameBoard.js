@@ -8,7 +8,7 @@ import maybeReverse from '../mixins/maybeReverse';
 import behavior from '../game/behavior';
 import omit from 'lodash.omit';
 import cx from 'classnames';
-import swal from 'sweetalert';
+//import swal from '../sweetalert.min';
 
 
 
@@ -30,6 +30,8 @@ const GameBoard = React.createClass({
 	_onButtonClick(){
 
 		// assume white player for now (so racist)
+
+		swal("Hey", "listen!", "success");
 
 		const {board} = this.state;
 		var dukePosition = Object.keys(board).find(pos => (board[pos] && board[pos].unit === "Duke" && board[pos].color === 'white'));
@@ -196,10 +198,7 @@ const GameBoard = React.createClass({
 				</table>
 				<div id="draw">
 					<button className="btn" onClick={this._onButtonClick}>DRAW</button>
-					<div id="draw">
-						<button className="btn" onClick={this._onButtonClick}>DRAW</button>
-						<DrawnComponent position='[-1, -1]' unit={drawn? drawn.unit : null} color={drawn? drawn.color : null} side={drawn? drawn.side : null} drawAUnit={this._onDrawCellClick}></DrawnComponent>
-					</div>
+					<DrawnComponent position='[-1, -1]' unit={drawn? drawn.unit : null} color={drawn? drawn.color : null} side={drawn? drawn.side : null} drawAUnit={this._onDrawCellClick}></DrawnComponent>
 				</div>
 			</div>
 		);
