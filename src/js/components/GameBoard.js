@@ -28,12 +28,13 @@ const GameBoard = React.createClass({
 	// },
 
 	_onButtonClick(){
+		const {color} = this.props,
+			{turn} = this.state;
 
-		// assume white player for now (so racist)
+		if (turn !== color.charAt(0)) return;
 
-		swal("Hey", "listen!", "success");
+		//swal("Hey", "listen!", "success");
 
-		const {color} = this.props;
 
 		let {board} = this.state;
 		if (color === 'black') board = this._reverseBoard(board);
@@ -46,24 +47,37 @@ const GameBoard = React.createClass({
 			if (this._isOnBoard({x: adjX, y: adjY}) && !board[`[${adjX}, ${adjY}]`]) 
 				droppableTiles[`[${adjX}, ${adjY}]`] = true;
 		})
+
+
+
 		if (!Object.keys(droppableTiles).length) {
-			//alert('No available tiles adjacent to the Duke - cannot draw new unit');
-			swal('No available tiles adjacent to the Duke - cannot draw new unit')
+			swal("Can't let you draw that", 'No available tiles adjacent to the Duke!', 'error');
 		}
 		else{
-		this._setDroppable(droppableTiles);
-		this._setDrawable(null);
-		//alert('what are droppableTiles', droppableTiles);
+			// this._setDroppable(droppableTiles);
+			// this._setDrawable(null);
 
-			this._setSelected("[-1, -1]", droppableTiles);
+			// this._setSelected("[-1, -1]", droppableTiles);
+			GameActions.draw();
+			let theDrawnUnit = GameStore.getGameboardState().pendingDraw;
+
+			this.setState({
+				drop: droppableTiles,
+				pendingDraw: {
+					unit: theDrawnUnit,
+					color: this.props.color,
+					side: 'front'
+				}
+			})
+
 			//var element = document.getElementById('drawnUnit');
 			//console.log('what is element here?', element);
-			GameStore.draw();
-			//console.log(result);
-			var drawnUnit = GameStore.getGameboardState().drawUnit;
-			console.log(drawnUnit);
-			var drawn = drawnUnit[Object.keys(drawnUnit)[0]];
-			this._setDrawable(drawn);
+
+			// GameStore.draw();
+			// var drawnUnit = GameStore.getGameboardState().drawUnit;
+			// console.log(drawnUnit);
+			// var drawn = drawnUnit[Object.keys(drawnUnit)[0]];
+			// this._setDrawable(drawn);
 		}
 
 		
@@ -71,9 +85,20 @@ const GameBoard = React.createClass({
 	_onDrawCellClick(){
 		console.log("i clicked!!");
 		var newDrawn;
-		if(this.state.drawn.side==='front'){
-			newDrawn = this.state.drawn;
-			newDrawn.side='back';
+		// if(this.state.drawn.side==='front'){
+		// 	newDrawn = this.state.drawn;
+		// 	newDrawn.side='back';
+		let drawnUnit = document.getElementById("drawnUnit");
+		let classes = drawnUnit.className;
+
+		if (classes.includes('front')) {
+			drawnUnit.classList.remove('front');
+			drawnUnit.classList.add('back');
+		}
+		else{
+			drawnUnit.classList.remove('back');
+			drawnUnit.classList.add('front');
+		}
 
 
 	// _onDrawnUnitClick(){
@@ -82,15 +107,15 @@ const GameBoard = React.createClass({
 	// 	if (element.classList.contains("front")) {
 	// 		element.classList.remove("front");
 	// 	 	element.classList.add("back");
-		}
-		else if (this.state.drawn.side==='back'){
-			newDrawn = this.state.drawn;
-			newDrawn.side='front';
-		}
-		console.log(newDrawn);
-		this.setState({
-				drawn: newDrawn
-			});
+		// }
+		// else if (this.state.drawn.side==='back'){
+		// 	newDrawn = this.state.drawn;
+		// 	newDrawn.side='front';
+		// }
+		// console.log(newDrawn);
+		// this.setState({
+		// 		drawn: newDrawn
+		// 	});
 	},
 
 	componentDidMount() {
@@ -144,7 +169,8 @@ const GameBoard = React.createClass({
 			drop: state.drop,
 			selected: state.selected,
 			drawUnit: state.drawUnit,
-			turn: state.turn
+			turn: state.turn,
+			pendingDraw: state.pendingDraw
 		}, cb);
 	},
 
@@ -156,7 +182,7 @@ const GameBoard = React.createClass({
 	render() {
 		let {state, props} = this, 
 			{size, color} = props,
-			{board, selected, lightup, strike, drop, turn, drawn} = state;
+			{board, selected, lightup, strike, drop, turn, drawn, pendingDraw} = state;
 
 		if (color === 'black') board = this._reverseBoard();
 
@@ -189,6 +215,7 @@ const GameBoard = React.createClass({
 											canDrop={drop[coords]}
 											selected={selected}
 											turn={turn}
+											pendingDraw={pendingDraw}
 											setSelected={this._setSelected}
 											setDrawable={this._setDrawable} 
 											setDroppable={this._setDroppable} />
@@ -201,7 +228,14 @@ const GameBoard = React.createClass({
 				</table>
 				<div id="draw">
 					<button className="btn" onClick={this._onButtonClick}>DRAW</button>
-					<DrawnComponent position='[-1, -1]' unit={drawn? drawn.unit : null} color={drawn? drawn.color : null} side={drawn? drawn.side : null} drawAUnit={this._onDrawCellClick}></DrawnComponent>
+					<DrawnComponent position='[-1, -1]' 
+						unit={pendingDraw? pendingDraw.unit : null} 
+						color={pendingDraw? pendingDraw.color : null} 
+						side={pendingDraw? pendingDraw.side : null} 
+						drawAUnit={this._onDrawCellClick}
+						playerColor={color} />
+
+
 				</div>
 			</div>
 		);
@@ -232,9 +266,14 @@ const GameBoard = React.createClass({
 
 	},
 
-	_setDrawable(tile) {
+	_setDrawnUnit(tile) {
 		this.setState({
-			drawn: tile
+			// drawn: tile
+			pendingDraw: {
+				unit: tile,
+				color: this.props.color,
+				side: 'front'
+			}
 		})
 
 	},
@@ -400,12 +439,12 @@ const Cell = React.createClass({
 	_onDrop(e) {
 		e.preventDefault();
 
-		const {unit, color, setSelected, setDroppable, setDrawable, litup, strikable, canDrop, side, playerColor} = this.props;
+		const {unit, color, setSelected, setDroppable, setDrawable, litup, strikable, canDrop, side, playerColor, pendingDraw} = this.props;
 		let {position, selected} = this.props;
 
 		if (playerColor === 'black') {
-			position = this._reversePosition(position);
-			selected = this._reversePosition(selected);
+			if (position) position = this._reversePosition(position);
+			if (selected) selected = this._reversePosition(selected);
 		}
 		if (this.props.litup) {
 			let capture = unit && color !== playerColor;
@@ -415,9 +454,7 @@ const Cell = React.createClass({
 			GameActions.makeMove(selected, position, true, 'strike', true);
 		}
 		else if(this.props.canDrop){
-			GameActions.makeMove(selected, position, false, 'move', true);
-			var drawUnit = GameStore.getGameboardState().drawUnit;
-			setDrawable(null);
+			GameActions.makeMove(pendingDraw, position, false, 'move', true);
 		}
 		setSelected(null, []);
 
@@ -529,65 +566,38 @@ const DrawnComponent = React.createClass({
 	// 		//GameActions.moveToBoard(position);
 
 
-	// },
-	
-	// _onDrawnUnitClick(){
-	// 	this.setState({
-	// 		drawn: drawn
-	// 	});
-		// this.setState({
-
-		// });
-		// var element = document.getElementById('drawnUnit');
-		// if (element.classList.contains("front")) {
-		// 	element.classList.remove("front");
-		//  	element.classList.add("back");
-		// }
-		// else if(element.classList.contains("back")){
-		// 	element.classList.remove("back");
-		//  	element.classList.add("front");
-		// }
-	//},
-
 
 
 	render(){
-		var {unit, color, draggable, side, drawAUnit, position} = this.props;
+		var {unit, color, side, draggable, drawAUnit, position, playerColor} = this.props;
 
-
-
-		//<div draggable="true" id="drawnUnit" onClick={this._onDrawnUnitClick}></div>x
-
-
-
-				// 				<div id="drawnUnit"
-				// onDragOver={this._onDragOver}
-				// onDrop={this._onDrop} draggable className={cx(cxObj)} 
-				// >
-				// 	<a className={cx(cxObj)}
-				// 		onClick={drawAUnit}
-				// 		onDragStart={this._onDragStart}
-				// 		draggable>
-				// 	</a>
-
-				// </div>
-		
 		return (
 			<div id="drawnUnit" draggable 
 				className={cx({	
-					unit: !!unit,
+					cellContainer: true,
 					[unit]: true,
 					[color]: true,
 					[side]: true
-				})}
-				 onClick={drawAUnit}>
-					<a 
+				})} >
+					<a className={cx({
+							unit: !!unit,
+							opponent: color && color !== playerColor,
+							[side]: true,
+							[unit]: true,
+							[color]: true,
+						})}
 					//onDragOver={this._onDragOver}
 					//className={cx(cxObj)}
 						onClick={drawAUnit}
 						// onDragStart={this._onDragStart}
 						draggable>
 					</a>
+					<figure className={cx({"front-face": true, "draw-preview": true, opponent: color && color !== playerColor})} />
+					<figure className={cx({"back-face": true, "draw-preview": true,  opponent: color && color !== playerColor})} />
+					<figure className={cx({"left-face": true, "draw-preview": true})} />
+					<figure className={cx({"right-face": true, "draw-preview": true})} />
+					<figure className={cx({"top-face": true, "draw-preview": true})} />
+					<figure className={cx({"bottom-face": true, "draw-preview": true})} />
 				</div>
 
 			);

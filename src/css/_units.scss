@@ -81,6 +81,9 @@
             &.opponent {
                 transform: rotateY( 0deg) rotateZ( 180deg) translateZ( 5px);
             }
+            &.draw-preview {
+                width: 146px; height: 146px;
+            }
         }
         ~ .back-face {
             width: 98px;
@@ -88,6 +91,9 @@
             transform: rotateY( 180deg) translateZ( 5px);
             &.opponent {
                 transform: rotateY( 180deg) rotateZ( 180deg) translateZ( 5px);
+            }
+            &.draw-preview {
+                width: 146px; height: 146px;
             }
         }
         ~ .left-face {

@@ -895,12 +895,18 @@ span#game-type {
   transform: rotateY(0deg) translateZ(5px); }
   .cellContainer .unit ~ .front-face.opponent {
     transform: rotateY(0deg) rotateZ(180deg) translateZ(5px); }
+  .cellContainer .unit ~ .front-face.draw-preview {
+    width: 146px;
+    height: 146px; }
 .cellContainer .unit ~ .back-face {
   width: 98px;
   height: 98px;
   transform: rotateY(180deg) translateZ(5px); }
   .cellContainer .unit ~ .back-face.opponent {
     transform: rotateY(180deg) rotateZ(180deg) translateZ(5px); }
+  .cellContainer .unit ~ .back-face.draw-preview {
+    width: 146px;
+    height: 146px; }
 .cellContainer .unit ~ .left-face {
   width: 10px;
   height: 98px;

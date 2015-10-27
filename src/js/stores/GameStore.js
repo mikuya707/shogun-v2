@@ -7,8 +7,8 @@ import ChessPieces from '../constants/ChessPieces';
 import {Chess} from 'chess.js';
 import {List, Map, OrderedMap, Set} from 'immutable';
 import behavior from '../game/behavior';
+import omit from 'lodash.omit';
 //import Utils from '../game/utils';
-// import behavior from '../game/behavior';
 
 const CHANGE_EVENT = 'change';
 const MOVE_EVENT = 'new-move';
@@ -16,18 +16,13 @@ const MOVE_EVENT = 'new-move';
 var _gameOver;
 var _capturedPieces;
 var _moves;
+var _moved;
 var _turn;
 var _check;
 var _lastMove;
 var _chess;
 
-var _board = {},
-    _lightup = [],
-    _strike = [],
-    _drop = [],
-    _selected,
-    _drawn = [],
-    _result;
+var _board, _lightup, _strike, _drop, _selected, _drawn = [], _result, _deck, _pendingDraw;
 
 
 setInitialState();
@@ -53,14 +48,6 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
     getMoves() {
         return _moves;
     },
-    // getChessboardState() {
-    //     return {
-    //         fen: _chess.fen(),
-    //         lastMove: _lastMove,
-    //         check: _check
-    //     };
-    // },
-
 
     getGameboardState() {
         return {
@@ -70,47 +57,53 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
             drop: _drop,
             selected: _selected,
             drawUnit: _result,
-            turn: _turn
+            turn: _turn,
+            moved: _moved,
+            deck: _deck,
+            pendingDraw: _pendingDraw
         }
     },
 
-    draw() {
-        //'[1, 0]': {unit: 'Footman', color: 'black', side: 'front'},
-        var units = [];
+    // draw() {
+    //     //'[1, 0]': {unit: 'Footman', color: 'black', side: 'front'},
+    //     console.log('fuck yeah');
+    //     var units = [];
            
-        Object.keys(behavior).forEach(function(unit){
-            // console.log("what is the key of behavior?", unit);
-            // console.log("what am i adding again??", behavior[`${unit}`]);
-            if(_drawn.indexOf(behavior[`${unit}`]) === -1 && unit !== 'Duke'){
-                var unitObj = {};
-                unitObj[`${unit}`] = behavior[`${unit}`];
-                units.push(unitObj);
-            }
-            else{
-                var pikeCounts = 0;
-                _drawn.forEach(function(unit){
+    //     Object.keys(behavior).forEach(function(unit){
+    //         // console.log("what is the key of behavior?", unit);
+    //         // console.log("what am i adding again??", behavior[`${unit}`]);
+    //         if(_drawn.indexOf(behavior[`${unit}`]) === -1 && unit !== 'Duke'){
+    //             var unitObj = {};
+    //             unitObj[`${unit}`] = behavior[`${unit}`];
+    //             units.push(unitObj);
+    //         }
+    //         else{
+    //             var pikeCounts = 0;
+    //             _drawn.forEach(function(unit){
                      
-                    if(Object.keys(unit)[0] === 'Pikeman'){
-                        pikeCounts += 1;
-                    }
-                })
-                if(unit === 'Pikeman' && pikeCounts < 3){
-                    var i = 3 - pikeCounts;
-                    while(i > 0){
-                        var unitObj = {};
-                         unitObj[`${unit}`] = behavior[`${unit}`];
-                         units.push(unitObj);
-                         i--;
-                    }
-                }
-            }
-        });
-        var result = units[Math.floor(Math.random()*units.length)];
-        _drawn.push(result);
-        var resultToReturn = {};
-        resultToReturn['[-1, -1]'] = {unit: `${Object.keys(result)[0]}`, color: 'white', side: 'front'};
-        _result = resultToReturn;
-    },
+    //                 if(Object.keys(unit)[0] === 'Pikeman'){
+    //                     pikeCounts += 1;
+    //                 }
+    //             })
+    //             if(unit === 'Pikeman' && pikeCounts < 3){
+    //                 var i = 3 - pikeCounts;
+    //                 while(i > 0){
+    //                     var unitObj = {};
+    //                      unitObj[`${unit}`] = behavior[`${unit}`];
+    //                      units.push(unitObj);
+    //                      i--;
+    //                 }
+    //             }
+    //         }
+    //     });
+    //     console.log(`the units`);
+    //     console.log(units);
+    //     var result = units[Math.floor(Math.random()*units.length)];
+    //     _drawn.push(result);
+    //     var resultToReturn = {};
+    //     resultToReturn['[-1, -1]'] = {unit: `${Object.keys(result)[0]}`, color: 'white', side: 'front'};
+    //     _result = resultToReturn;
+    // },
 
 
 
@@ -129,9 +122,11 @@ function setInitialState() {
     ]);
     _moves = List();
     _turn = 'w';
+    _moved = false;
     _check = false;
     _lastMove = Map();
     _selected = null;
+    _pendingDraw = null;
     //_chess = new Chess();
 
     _lightup = {};
@@ -160,6 +155,11 @@ function setInitialState() {
         */
     };
 
+    //_deck = [...Object.keys(behavior), 'Footman', 'Footman', 'Pikeman', 'Pikeman'];
+    //console.log(...omit(Object.keys(behavior)));
+    _deck = [...Object.keys(omit(behavior, 'Duke')), 'Pikeman', 'Pikeman'];
+    console.log(_deck);
+
 }
 
 function moveToBoard() {
@@ -183,33 +183,33 @@ function updateBoard(from, to, type) {
     console.log("where is from", from);
     console.log("where is to", to);
      
-    if(from === '[-1, -1]'){
-         console.log("what is unit after drop?", _result);
-         console.log("what is unit after drop?", _result[from]);
-         _result[from].side = 'front';
-         _board[to] = _result[from];
+    if (typeof from === 'object') {
+        console.log('im an object lol');
 
-         //unit = _result;
-
-         // _board[from] = null;
-         // _board[to] = unit;
-         //console.log("what are the true drops ?", _drop);
-         _drop = null;
-         _selected = null;
-         return _board;
-    
+        _board[to] = from;
+        _drop = {};
+        _pendingDraw = null;
     }
+
+    // if(from === '[-1, -1]'){
+    //      console.log("what is unit after drop?", _result);
+    //      console.log("what is unit after drop?", _result[from]);
+    //      _result[from].side = 'front';
+    //      _board[to] = _result[from];
+
+    //      //unit = _result;
+
+    //      // _board[from] = null;
+    //      // _board[to] = unit;
+    //      //console.log("what are the true drops ?", _drop);
+    //      _drop = null;
+    //      _selected = null;
+    //      return _board;
+    
+    // }
     else{
 
         var unit = _board[from];
-
-        console.log('updateBoard unit:');
-        console.log(unit);
-        console.log('_board');
-        console.log(_board);
-        console.log(`from: ${from}`);
-        console.log(`to: ${to}`);
-
 
         unit.side = (unit.side === 'front') ? 'back' : 'front';
 
@@ -246,6 +246,62 @@ function makeMove(from, to, capture, type, emitMove) {
     return true;
 }
 
+function updateDeck(newDeck) {
+    _deck = newDeck;
+    return _deck;
+}
+
+function removeFromDeck(unitName) {
+    let unitIndex = _deck.indexOf(unitName);
+    if (unitIndex !== -1) _deck.splice(unitIndex, 1);
+}
+
+function draw() {
+
+    //'[1, 0]': {unit: 'Footman', color: 'black', side: 'front'},
+
+    // Object.keys(behavior).forEach(function(unit){
+    //     // console.log("what is the key of behavior?", unit);
+    //     // console.log("what am i adding again??", behavior[`${unit}`]);
+    //     if(_drawn.indexOf(behavior[`${unit}`]) === -1 && unit !== 'Duke'){
+    //         var unitObj = {};
+    //         unitObj[`${unit}`] = behavior[`${unit}`];
+    //         units.push(unitObj);
+    //     }
+    //     else{
+    //         var pikeCounts = 0;
+    //         _drawn.forEach(function(unit){
+                 
+    //             if(Object.keys(unit)[0] === 'Pikeman'){
+    //                 pikeCounts += 1;
+    //             }
+    //         })
+    //         if(unit === 'Pikeman' && pikeCounts < 3){
+    //             var i = 3 - pikeCounts;
+    //             while(i > 0){
+    //                 var unitObj = {};
+    //                  unitObj[`${unit}`] = behavior[`${unit}`];
+    //                  units.push(unitObj);
+    //                  i--;
+    //             }
+    //         }
+    //     }
+    // });
+    // var result = units[Math.floor(Math.random()*units.length)];
+    // _drawn.push(result);
+
+    let randomIndex = Math.floor(Math.random()*_deck.length);
+    _pendingDraw = _deck.splice(randomIndex, 1)[0];
+
+    _turn = _turn === 'w' ? 'b' : 'w';
+
+    // var resultToReturn = {};
+    // resultToReturn['[-1, -1]'] = {unit: `${Object.keys(result)[0]}`, color: 'white', side: 'front'};
+    // _result = resultToReturn;
+
+
+    return true;
+}
 
 function gameOver(options) {
     _gameOver = _gameOver
@@ -264,9 +320,8 @@ AppDispatcher.register(payload => {
                 action.from, action.to, action.capture, action.type, action.emitMove);
             break;
 
-
         case GameConstants.DRAW:
-
+            emitEvent = draw();
             break;
 
         case GameConstants.GAME_OVER:
