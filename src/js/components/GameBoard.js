@@ -8,7 +8,7 @@ import maybeReverse from '../mixins/maybeReverse';
 import behavior from '../game/behavior';
 import omit from 'lodash.omit';
 import cx from 'classnames';
-//import swal from '../sweetalert.min';
+
 
 
 
@@ -29,7 +29,7 @@ const GameBoard = React.createClass({
 
 	_onButtonClick(){
 		const {color} = this.props,
-			{turn} = this.state;
+			{turn, deck} = this.state;
 
 		if (turn !== color.charAt(0)) return;
 
@@ -58,17 +58,21 @@ const GameBoard = React.createClass({
 			// this._setDrawable(null);
 
 			// this._setSelected("[-1, -1]", droppableTiles);
-			GameActions.draw();
-			let theDrawnUnit = GameStore.getGameboardState().pendingDraw;
+			if (deck.length) {
+				GameActions.draw();
+				let theDrawnUnit = GameStore.getGameboardState().pendingDraw;
+				this.setState({
+					drop: droppableTiles,
+					pendingDraw: {
+						unit: theDrawnUnit,
+						color: this.props.color,
+						side: 'front'
+					}
+				});					
+			}
+			else 
+				swal("Can't let you draw that", 'No units left to draw!', 'error');
 
-			this.setState({
-				drop: droppableTiles,
-				pendingDraw: {
-					unit: theDrawnUnit,
-					color: this.props.color,
-					side: 'front'
-				}
-			})
 
 			//var element = document.getElementById('drawnUnit');
 			//console.log('what is element here?', element);
