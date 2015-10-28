@@ -55,8 +55,6 @@ const GameboardInterface = React.createClass({
 						</strong>
 					}
 				</span>
-
-			<button className="btn">donate</button>
 			</div>
 		)
 	},
@@ -66,7 +64,7 @@ const GameboardInterface = React.createClass({
 	},
 
 	_getGameOverMessage() {
-		return `you lose`;
+		return ``;
 	}
 
 });

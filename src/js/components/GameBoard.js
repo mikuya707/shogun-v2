@@ -80,7 +80,7 @@ const GameBoard = React.createClass({
 
 	componentDidMount() {
 
-		const {io, token} = this.props;
+		const {io, token, gameover} = this.props;
 
 		GameStore.on('change', this._onGameChange);
 		GameStore.on('new-move', this._onNewMove);
@@ -152,6 +152,10 @@ const GameBoard = React.createClass({
 
 	_onGameOver({winner}) {
 		const {io, token} = this.props;
+		var {gameover} = this.props;
+
+	
+		console.log("game over yet?", gameover);
 		console.log('the winner is');
 		console.log(winner);
 		io.emit('swal-endgame', { token, winner });
@@ -159,7 +163,7 @@ const GameBoard = React.createClass({
 
 	render() {
 		let {state, props} = this, 
-			{size, color} = props,
+			{size, color, gameover} = props,
 			{board, selected, lightup, strike, drop, turn, drawn, pendingDraw} = state;
 
 		if (color === 'black') board = this._reverseBoard();
@@ -196,7 +200,10 @@ const GameBoard = React.createClass({
 											pendingDraw={pendingDraw}
 											setSelected={this._setSelected}
 											setDrawable={this._setDrawable} 
-											setDroppable={this._setDroppable} />
+											setDroppable={this._setDroppable}
+											setGamePoint={this._setGamePoint}
+											gameover={gameover? false: gameover}
+											/>
 									</td>
 								)
 							}
@@ -243,6 +250,11 @@ const GameBoard = React.createClass({
 			}
 		})
 
+	},
+	_setGamePoint(){
+		this.setState({
+			gameover: true
+		});
 	},
 
 	_getValidMoves(position, moves) {
@@ -339,8 +351,13 @@ const Cell = React.createClass({
 		const {unit, color, setSelected, litup, strikable, canDrop, side, playerColor, turn} = this.props;
 
 		let {position, selected} = this.props;
-		
+
+		var gameover = GameStore.getGameboardState().gameover;
+		console.log("what is gamover??", gameover.get('status'));
+
 		// only let the player act when it is their turn
+		if(gameover.get('status')) return;
+
 		if (turn !== playerColor.charAt(0)) return;
 
 		// if there is no currently selected unit, click a unit (of the same color) to select it
@@ -380,6 +397,11 @@ const Cell = React.createClass({
 
 	_onDragStart(e) {
 		const {unit, position, color, selected, setSelected, litup, strikable, side, canDrop, playerColor, turn} = this.props;
+		var gameover = GameStore.getGameboardState().gameover;
+		//if(gameover) return;
+
+		// only let the player act when it is their turn
+		if(gameover.get('status')) return;
 		if (turn !== playerColor.charAt(0)) return;
 
 		e.dataTransfer.effectAllowed = 'move';

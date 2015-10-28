@@ -59,7 +59,8 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
             turn: _turn,
             moved: _moved,
             deck: _deck,
-            pendingDraw: _pendingDraw
+            pendingDraw: _pendingDraw,
+            gameover: _gameOver
         }
     },
 
@@ -123,8 +124,7 @@ function moveToBoard() {
             to: to,
             capture: capture,
             type: type,
-            board: _board    
-            //gameOver: _chess.game_over()
+            board: _board
         });
     }
 
@@ -193,6 +193,9 @@ function isDukeDead() {
     let dukes = Object.keys(_board).filter(pos => _board[pos] && _board[pos].unit === "Duke")
         .map(pos => _board[pos].color);
     if (dukes.length === 1) {
+         _gameOver = _gameOver.set('status', true);
+         console.log("_gameOver is changed to", _gameOver.get('status'));
+
         let winner = dukes[0];
         if (winner = 'white') winner = 'White';
         else if (winner = 'black') winner = 'Black';
