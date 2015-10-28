@@ -23,18 +23,11 @@ const GameBoard = React.createClass({
 		return this.state;
 	},
 
-	// _getValidDrops(position, inRange){
-
-	// },
-
 	_onButtonClick(){
 		const {color} = this.props,
 			{turn, deck} = this.state;
 
-		if (turn !== color.charAt(0)) return;
-
-		//swal("Hey", "listen!", "success");
-
+		if (turn !== color.charAt(0) || this.state.pendingDraw) return;
 
 		let {board} = this.state;
 		if (color === 'black') board = this._reverseBoard(board);
@@ -48,16 +41,10 @@ const GameBoard = React.createClass({
 				droppableTiles[`[${adjX}, ${adjY}]`] = true;
 		})
 
-
-
 		if (!Object.keys(droppableTiles).length) {
 			swal("Can't let you draw that", 'No available tiles adjacent to the Duke!', 'error');
 		}
 		else{
-			// this._setDroppable(droppableTiles);
-			// this._setDrawable(null);
-
-			// this._setSelected("[-1, -1]", droppableTiles);
 			if (deck.length) {
 				GameActions.draw();
 				let theDrawnUnit = GameStore.getGameboardState().pendingDraw;
@@ -72,26 +59,12 @@ const GameBoard = React.createClass({
 			}
 			else 
 				swal("Can't let you draw that", 'No units left to draw!', 'error');
-
-
-			//var element = document.getElementById('drawnUnit');
-			//console.log('what is element here?', element);
-
-			// GameStore.draw();
-			// var drawnUnit = GameStore.getGameboardState().drawUnit;
-			// console.log(drawnUnit);
-			// var drawn = drawnUnit[Object.keys(drawnUnit)[0]];
-			// this._setDrawable(drawn);
-		}
-
-		
+		}		
 	},
+
 	_onDrawCellClick(){
 		console.log("i clicked!!");
 		var newDrawn;
-		// if(this.state.drawn.side==='front'){
-		// 	newDrawn = this.state.drawn;
-		// 	newDrawn.side='back';
 		let drawnUnit = document.getElementById("drawnUnit");
 		let classes = drawnUnit.className;
 
@@ -99,27 +72,10 @@ const GameBoard = React.createClass({
 			drawnUnit.classList.remove('front');
 			drawnUnit.classList.add('back');
 		}
-		else{
+		else {
 			drawnUnit.classList.remove('back');
 			drawnUnit.classList.add('front');
 		}
-
-
-	// _onDrawnUnitClick(){
-
-	// 	var element = document.getElementById('drawnUnit');
-	// 	if (element.classList.contains("front")) {
-	// 		element.classList.remove("front");
-	// 	 	element.classList.add("back");
-		// }
-		// else if (this.state.drawn.side==='back'){
-		// 	newDrawn = this.state.drawn;
-		// 	newDrawn.side='front';
-		// }
-		// console.log(newDrawn);
-		// this.setState({
-		// 		drawn: newDrawn
-		// 	});
 	},
 
 	componentDidMount() {
@@ -263,16 +219,15 @@ const GameBoard = React.createClass({
 	},
 
 
-	_setDroppable(tiles) {
-		this.setState({
-			drop: tiles
-		})
+	// _setDroppable(tiles) {
+	// 	this.setState({
+	// 		drop: tiles
+	// 	})
 
-	},
+	// },
 
 	_setDrawnUnit(tile) {
 		this.setState({
-			// drawn: tile
 			pendingDraw: {
 				unit: tile,
 				color: this.props.color,
@@ -309,10 +264,6 @@ const GameBoard = React.createClass({
 				while (this._isOnBoard({x: i, y: j})) {
 					// sliding units can land on any tile within a straight path
 					// non-sliding units can only land on the marked tile
-
-
-					console.log('what the heck is moveName???', moveName);
-
 					if (moveName.includes('slide') || (x === i && y === j))
 						inRange.push({x: i, y: j, type: 'move'});
 
@@ -364,13 +315,6 @@ const Cell = React.createClass({
 	propTypes: {
 
 	},
-
-	// getInitialState() {
- //    	 return {
- //    	 	//side: 'front',
- //    	 	isSelected: false
- //    	 };
- //  	},
 
   	componentDidMount() {
 		
@@ -427,10 +371,12 @@ const Cell = React.createClass({
 	},
 
 	_onDragStart(e) {
+		const {unit, position, color, selected, setSelected, litup, strikable, side, canDrop, playerColor, turn} = this.props;
+		if (turn !== playerColor.charAt(0)) return;
+
 		e.dataTransfer.effectAllowed = 'move';
 		e.dataTransfer.setData('text/plain', '');
 
-		const {unit, position, color, selected, setSelected, litup, strikable, side, canDrop, playerColor} = this.props;
 		if (!selected && unit && color === playerColor) {
 			let moves = behavior[unit][side];
 			setSelected(position, moves);
@@ -461,12 +407,6 @@ const Cell = React.createClass({
 			GameActions.makeMove(pendingDraw, position, false, 'move', true);
 		}
 		setSelected(null, []);
-
-		setDroppable({});
-
-		this.setState({
-				drawn: null
-			});
 
 	},
 
