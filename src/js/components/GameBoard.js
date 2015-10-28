@@ -100,6 +100,16 @@ const GameBoard = React.createClass({
 			  window.addEventListener('focus', this._removeAsteriskFromTitle);
 			}
 		});
+
+		io.on('swal-gameover', data => {
+			console.log('here?');
+			let winner = data.winner;
+			swal({
+				title: 'You lose!',
+				text: 'lolumad',
+				imageUrl: 'http://vignette2.wikia.nocookie.net/dickfigures/images/d/d0/Troll-Face-Dancing1.jpg/revision/latest?cb=20121112150543'
+			});
+		})
 	},
 
 	componentWillUnmount() {
@@ -140,10 +150,11 @@ const GameBoard = React.createClass({
 		io.emit('new-move', { token, move });
 	},
 
-	_onGameOver(data) {
-		io.emit('swal-endgame', {
-			winner: data.winner
-		})
+	_onGameOver({winner}) {
+		const {io, token} = this.props;
+		console.log('the winner is');
+		console.log(winner);
+		io.emit('swal-endgame', { token, winner });
 	},
 
 	render() {

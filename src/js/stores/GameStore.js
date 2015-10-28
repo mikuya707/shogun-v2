@@ -107,7 +107,8 @@ function setInitialState() {
         '[3, 0]': {unit: 'Footman', color: 'black', side: 'front'},
         '[2, 5]': {unit: 'Footman', color: 'white', side: 'front'},
         '[3, 5]': {unit: 'Duke', color: 'white', side: 'front'},
-        '[4, 5]': {unit: 'Footman', color: 'white', side: 'front'}
+        '[4, 5]': {unit: 'Footman', color: 'white', side: 'front'},
+        '[2, 1]': {unit: 'Footman', color: 'white', side: 'front'}
         
     };
 
@@ -213,6 +214,7 @@ function isDukeDead() {
                 swal("Okay", "don't forget to donate", "success");
             }
         });
+        GameStore.emit('swal-endgame', { winner });
     }
     
 
