@@ -84,6 +84,7 @@ const GameBoard = React.createClass({
 
 		GameStore.on('change', this._onGameChange);
 		GameStore.on('new-move', this._onNewMove);
+		GameStore.on('swal-endgame', this._onGameOver);
 
 		io.on('move', data => {
 			GameActions.makeMove(data.from, data.to, data.capture, data.type, false);
@@ -137,6 +138,12 @@ const GameBoard = React.createClass({
 	_onNewMove(move) {
 		const {io, token} = this.props;
 		io.emit('new-move', { token, move });
+	},
+
+	_onGameOver(data) {
+		io.emit('swal-endgame', {
+			winner: data.winner
+		})
 	},
 
 	render() {
@@ -194,8 +201,6 @@ const GameBoard = React.createClass({
 						side={pendingDraw? pendingDraw.side : null} 
 						drawAUnit={this._onDrawCellClick}
 						playerColor={color} />
-
-
 				</div>
 			</div>
 		);
@@ -217,14 +222,6 @@ const GameBoard = React.createClass({
 			strike: this._getValidMoves(position, inRange).strikableTiles
 		})
 	},
-
-
-	// _setDroppable(tiles) {
-	// 	this.setState({
-	// 		drop: tiles
-	// 	})
-
-	// },
 
 	_setDrawnUnit(tile) {
 		this.setState({
@@ -471,23 +468,6 @@ const DrawnComponent = React.createClass({
 	
 	},
 
-
-  	// onPropsChanged: function() {
-   // 		 //console.log(this.state.drawn); // it is ALWAYS true
- 	 // },
-	// componentWillReceiveProps: function(nextProps) {
- //  		this.setState({
- //   		 likesIncreasing: nextProps.likeCount > this.props.likeCount
- //  		});
-	// },
-
-	// _onChange() {
-	
-	// 	this.setState({
-	// 		lightup: GameStore.getGameboardState().lightup
-	// 	});
-	// },
-
 	mixins: [],
 
 
@@ -501,16 +481,6 @@ const DrawnComponent = React.createClass({
 		e.preventDefault();
 		e.dataTransfer.dropEffect = 'move';
 	},
-	// _onDrop(e) {
-	// 	e.preventDefault();
-	// 	const {position, unit, color, selected, litup} = this.props;
-
-	// 		//GameActions.makeMove(position, false, 'move', true);
-	// 		console.log("is this where i am dropping it?", position);
-	// 		//GameActions.moveToBoard(position);
-
-
-
 
 	render(){
 		var {unit, color, side, draggable, drawAUnit, position, playerColor} = this.props;
@@ -530,8 +500,6 @@ const DrawnComponent = React.createClass({
 							[unit]: true,
 							[color]: true,
 						})}
-					//onDragOver={this._onDragOver}
-					//className={cx(cxObj)}
 						onClick={drawAUnit}
 						// onDragStart={this._onDragStart}
 						draggable>

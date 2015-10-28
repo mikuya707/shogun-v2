@@ -139,25 +139,10 @@ const GameInterface = React.createClass({
           {...commonProps}
           token={params[0]} />
 
-          {/*
-        <ChessboardInterface
-          {...commonProps}
-          token={params[0]}
-          soundsEnabled={soundsEnabled}
-          gameOver={gameOver} />
-        */}
-          
-        {/*}
-        <Board />
-        */}
-
           <GameboardInterface 
             {...commonProps}
             token={params[0]}
             gameOver={gameOver} />
-
-
-
 
         <Modal data={this.state.modal} />
       </div>

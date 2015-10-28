@@ -103,6 +103,9 @@ io.sockets.on('connection', socket => {
     });
   });
 
+  socket.on('swal-endgame', data => 
+    maybeEmit('swal-gameover', data, data.token, socket));
+
   socket.on('rematch-offer', data =>
     maybeEmit('rematch-offered', {}, data.token, socket));
 

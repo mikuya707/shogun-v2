@@ -21,6 +21,7 @@ var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var sourcemaps = require('gulp-sourcemaps');
 var imagemin = require('gulp-imagemin');
+var cache = require('gulp-cache');
 
 // external dependencies that are not rebundled while developing,
 // but included in production
@@ -173,9 +174,19 @@ var copyTask = function() {
     }));
 };
 
-gulp.task('default', function() {
-  browserifyTask();
-  cssTask();
-  imageminTask();
-  copyTask();
+gulp.task('default', ['imagemin'], function() {
+    browserifyTask();
+    cssTask();
+    imageminTask();
+    copyTask();
+});
+
+gulp.task('clear', function(done) {
+    return cache.clearAll(done);
+});
+
+gulp.task('imagemin', ['clear'], function() {
+    return gulp.src('./src/img/*')
+        .pipe(imagemin())
+        .pipe(gulp.dest('./' + (IS_DEVELOPMENT ? 'build' : 'dist') + '/img/'));
 });
