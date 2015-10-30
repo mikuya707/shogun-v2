@@ -9,7 +9,7 @@ html(lang='en')
     meta(name='robots', content='index, follow')
     meta(itemprop='name=Shogun')
     meta(author='Karen Mao & Jay Lee')
-    meta(name='description', content='A lightweight real-time chess app built in Node, Express, Socket.IO, React, Flux and Immutable.')
+    meta(name='description', content='A lightweight real-time game app built in Node, Express, Socket.IO, React, and Flux')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='icon', type='image/png' href='/img/favicon.png')
     link(rel='stylesheet', type='text/css' href='http://fonts.googleapis.com/css?family=Cherry+Swash:400|Open+Sans:400,600&subset=latin')
@@ -17,6 +17,7 @@ html(lang='en')
 
 
   body
+    script(src='/js/sweetalert.min.js')
     #container-wrapper.clearfix
       block content
         
@@ -30,5 +31,4 @@ html(lang='en')
 
     - if (process.env.NODE_ENV === 'development')
       script(src='/js/vendor.js')
-      script(src='/js/sweetalert.min.js')
     block scripts
