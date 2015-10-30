@@ -19,7 +19,6 @@ const GameBoard = React.createClass({
 	mixins: [maybeReverse],
 	getInitialState() {
 		this.state = GameStore.getGameboardState();
-		console.log("state? ", this.state);
 		return this.state;
 	},
 
@@ -63,7 +62,6 @@ const GameBoard = React.createClass({
 	},
 
 	_onDrawCellClick(){
-		console.log("i clicked!!");
 		var newDrawn;
 		let drawnUnit = document.getElementById("drawnUnit");
 		let classes = drawnUnit.className;
@@ -102,7 +100,6 @@ const GameBoard = React.createClass({
 		});
 
 		io.on('swal-gameover', data => {
-			console.log('here?');
 			let winner = data.winner;
 			swal({
 				title: 'You lose!',
@@ -153,11 +150,6 @@ const GameBoard = React.createClass({
 	_onGameOver({winner}) {
 		const {io, token} = this.props;
 		var {gameover} = this.props;
-
-	
-		console.log("game over yet?", gameover);
-		console.log('the winner is');
-		console.log(winner);
 		io.emit('swal-endgame', { token, winner });
 	},
 
@@ -353,7 +345,6 @@ const Cell = React.createClass({
 		let {position, selected} = this.props;
 
 		var gameover = GameStore.getGameboardState().gameover;
-		console.log("what is gamover??", gameover.get('status'));
 
 		// only let the player act when it is their turn
 		if(gameover.get('status')) return;

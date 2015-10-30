@@ -113,7 +113,6 @@ function setInitialState() {
     };
 
     _deck = [...Object.keys(omit(behavior, 'Duke')), 'Pikeman', 'Pikeman'];
-    //console.log(_deck);
 }
 
 function moveToBoard() {
@@ -194,7 +193,6 @@ function isDukeDead() {
         .map(pos => _board[pos].color);
     if (dukes.length === 1) {
          _gameOver = _gameOver.set('status', true);
-         console.log("_gameOver is changed to", _gameOver.get('status'));
 
         let winner = dukes[0];
         if (winner = 'white') winner = 'White';
@@ -206,7 +204,7 @@ function isDukeDead() {
             showCancelButton: true,
             confirmButtonColor: "#00FFD2",
             confirmButtonText: "Yeah! :)",
-            cancelButtonText: "Fuck that",
+            cancelButtonText: "Meh",
             closeOnConfirm: false,
             closeOnCancel: false
         }, function(isConfirm) {
