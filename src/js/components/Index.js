@@ -65,9 +65,9 @@ const Index = React.createClass({
         </div>
 
         <p>
-          Click the button to create a game. Send the link to your friend.
-          Once the link is opened your friend‘s browser, game should begin 
-          shortly. Colors are picked randomly by computer.
+          Click the Play button to create a new game, then send the generated URL to a friend.
+          The game will begin once your friend opens the link in his or her
+          browser. Each player will be randomly assigned to be White or Black.
         </p>
         <p>
           <a href="/about" className="alpha">Read more about Shogun</a>
