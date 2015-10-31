@@ -7,13 +7,10 @@
 // export default io.connect(WS);
 
 import io from 'socket.io-client';
- //const loc = window.location;
-//console.log('what is loc', loc);
- //const origin = loc.origin || `${loc.protocol}//${loc.hostname}` 
- //+ loc.port ? ':' + loc.port : '');
-//console.log('what is origin', origin);
 
-//const HOST = origin;
+const port = process.env.PORT || '1337';
+const ORIGIN = `localhost:${port}` 
 
-const HOST = 'http://shogun-game.herokuapp.com/';
-export default io.connect(HOST);
+// const HOST = `localhost:${process.env.PORT}`;
+ console.log('what is ORIGIN', ORIGIN);
+export default io.connect(ORIGIN);
