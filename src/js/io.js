@@ -11,7 +11,7 @@ import os from  "os";
 const hostname = os.hostname();
 
 const port = process.env.PORT || '1337';
-const ORIGIN = `${hostname}:${port}` 
+const ORIGIN = `${hostname}` 
 
 // const HOST = `localhost:${process.env.PORT}`;
  console.log('what is ORIGIN', ORIGIN);
