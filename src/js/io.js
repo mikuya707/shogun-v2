@@ -10,8 +10,8 @@ import io from 'socket.io-client';
 import os from  "os";
 const hostname = os.hostname();
 
-const port = process.env.PORT || 5000;
-const ORIGIN = `${hostname}:${port}` 
+const port = process.env.PORT || 1337;
+const ORIGIN = `${hostname}` 
 
 // const HOST = `localhost:${process.env.PORT}`;
  console.log('what is ORIGIN', ORIGIN);
