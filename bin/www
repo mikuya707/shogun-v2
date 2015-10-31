@@ -1,11 +1,11 @@
-#!/usr/bin/env node --harmony
+#!/usr/bin/env node //--harmony
 
 'use strict';
 
 require('babel/register');
 const app = require('../app');
 const io = require('../io').io;
-const debug = require('debug')('reti-chess:server');
+const debug = require('debug')('shogun:server');
 const port = process.env.PORT || '1337';
 const ip = process.env.IP || '127.0.0.1';
 
