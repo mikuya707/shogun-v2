@@ -7,9 +7,11 @@
 // export default io.connect(WS);
 
 import io from 'socket.io-client';
+import os from  "os";
+const hostname = os.hostname();
 
 const port = process.env.PORT || '1337';
-const ORIGIN = `localhost:${port}` 
+const ORIGIN = `${hostname}:${port}` 
 
 // const HOST = `localhost:${process.env.PORT}`;
  console.log('what is ORIGIN', ORIGIN);
