@@ -38,9 +38,9 @@ const GameHeader = React.createClass({
           io={io}
           params={params} />
 
-        <span id="game-type">
+        {/*<span id="game-type">
           {`${params[1]}|${params[2]}`}
-        </span>
+        </span>*/}
 
         <a className="btn" href="/">New game</a>
 

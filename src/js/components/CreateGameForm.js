@@ -17,7 +17,7 @@ const CreateGameForm = React.createClass({
     return (
       <form onSubmit={this.props.createGame}>
         <fieldset>
-          <label>
+          <label >
             <span>Minutes per side: </span>
             <input
               type="number"

@@ -85,7 +85,6 @@ io.sockets.on('connection', socket => {
   socket.on('clock-run', data => runClock(data.color, data.token, socket));
 
   socket.on('new-move', data => {
-    console.log('where is this getting logged');
     maybeEmit('move', data.move, data.token, socket);
     if (data.move.gameOver) {
       clearInterval(_games.getIn([data.token, 'interval']));
@@ -105,7 +104,6 @@ io.sockets.on('connection', socket => {
   });
 
   socket.on('swal-endgame', data => {
-    console.log('getting high');
     maybeEmit('swal-gameover', data.winner, data.token, socket);
   });
 

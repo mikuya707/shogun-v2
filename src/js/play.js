@@ -6,7 +6,6 @@ import io from './io';
 import GameInterface from './components/GameInterface';
 
 let params = window.location.pathname.replace('/play/', '').split('/');
-console.log("what is params", params);
 params[1] = parseInt(params[1], 10);
 params[2] = parseInt(params[2], 10);
 
