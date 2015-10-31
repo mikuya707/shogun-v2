@@ -13,3 +13,4 @@ React.render(
   <GameInterface io={io} params={params} />,
   document.getElementById('container')
 );
+
