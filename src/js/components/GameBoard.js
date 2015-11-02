@@ -103,8 +103,9 @@ const GameBoard = React.createClass({
 			let winner = data.winner;
 			swal({
 				title: 'You lose!',
-				text: 'lolumad',
-				imageUrl: 'http://vignette2.wikia.nocookie.net/dickfigures/images/d/d0/Troll-Face-Dancing1.jpg/revision/latest?cb=20121112150543'
+				text: 'Better luck next time!',
+				//imageUrl: 'http://vignette2.wikia.nocookie.net/dickfigures/images/d/d0/Troll-Face-Dancing1.jpg/revision/latest?cb=20121112150543'
+				imageUrl: 'https://iampierremenard.files.wordpress.com/2014/02/sad-dog.jpg'
 			});
 		})
 	},
