@@ -341,16 +341,17 @@ const Cell = React.createClass({
 
 	_onClickSquare() {
 
-		const {unit, color, setSelected, litup, strikable, canDrop, side, playerColor, turn} = this.props;
+		const {unit, color, setSelected, litup, strikable, canDrop, side, playerColor, turn, pendingDraw} = this.props;
 
 		let {position, selected} = this.props;
 
 		var gameover = GameStore.getGameboardState().gameover;
-
-		// only let the player act when it is their turn
 		if(gameover.get('status')) return;
 
-		if (turn !== playerColor.charAt(0)) return;
+		// only let the player act when it is their turn
+		// if player drew a unit, don't let them make a normal move
+
+		if ( (turn !== playerColor.charAt(0)) || pendingDraw ) return;
 
 		// if there is no currently selected unit, click a unit (of the same color) to select it
 		if (!selected && unit && color === playerColor) {
@@ -388,13 +389,12 @@ const Cell = React.createClass({
 	},
 
 	_onDragStart(e) {
-		const {unit, position, color, selected, setSelected, litup, strikable, side, canDrop, playerColor, turn} = this.props;
+		const {unit, position, color, selected, setSelected, litup, strikable, side, canDrop, playerColor, turn, pendingDraw} = this.props;
+		
 		var gameover = GameStore.getGameboardState().gameover;
-		//if(gameover) return;
-
-		// only let the player act when it is their turn
 		if(gameover.get('status')) return;
-		if (turn !== playerColor.charAt(0)) return;
+
+		if ( (turn !== playerColor.charAt(0)) || pendingDraw ) return;
 
 		e.dataTransfer.effectAllowed = 'move';
 		e.dataTransfer.setData('text/plain', '');
