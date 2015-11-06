@@ -51,7 +51,7 @@ const GameboardInterface = React.createClass({
 							<span className="icon">
 							  {gameOver.get('winner') === 'White' ? 'F' : 'f'}
 							</span>
-							{this._getGameOverMessage()}
+							{this._getGameOverMessage(gameOver.get('winner'))}
 						</strong>
 					}
 				</span>
@@ -63,8 +63,8 @@ const GameboardInterface = React.createClass({
 		this.setState(GameStore.getState());
 	},
 
-	_getGameOverMessage() {
-		return ``;
+	_getGameOverMessage(winner) {
+		return `${winner} wins!`;
 	}
 
 });

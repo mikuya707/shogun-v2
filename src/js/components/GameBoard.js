@@ -99,15 +99,15 @@ const GameBoard = React.createClass({
 			}
 		});
 
-		io.on('swal-gameover', data => {
-			let winner = data.winner;
-			swal({
-				title: 'You lose!',
-				text: 'Better luck next time!',
-				//imageUrl: 'http://vignette2.wikia.nocookie.net/dickfigures/images/d/d0/Troll-Face-Dancing1.jpg/revision/latest?cb=20121112150543'
-				imageUrl: 'https://iampierremenard.files.wordpress.com/2014/02/sad-dog.jpg'
-			});
-		})
+		// io.on('swal-gameover', data => {
+		// 	let winner = data.winner;
+		// 	swal({
+		// 		title: 'You lose!',
+		// 		text: 'Better luck next time!',
+		// 		//imageUrl: 'http://vignette2.wikia.nocookie.net/dickfigures/images/d/d0/Troll-Face-Dancing1.jpg/revision/latest?cb=20121112150543'
+		// 		imageUrl: 'https://iampierremenard.files.wordpress.com/2014/02/sad-dog.jpg'
+		// 	});
+		// })
 	},
 
 	componentWillUnmount() {
@@ -144,8 +144,8 @@ const GameBoard = React.createClass({
 	},
 
 	_onNewMove(move) {
-		const {io, token} = this.props;
-		io.emit('new-move', { token, move });
+		const {io, token, color} = this.props;
+		io.emit('new-move', { token, move, color });
 	},
 
 	_onGameOver({winner}) {

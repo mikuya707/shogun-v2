@@ -85,9 +85,15 @@ io.sockets.on('connection', socket => {
   socket.on('clock-run', data => runClock(data.color, data.token, socket));
 
   socket.on('new-move', data => {
+
     maybeEmit('move', data.move, data.token, socket);
+
     if (data.move.gameOver) {
       clearInterval(_games.getIn([data.token, 'interval']));
+
+      io.to(data.token).emit('swal-gameover', {
+        color: data.color
+      });
     }
   });
 

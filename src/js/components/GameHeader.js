@@ -76,7 +76,7 @@ const GameHeader = React.createClass({
   },
   _onResign() {
     const {io, params, color} = this.props;
-
+    
     io.emit('resign', {
       token: params[0],
       color: color

@@ -171,8 +171,7 @@ function makeMove(from, to, capture, type, emitMove) {
             from: from,
             to: to,
             capture: capture,
-            type: type,
-            // board: _board    
+            type: type,   
             gameOver: isDukeDead()
         });
     }
@@ -191,37 +190,8 @@ function draw() {
 function isDukeDead() {
     let dukes = Object.keys(_board).filter(pos => _board[pos] && _board[pos].unit === "Duke")
         .map(pos => _board[pos].color);
-    if (dukes.length === 1) {
-         _gameOver = _gameOver.set('status', true);
-
-        let winner = dukes[0];
-        if (winner = 'white') winner = 'White';
-        else if (winner = 'black') winner = 'Black';
-        swal({
-            title: `You win!`,
-            text: 'Would you like to request a rematch?',
-            type: 'success',
-            showCancelButton: true,
-            confirmButtonColor: "#00FFD2",
-            confirmButtonText: "Yeah! :)",
-            cancelButtonText: "Meh",
-            closeOnConfirm: false,
-            closeOnCancel: false
-        }, function(isConfirm) {
-            if (isConfirm) {
-                swal("Nice!", "A rematch request has been sent (not really tho).", "success");
-            } else {
-                swal("Okay", "don't forget to donate", "success");
-            }
-        });
-        GameStore.emit('swal-endgame', { winner });
-    }
-    
-
-
-    return false;
+    return dukes.length === 1;
 }
-
 
 function gameOver(options) {
     _gameOver = _gameOver
