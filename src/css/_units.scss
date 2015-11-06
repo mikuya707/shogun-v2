@@ -1,5 +1,27 @@
+@mixin glow($color) {
+    width: 98px;
+    height: 98px;
+    background-color: $color;
+    animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite;
+    &.front {
+        transform: translateZ(10px);
+    }
+    &.back {
+        transform: translateZ(-10px);
+    }
+}
+
 .cellContainer {
-    //perspective: 600px;
+    width: 98px;
+    height: 98px;
+    position: relative;
+    perspective: 600px;
+}
+
+.tile {
+    width: 100%;
+    height: 100%;
+    position: absolute;
     transform: translateZ(-5px);
     transform-style: preserve-3d;
     transition: transform 1s;
@@ -21,58 +43,38 @@
     position: absolute;
 }
 
+.selected {
+    top: 0px;
+    &.front { box-shadow: 4px 4px 8px #777; }
+    &.back { box-shadow: -4px 4px 8px #777; }
+    animation: float 1s linear infinite;
+    @keyframes float {
+        50% {
+            box-shadow: inherit 8px 12px inherit;
+            top: -7px;
+        }
+    }
+}
+
 .litup {
-    width: 98px;
-    height: 98px;
-    background-color: red;
-    animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite;
-    &.front {
-        transform: translateZ( 10px);
-    }
-    &.back {
-        transform: translateZ( -10px);
-    }
+    @include glow(#ff5555);
 }
 
 .strikable {
-    width: 98px;
-    height: 98px;
-    background-color: yellow;
-    animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite;
-    &.front {
-        transform: translateZ( 10px);
-    }
-    &.back {
-        transform: translateZ( -10px);
-    }
+    @include glow(yellow);
 }
 
 .canDrop {
-    width: 98px;
-    height: 98px;
-    background-color: #00ffd2;
-    animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite;
-    &.front {
-        transform: translateZ( 10px);
-    }
-    &.back {
-        transform: translateZ( -10px);
-    }
+    @include glow(#00ffd2);
 }
 
 @keyframes loopGlow {
-    0% {
-        opacity: 0.1;
-    }
-    50% {
-        opacity: 0.5;
-    }
-    100% {
-        opacity: 0.1;
-    }
+    0% { opacity: 0.1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 0.1; }
 }
 
-.cellContainer {
+.tile {
     .unit {
         ~ .front-face {
             width: 98px;

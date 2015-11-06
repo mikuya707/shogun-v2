@@ -438,36 +438,39 @@ const Cell = React.createClass({
 	},
 
 	render(){
-		const {unit, color, litup, strikable, canDrop, side, playerColor} = this.props;
+		const {unit, color, litup, strikable, canDrop, side, playerColor, position, selected} = this.props;
 		
 		return (
-			<div className={cx({
-					cellContainer: true,
-					[side]: true
-				})}
-				onDragOver={this._onDragOver}
-				onDrop={this._onDrop}
-			>
-					<a className={cx({
-							unit: !!unit,
-							litup: litup,
-							strikable: strikable,
-							canDrop: canDrop,
-							opponent: color && color !== playerColor,
-							[side]: true,
-							[unit]: true,
-							[color]: true,
-						})}
-						onClick={this._onClickSquare}
-						onDragStart={this._onDragStart}
-						draggable />
-					<figure className={cx({"front-face": true, opponent: color && color !== playerColor})} />
-					<figure className={cx({"back-face": true, opponent: color && color !== playerColor})} />
-					<figure className="left-face" />
-					<figure className="right-face" />
-					<figure className="top-face" />
-					<figure className="bottom-face" />
-			</div>
+			<section className="cellContainer">
+				<div className={cx({
+						tile: true,
+						selected: position === selected,
+						[side]: true
+					})}
+					onDragOver={this._onDragOver}
+					onDrop={this._onDrop}
+				>
+						<a className={cx({
+								unit: !!unit,
+								litup: litup,
+								strikable: strikable,
+								canDrop: canDrop,
+								opponent: color && color !== playerColor,
+								[side]: true,
+								[unit]: true,
+								[color]: true,
+							})}
+							onClick={this._onClickSquare}
+							onDragStart={this._onDragStart}
+							draggable />
+						<figure className={cx({"front-face": true, opponent: color && color !== playerColor})} />
+						<figure className={cx({"back-face": true, opponent: color && color !== playerColor})} />
+						<figure className="left-face" />
+						<figure className="right-face" />
+						<figure className="top-face" />
+						<figure className="bottom-face" />
+				</div>
+			</section>
 
 		);
 	}
@@ -513,7 +516,7 @@ const DrawnComponent = React.createClass({
 		return (
 			<div id="drawnUnit" draggable 
 				className={cx({	
-					cellContainer: true,
+					tile: true,
 					[unit]: true,
 					[color]: true,
 					[side]: true
@@ -535,7 +538,7 @@ const DrawnComponent = React.createClass({
 					<figure className={cx({"right-face": true, "draw-preview": true})} />
 					<figure className={cx({"top-face": true, "draw-preview": true})} />
 					<figure className={cx({"bottom-face": true, "draw-preview": true})} />
-				</div>
+			</div>
 
 			);
 		}

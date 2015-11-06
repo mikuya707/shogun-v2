@@ -833,10 +833,19 @@ span#game-type {
     background-size: contain; }
 
 .cellContainer {
+  width: 98px;
+  height: 98px;
+  position: relative;
+  perspective: 600px; }
+
+.tile {
+  width: 100%;
+  height: 100%;
+  position: absolute;
   transform: translateZ(-5px);
   transform-style: preserve-3d;
   transition: transform 1s; }
-  .cellContainer figure {
+  .tile figure {
     margin: 0;
     display: block;
     position: absolute;
@@ -851,10 +860,23 @@ span#game-type {
   left: 0px;
   position: absolute; }
 
+.selected {
+  top: 0px;
+  animation: float 1s linear infinite; }
+  .selected.front {
+    box-shadow: 4px 4px 8px #777; }
+  .selected.back {
+    box-shadow: -4px 4px 8px #777; }
+
+@keyframes float {
+  50% {
+    box-shadow: inherit 8px 12px inherit;
+    top: -7px; } }
+
 .litup {
   width: 98px;
   height: 98px;
-  background-color: red;
+  background-color: #ff5555;
   animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite; }
   .litup.front {
     transform: translateZ(10px); }
@@ -889,27 +911,27 @@ span#game-type {
   100% {
     opacity: 0.1; } }
 
-.cellContainer .unit ~ .front-face {
+.tile .unit ~ .front-face {
   width: 98px;
   height: 98px;
   transform: rotateY(0deg) translateZ(5px); }
-  .cellContainer .unit ~ .front-face.opponent {
+  .tile .unit ~ .front-face.opponent {
     transform: rotateY(0deg) rotateZ(180deg) translateZ(5px); }
-  .cellContainer .unit ~ .front-face.draw-preview {
+  .tile .unit ~ .front-face.draw-preview {
     width: 146px;
     height: 146px; }
 
-.cellContainer .unit ~ .back-face {
+.tile .unit ~ .back-face {
   width: 98px;
   height: 98px;
   transform: rotateY(180deg) translateZ(5px); }
-  .cellContainer .unit ~ .back-face.opponent {
+  .tile .unit ~ .back-face.opponent {
     transform: rotateY(180deg) rotateZ(180deg) translateZ(5px); }
-  .cellContainer .unit ~ .back-face.draw-preview {
+  .tile .unit ~ .back-face.draw-preview {
     width: 146px;
     height: 146px; }
 
-.cellContainer .unit ~ .left-face {
+.tile .unit ~ .left-face {
   width: 10px;
   height: 98px;
   left: 45px;
@@ -917,7 +939,7 @@ span#game-type {
   background-color: #ccc;
   border: 1px solid black; }
 
-.cellContainer .unit ~ .right-face {
+.tile .unit ~ .right-face {
   width: 10px;
   height: 98px;
   left: 42px;
@@ -925,32 +947,32 @@ span#game-type {
   background-color: #ccc;
   border: 1px solid black; }
 
-.cellContainer .unit ~ .top-face {
+.tile .unit ~ .top-face {
   width: 98px;
   height: 8px;
   transform: rotateX(90deg) translateZ(50px); }
 
-.cellContainer .unit ~ .bottom-face {
+.tile .unit ~ .bottom-face {
   width: 98px;
   height: 8px;
   transform: rotateX(-90deg) translateZ(50px); }
 
-.cellContainer.front {
+.tile.front {
   transform: translateZ(-5px) rotateY(0deg); }
 
-.cellContainer.back {
+.tile.back {
   transform: translateZ(-5px) rotateY(-180deg); }
 
-.cellContainer.left {
+.tile.left {
   transform: translateZ(-50px) rotateY(90deg); }
 
-.cellContainer.right {
+.tile.right {
   transform: translateZ(-50px) rotateY(-90deg); }
 
-.cellContainer.top {
+.tile.top {
   transform: translateZ(-50px) rotateX(-90deg); }
 
-.cellContainer.bottom {
+.tile.bottom {
   transform: translateZ(-50px) rotateX(90deg); }
 
 .Assassin.white ~ .front-face {
