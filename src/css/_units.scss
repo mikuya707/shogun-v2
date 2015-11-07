@@ -12,7 +12,7 @@ $tile-height: 98px;
     &.back {
         transform: translateZ(-10px);
     }
-    
+
     @keyframes loopGlow {
         0% { opacity: 0.1; }
         50% { opacity: 0.5; }
@@ -53,17 +53,17 @@ $tile-height: 98px;
 }
 
 .selected {
-    top: 0px;
-    &.front { box-shadow: 4px 4px 8px #777; }
-    &.back { box-shadow: -4px 4px 8px #777; }
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    box-shadow: 0px 2px 12px #777;
     animation: float 1s linear infinite;
     @keyframes float {
         50% {
-            box-shadow: inherit 8px 12px inherit;
-            top: -7px;
-            // transform: translateY(-7px);
+            box-shadow: 4px 7px 12px #777;
+            transform: translateY(-7px);
         }
-    }
+    } 
 }
 
 .litup {

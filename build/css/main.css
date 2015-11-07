@@ -861,17 +861,16 @@ span#game-type {
   position: absolute; }
 
 .selected {
-  top: 0px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  box-shadow: 0px 2px 12px #777;
   animation: float 1s linear infinite; }
-  .selected.front {
-    box-shadow: 4px 4px 8px #777; }
-  .selected.back {
-    box-shadow: -4px 4px 8px #777; }
 
 @keyframes float {
   50% {
-    box-shadow: inherit 8px 12px inherit;
-    top: -7px; } }
+    box-shadow: 4px 7px 12px #777;
+    transform: translateY(-7px); } }
 
 .litup {
   width: 98px;
