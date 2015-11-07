@@ -31,7 +31,6 @@ var dependencies = [
   'immutable',
   'flux',
   'eventemitter2',
-  'chess.js',
   'lodash.omit',
   'socket.io-client',
   'es6-shim'

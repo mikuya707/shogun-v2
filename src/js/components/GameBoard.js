@@ -98,6 +98,20 @@ const GameBoard = React.createClass({
 			}
 		});
 
+		document.body.addEventListener('keypress', e => {
+			if (e.keyCode === 32) { // space
+				e.preventDefault();
+				const coords = JSON.parse(this.state.selected);
+				if (!coords) return;
+				const selected = document.getElementsByClassName('tile')[coords[1]*6+coords[0]];
+				if (selected.className.includes('flip')) return;
+				selected.classList.add('flip');
+				setTimeout(function removeFlip() {
+					selected.classList.remove('flip');
+				}, 3000)
+			}
+		})
+
 		// io.on('swal-gameover', data => {
 		// 	let winner = data.winner;
 		// 	swal({
@@ -169,6 +183,8 @@ const GameBoard = React.createClass({
 			cellArray.push(row);
 		}
 
+		const colorSide = board[selected] ? `${board[selected].color}-${board[selected].side}` : null;
+
 		return (
 			<div>
 				<table className="board">
@@ -188,6 +204,7 @@ const GameBoard = React.createClass({
 											strikable={strike[coords]}
 											canDrop={drop[coords]}
 											selected={selected}
+											colorSide={lightup[coords] ? colorSide : null}
 											turn={turn}
 											pendingDraw={pendingDraw}
 											setSelected={this._setSelected}
@@ -264,6 +281,7 @@ const GameBoard = React.createClass({
 				y = posArr[1] + moveArr[1];
 
 			// strike and jump are straightforward; simply store the marked tile
+			if (moveName === 'command') inRange.push({x: x, y: y, type: 'strike'});
 			if (moveName === 'strike') inRange.push({x: x, y: y, type: 'strike'});
 			else if (moveName === 'jump') inRange.push({x: x, y: y, type: 'move'});
 			else {
@@ -329,7 +347,7 @@ const Cell = React.createClass({
 	},
 
   	componentDidMount() {
-		
+	
 	},
 
 	componentWillMount() {
@@ -338,7 +356,7 @@ const Cell = React.createClass({
 
 	mixins: [],
 
-	_onClickSquare() {
+	_onClickSquare(e) {
 
 		const {unit, color, setSelected, litup, strikable, canDrop, side, playerColor, turn, pendingDraw} = this.props;
 
@@ -437,8 +455,8 @@ const Cell = React.createClass({
 	},
 
 	render(){
-		const {unit, color, litup, strikable, canDrop, side, playerColor, position, selected} = this.props;
-		
+		const {unit, color, litup, strikable, canDrop, side, colorSide, playerColor, position, selected} = this.props;
+
 		return (
 			<section className={cx({
 				cellContainer: true,
@@ -451,7 +469,10 @@ const Cell = React.createClass({
 					<div className={cx({
 							tile: true,
 							// selected: position === selected,
-							[side]: true
+							[side]: true,
+							[color]: true,
+							[colorSide]: true,
+							// flip: flip
 						})}
 						onDragOver={this._onDragOver}
 						onDrop={this._onDrop}
