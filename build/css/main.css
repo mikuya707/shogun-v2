@@ -883,6 +883,14 @@ span#game-type {
   .litup.back {
     transform: translateZ(-10px); }
 
+@keyframes loopGlow {
+  0% {
+    opacity: 0.1; }
+  50% {
+    opacity: 0.5; }
+  100% {
+    opacity: 0.1; } }
+
 .strikable {
   width: 98px;
   height: 98px;
@@ -892,6 +900,14 @@ span#game-type {
     transform: translateZ(10px); }
   .strikable.back {
     transform: translateZ(-10px); }
+
+@keyframes loopGlow {
+  0% {
+    opacity: 0.1; }
+  50% {
+    opacity: 0.5; }
+  100% {
+    opacity: 0.1; } }
 
 .canDrop {
   width: 98px;

@@ -1,6 +1,9 @@
+$tile-width: 98px;
+$tile-height: 98px;
+
 @mixin glow($color) {
-    width: 98px;
-    height: 98px;
+    width: $tile-width;
+    height: $tile-height;
     background-color: $color;
     animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite;
     &.front {
@@ -9,11 +12,17 @@
     &.back {
         transform: translateZ(-10px);
     }
+    
+    @keyframes loopGlow {
+        0% { opacity: 0.1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 0.1; }
+    }
 }
 
 .cellContainer {
-    width: 98px;
-    height: 98px;
+    width: $tile-width;
+    height: $tile-height;
     position: relative;
     perspective: 600px;
 }
@@ -35,8 +44,8 @@
 }
 
 .unit {
-    width: 98px;
-    height: 98px;
+    width: $tile-width;
+    height: $tile-height;
     background-size: contain;
     top: 0px;
     left: 0px;
@@ -52,6 +61,7 @@
         50% {
             box-shadow: inherit 8px 12px inherit;
             top: -7px;
+            // transform: translateY(-7px);
         }
     }
 }
@@ -68,17 +78,11 @@
     @include glow(#00ffd2);
 }
 
-@keyframes loopGlow {
-    0% { opacity: 0.1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 0.1; }
-}
-
 .tile {
     .unit {
         ~ .front-face {
-            width: 98px;
-            height: 98px;
+            width: $tile-width;
+            height: $tile-height;
             transform: rotateY( 0deg) translateZ( 5px);
             &.opponent {
                 transform: rotateY( 0deg) rotateZ( 180deg) translateZ( 5px);
@@ -88,8 +92,8 @@
             }
         }
         ~ .back-face {
-            width: 98px;
-            height: 98px;
+            width: $tile-width;
+            height: $tile-height;
             transform: rotateY( 180deg) translateZ( 5px);
             &.opponent {
                 transform: rotateY( 180deg) rotateZ( 180deg) translateZ( 5px);
@@ -100,7 +104,7 @@
         }
         ~ .left-face {
             width: 10px;
-            height: 98px;
+            height: $tile-height;
             left: 45px;
             transform: rotateY( -90deg) translateZ( 50px);
             background-color: #ccc;
@@ -108,19 +112,19 @@
         }
         ~ .right-face {
             width: 10px;
-            height: 98px;
+            height: $tile-height;
             left: 42px;
             transform: rotateY( 90deg) translateZ( 50px);
             background-color: #ccc;
             border: 1px solid black;
         }
         ~ .top-face {
-            width: 98px;
+            width: $tile-width;
             height: 8px;
             transform: rotateX( 90deg) translateZ( 50px);
         }
         ~ .bottom-face {
-            width: 98px;
+            width: $tile-width;
             height: 8px;
             transform: rotateX( -90deg) translateZ( 50px);
         }
