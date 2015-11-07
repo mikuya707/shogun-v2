@@ -106,7 +106,7 @@ function setInitialState() {
         
     };
 
-    _deck = [...Object.keys(omit(behavior, 'Duke')), 'Pikeman', 'Pikeman'];
+    _deck = [...Object.keys(omit(behavior, 'Duke', 'Oracle')), 'Pikeman', 'Pikeman'];
 }
 
 function moveToBoard() {

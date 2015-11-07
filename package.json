@@ -5,7 +5,8 @@
     "start": "node --harmony ./bin/www",
     "test": "node --harmony ./node_modules/jasmine/bin/jasmine.js && jest",
     "build": "NODE_ENV=development gulp",
-    "deploy": "NODE_ENV=production gulp"
+    "deploy": "NODE_ENV=production gulp",
+    "postinstall": "NODE_ENV=production gulp"
   },
   "dependencies": {
     "babel": "^4.7.16",
