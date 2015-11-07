@@ -34,7 +34,6 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
         return {
             gameOver: _gameOver,
             turn: _turn,
-            check: _check,
         };
     },
     getCapturedPieces() {
@@ -76,7 +75,6 @@ function setInitialState() {
     _moves = List();
     _turn = 'w';
     _moved = false;
-    _check = false;
     _lastMove = Map();
     _selected = null;
     _pendingDraw = null;
