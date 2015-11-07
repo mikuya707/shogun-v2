@@ -70,14 +70,18 @@ const TileActions = {
     },
     "Duchess": {
         "front": {
-            "[1,0]": "move",
-            "[-1,0]": "move",
-            "[0,2]": "move"
+            "[1,0]": "move command",
+            "[-1,0]": "move command",
+            "[0,2]": "move",
+            "[-2,0]": "command",
+            "[2,0]": "command"
         },
         "back": {
-            "[1,0]": "move",
-            "[-1,0]": "move",
-            "[0,2]": "move"
+            "[1,0]": "move command",
+            "[-1,0]": "move command",
+            "[0,2]": "move",
+            "[-2,0]": "command",
+            "[2,0]": "command"
         }
     },
     "Duke": {
@@ -145,9 +149,9 @@ const TileActions = {
             "[0,2]": "jump"
         },
         "back": {
-            "[-1,-1]": "move",
-            "[0,-1]": "move",
-            "[1,-1]": "move",
+            "[-1,-1]": "move command",
+            "[0,-1]": "move command",
+            "[1,-1]": "move command",
             "[-2,0]": "move",
             "[-1,0]": "move",
             "[1,0]": "move",
@@ -259,8 +263,30 @@ const TileActions = {
             "[0,2]": "jump",
             "[2,2]": "jump"
         }
+    },
+     "General": {
+        "front": {
+            "[0,-1]": "move",
+            "[-2,0]": "move",
+            "[2,0]": "move",
+            "[0,1]": "move",
+            "[-1,-2]": "jump",
+            "[1,-2]": "jump",
+        },
+        "back": {
+            "[-1,-2]": "jump",
+            "[1,-2]": "jump",
+            "[-2,0]": "move",
+            "[-1,0]": "move command",
+            "[1,0]": "move command",
+            "[2,0]": "move",
+            "[0,-1]": "move",
+            "[-1,1]": "command",
+            "[0,1]": "command",
+            "[1,1]": "command"
+        }
     }
-}
+};
 
 
 // var newUnits = {};

@@ -70,6 +70,10 @@ $tile-height: 98px;
     @include glow(#ff5555);
 }
 
+.commandable {
+    @include glow(#14ff3e);
+}
+
 .strikable {
     @include glow(yellow);
 }
@@ -278,6 +282,25 @@ $tile-height: 98px;
         }
         ~ .back-face {
             background-image: url("/img/Footman_back_black.png");
+        }
+    }
+}
+
+.General {
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/General_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/General_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/General_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/General_back_black.png");
         }
     }
 }

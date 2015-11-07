@@ -135,6 +135,7 @@ const GameBoard = React.createClass({
 			board: state.board,
 			lightup: state.lightup,
 			strike: state.strike,
+			commandable: state.commandable,
 			drop: state.drop,
 			selected: state.selected,
 			drawUnit: state.drawUnit,
@@ -157,7 +158,7 @@ const GameBoard = React.createClass({
 	render() {
 		let {state, props} = this, 
 			{size, color, gameover} = props,
-			{board, selected, lightup, strike, drop, turn, drawn, pendingDraw} = state;
+			{board, selected, lightup, commandable, strike, drop, turn, drawn, pendingDraw} = state;
 
 		if (color === 'black') board = this._reverseBoard();
 
@@ -186,6 +187,7 @@ const GameBoard = React.createClass({
 											playerColor={color}
 											side={board[coords] ? board[coords].side : null}
 											litup={lightup[coords]}
+											commandable={commandable[coords]}
 											strikable={strike[coords]}
 											canDrop={drop[coords]}
 											selected={selected}
@@ -230,7 +232,8 @@ const GameBoard = React.createClass({
 		this.setState({
 			selected: position,
 			lightup: this._getValidMoves(position, inRange).movableTiles,
-			strike: this._getValidMoves(position, inRange).strikableTiles
+			strike: this._getValidMoves(position, inRange).strikableTiles,
+			commandable: this._getValidMoves(position, inRange).commandableTiles
 		})
 	},
 
@@ -253,7 +256,7 @@ const GameBoard = React.createClass({
 	_getValidMoves(position, moves) {
 		if (!moves) return;
 		const {color: playerColor} = this.props;
-		let inRange = [], movableTiles = {}, strikableTiles = {},
+		let inRange = [], movableTiles = {}, strikableTiles = {}, commandableTiles = {}
 			posArr = JSON.parse(position),
 			theBoard = playerColor === 'black' ? this._reverseBoard() : this.state.board;
 
@@ -267,7 +270,13 @@ const GameBoard = React.createClass({
 			// strike and jump are straightforward; simply store the marked tile
 			if (moveName === 'strike') inRange.push({x: x, y: y, type: 'strike'});
 			else if (moveName === 'jump') inRange.push({x: x, y: y, type: 'move'});
+			else if (moveName === 'command') inRange.push({x: x, y: y, type: 'command'});
 			else {
+
+				//if it's both move and command
+				if (moveName.includes('command')){
+					inRange.push({x: x, y: y, type: 'move'});
+				}
 				let deltaX = Math.sign(moveArr[0]), 
 					deltaY = Math.sign(moveArr[1]),
 					i = posArr[0] + deltaX, 
@@ -285,6 +294,7 @@ const GameBoard = React.createClass({
 					if (unitInTheWay && !moveName.includes('jump')) break;
 
 					i += deltaX; j += deltaY;
+
 				}
 			}
 		});
@@ -298,9 +308,10 @@ const GameBoard = React.createClass({
 		}).forEach(range => {
 			if (range.type === 'move') movableTiles[`[${range.x}, ${range.y}]`] = true;
 			else if (range.type === 'strike') strikableTiles[`[${range.x}, ${range.y}]`] = true;
+			else if (range.type === 'command') commandableTiles[`[${range.x}, ${range.y}]`] = true;
 		});
 
-		return { movableTiles, strikableTiles };
+		return { movableTiles, strikableTiles, commandableTiles };
 	},
 
 	_isOnBoard({x, y}) {

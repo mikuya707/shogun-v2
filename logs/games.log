@@ -1591,3 +1591,20 @@ Duplicate data property in object literal not allowed in strict mode date=Thu Oc
 2015-11-06T01:38:11.897Z - info: Number of currently running games #=1
 2015-11-06T01:40:00.770Z - info: Number of currently running games #=1
 2015-11-06T01:41:00.679Z - info: Number of currently running games #=1
+2015-11-07T03:25:36.371Z - info: Number of currently running games #=1
+2015-11-07T03:30:53.107Z - info: Number of currently running games #=1
+2015-11-07T03:37:44.319Z - info: Number of currently running games #=1
+2015-11-07T03:39:28.028Z - info: Number of currently running games #=1
+2015-11-07T03:49:42.323Z - info: Number of currently running games #=1
+2015-11-07T18:38:12.920Z - info: Number of currently running games #=1
+2015-11-07T20:13:29.178Z - info: Number of currently running games #=1
+2015-11-07T20:58:54.299Z - info: Number of currently running games #=1
+2015-11-07T21:00:30.883Z - info: Number of currently running games #=1
+2015-11-07T22:00:53.442Z - error: commandable is not defined
+2015-11-07T22:01:34.082Z - error: commandable is not defined
+2015-11-07T22:01:45.177Z - error: commandable is not defined
+2015-11-07T22:02:16.537Z - error: commandable is not defined
+2015-11-07T22:02:23.329Z - error: commandable is not defined
+2015-11-07T22:04:02.133Z - error: Cannot read property '[0, 0]' of undefined
+2015-11-07T22:05:20.940Z - error: Cannot read property '[0, 0]' of undefined
+2015-11-07T22:07:50.485Z - error: Cannot read property '[0, 0]' of undefined

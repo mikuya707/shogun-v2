@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'Smart Regular';
-  src: url("../fonts/smart-regular.eot");
-  src: url("../fonts/smart-regular.eot?#iefix") format("embedded-opentype"), url("../fonts/smart-regular.woff2") format("woff2"), url("../fonts/smart-regular.woff") format("woff"), url("../fonts/smart-regular.ttf") format("truetype");
+  src: url('../fonts/smart-regular.eot');
+  src: url('../fonts/smart-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/smart-regular.woff2') format('woff2'), url('../fonts/smart-regular.woff') format('woff'), url('../fonts/smart-regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal; }
 
@@ -531,7 +531,7 @@ div {
       .board tr td.from {
         background: #8cd8e4 !important; }
       .board tr td.to {
-        background: #77d2df !important; }
+        background: #77d1df !important; }
       .board tr td.droppable::after {
         position: absolute;
         content: "";
@@ -556,8 +556,7 @@ div {
         .board tr td a[draggable="true"] {
           cursor: pointer; }
 
-.gameboard tr:nth-child(odd) td:nth-child(even),
-.gameboard tr:nth-child(even) td:nth-child(odd) {
+.gameboard tr:nth-child(odd) td:nth-child(even), .gameboard tr:nth-child(even) td:nth-child(odd) {
   background: #dad7d2; }
 
 .highlight {
@@ -752,7 +751,7 @@ span#game-type {
       .board tr td.from {
         background: #8cd8e4 !important; }
       .board tr td.to {
-        background: #77d2df !important; }
+        background: #77d1df !important; }
       .board tr td.droppable::after {
         position: absolute;
         content: "";
@@ -777,8 +776,7 @@ span#game-type {
         .board tr td a[draggable="true"] {
           cursor: pointer; }
 
-.gameboard tr:nth-child(odd) td:nth-child(even),
-.gameboard tr:nth-child(even) td:nth-child(odd) {
+.gameboard tr:nth-child(odd) td:nth-child(even), .gameboard tr:nth-child(even) td:nth-child(odd) {
   background: #dad7d2; }
 
 .highlight {
@@ -865,66 +863,92 @@ span#game-type {
   height: 100%;
   position: absolute;
   box-shadow: 0px 2px 12px #777;
-  animation: float 1s linear infinite; }
-
-@keyframes float {
-  50% {
-    box-shadow: 4px 7px 12px #777;
-    transform: translateY(-7px); } }
+  animation: float 1s linear infinite;
+  @keyframes float {
+    50% {
+      box-shadow: 4px 7px 12px #777;
+      transform: translateY(-7px); } }
+ }
 
 .litup {
   width: 98px;
   height: 98px;
   background-color: #ff5555;
-  animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite; }
+  animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite;
+  @keyframes loopGlow {
+    0% {
+      opacity: 0.1; }
+
+    50% {
+      opacity: 0.5; }
+
+    100% {
+      opacity: 0.1; } }
+ }
   .litup.front {
     transform: translateZ(10px); }
   .litup.back {
     transform: translateZ(-10px); }
 
-@keyframes loopGlow {
-  0% {
-    opacity: 0.1; }
-  50% {
-    opacity: 0.5; }
-  100% {
-    opacity: 0.1; } }
+.commandable {
+  width: 98px;
+  height: 98px;
+  background-color: #14ff3e;
+  animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite;
+  @keyframes loopGlow {
+    0% {
+      opacity: 0.1; }
+
+    50% {
+      opacity: 0.5; }
+
+    100% {
+      opacity: 0.1; } }
+ }
+  .commandable.front {
+    transform: translateZ(10px); }
+  .commandable.back {
+    transform: translateZ(-10px); }
 
 .strikable {
   width: 98px;
   height: 98px;
   background-color: yellow;
-  animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite; }
+  animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite;
+  @keyframes loopGlow {
+    0% {
+      opacity: 0.1; }
+
+    50% {
+      opacity: 0.5; }
+
+    100% {
+      opacity: 0.1; } }
+ }
   .strikable.front {
     transform: translateZ(10px); }
   .strikable.back {
     transform: translateZ(-10px); }
 
-@keyframes loopGlow {
-  0% {
-    opacity: 0.1; }
-  50% {
-    opacity: 0.5; }
-  100% {
-    opacity: 0.1; } }
-
 .canDrop {
   width: 98px;
   height: 98px;
   background-color: #00ffd2;
-  animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite; }
+  animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite;
+  @keyframes loopGlow {
+    0% {
+      opacity: 0.1; }
+
+    50% {
+      opacity: 0.5; }
+
+    100% {
+      opacity: 0.1; } }
+ }
   .canDrop.front {
     transform: translateZ(10px); }
   .canDrop.back {
     transform: translateZ(-10px); }
-
-@keyframes loopGlow {
-  0% {
-    opacity: 0.1; }
-  50% {
-    opacity: 0.5; }
-  100% {
-    opacity: 0.1; } }
 
 .tile .unit ~ .front-face {
   width: 98px;
@@ -935,7 +959,6 @@ span#game-type {
   .tile .unit ~ .front-face.draw-preview {
     width: 146px;
     height: 146px; }
-
 .tile .unit ~ .back-face {
   width: 98px;
   height: 98px;
@@ -945,7 +968,6 @@ span#game-type {
   .tile .unit ~ .back-face.draw-preview {
     width: 146px;
     height: 146px; }
-
 .tile .unit ~ .left-face {
   width: 10px;
   height: 98px;
@@ -953,7 +975,6 @@ span#game-type {
   transform: rotateY(-90deg) translateZ(50px);
   background-color: #ccc;
   border: 1px solid black; }
-
 .tile .unit ~ .right-face {
   width: 10px;
   height: 98px;
@@ -961,224 +982,177 @@ span#game-type {
   transform: rotateY(90deg) translateZ(50px);
   background-color: #ccc;
   border: 1px solid black; }
-
 .tile .unit ~ .top-face {
   width: 98px;
   height: 8px;
   transform: rotateX(90deg) translateZ(50px); }
-
 .tile .unit ~ .bottom-face {
   width: 98px;
   height: 8px;
   transform: rotateX(-90deg) translateZ(50px); }
-
 .tile.front {
   transform: translateZ(-5px) rotateY(0deg); }
-
 .tile.back {
   transform: translateZ(-5px) rotateY(-180deg); }
-
 .tile.left {
   transform: translateZ(-50px) rotateY(90deg); }
-
 .tile.right {
   transform: translateZ(-50px) rotateY(-90deg); }
-
 .tile.top {
   transform: translateZ(-50px) rotateX(-90deg); }
-
 .tile.bottom {
   transform: translateZ(-50px) rotateX(90deg); }
 
 .Assassin.white ~ .front-face {
   background-image: url("/img/Assassin_front.png"); }
-
 .Assassin.white ~ .back-face {
   background-image: url("/img/Assassin_back.png"); }
-
 .Assassin.black ~ .front-face {
   background-image: url("/img/Assassin_front_black.png"); }
-
 .Assassin.black ~ .back-face {
   background-image: url("/img/Assassin_back_black.png"); }
 
 .Bowman.white ~ .front-face {
   background-image: url("/img/Bowman_front.png"); }
-
 .Bowman.white ~ .back-face {
   background-image: url("/img/Bowman_back.png"); }
-
 .Bowman.black ~ .front-face {
   background-image: url("/img/Bowman_front_black.png"); }
-
 .Bowman.black ~ .back-face {
   background-image: url("/img/Bowman_back_black.png"); }
 
 .Champion.white ~ .front-face {
   background-image: url("/img/Champion_front.png"); }
-
 .Champion.white ~ .back-face {
   background-image: url("/img/Champion_back.png"); }
-
 .Champion.black ~ .front-face {
   background-image: url("/img/Champion_front_black.png"); }
-
 .Champion.black ~ .back-face {
   background-image: url("/img/Champion_back_black.png"); }
 
 .Dragoon.white ~ .front-face {
   background-image: url("/img/Dragoon_front.png"); }
-
 .Dragoon.white ~ .back-face {
   background-image: url("/img/Dragoon_back.png"); }
-
 .Dragoon.black ~ .front-face {
   background-image: url("/img/Dragoon_front_black.png"); }
-
 .Dragoon.black ~ .back-face {
   background-image: url("/img/Dragoon_back_black.png"); }
 
 .Duchess.white ~ .front-face {
   background-image: url("/img/Duchess_front.png"); }
-
 .Duchess.white ~ .back-face {
   background-image: url("/img/Duchess_back.png"); }
-
 .Duchess.black ~ .front-face {
   background-image: url("/img/Duchess_front_black.png"); }
-
 .Duchess.black ~ .back-face {
   background-image: url("/img/Duchess_back_black.png"); }
 
 .Duke.white ~ .front-face {
   background-image: url("/img/Duke_front.png"); }
-
 .Duke.white ~ .back-face {
   background-image: url("/img/Duke_back.png"); }
-
 .Duke.black ~ .front-face {
   background-image: url("/img/Duke_front_black.png"); }
-
 .Duke.black ~ .back-face {
   background-image: url("/img/Duke_back_black.png"); }
 
 .Footman.white ~ .front-face {
   background-image: url("/img/Footman_front.png"); }
-
 .Footman.white ~ .back-face {
   background-image: url("/img/Footman_back.png"); }
-
 .Footman.black ~ .front-face {
   background-image: url("/img/Footman_front_black.png"); }
-
 .Footman.black ~ .back-face {
   background-image: url("/img/Footman_back_black.png"); }
 
+.General.white ~ .front-face {
+  background-image: url("/img/General_front.png"); }
+.General.white ~ .back-face {
+  background-image: url("/img/General_back.png"); }
+.General.black ~ .front-face {
+  background-image: url("/img/General_front_black.png"); }
+.General.black ~ .back-face {
+  background-image: url("/img/General_back_black.png"); }
+
 .Knight.white ~ .front-face {
   background-image: url("/img/Knight_front.png"); }
-
 .Knight.white ~ .back-face {
   background-image: url("/img/Knight_back.png"); }
-
 .Knight.black ~ .front-face {
   background-image: url("/img/Knight_front_black.png"); }
-
 .Knight.black ~ .back-face {
   background-image: url("/img/Knight_back_black.png"); }
 
 .Longbowman.white ~ .front-face {
   background-image: url("/img/Longbowman_front.png"); }
-
 .Longbowman.white ~ .back-face {
   background-image: url("/img/Longbowman_back.png"); }
-
 .Longbowman.black ~ .front-face {
   background-image: url("/img/Longbowman_front_black.png"); }
-
 .Longbowman.black ~ .back-face {
   background-image: url("/img/Longbowman_back_black.png"); }
 
 .Marshall.white ~ .front-face {
   background-image: url("/img/Marshall_front.png"); }
-
 .Marshall.white ~ .back-face {
   background-image: url("/img/Marshall_back.png"); }
-
 .Marshall.black ~ .front-face {
   background-image: url("/img/Marshall_front_black.png"); }
-
 .Marshall.black ~ .back-face {
   background-image: url("/img/Marshall_back_black.png"); }
 
 .Oracle.white ~ .front-face {
   background-image: url("/img/Oracle_front.png"); }
-
 .Oracle.white ~ .back-face {
   background-image: url("/img/Oracle_back.png"); }
-
 .Oracle.black ~ .front-face {
   background-image: url("/img/Oracle_front_black.png"); }
-
 .Oracle.black ~ .back-face {
   background-image: url("/img/Oracle_back_black.png"); }
 
 .Pikeman.white ~ .front-face {
   background-image: url("/img/Pikeman_front.png"); }
-
 .Pikeman.white ~ .back-face {
   background-image: url("/img/Pikeman_back.png"); }
-
 .Pikeman.black ~ .front-face {
   background-image: url("/img/Pikeman_front_black.png"); }
-
 .Pikeman.black ~ .back-face {
   background-image: url("/img/Pikeman_back_black.png"); }
 
 .Priest.white ~ .front-face {
   background-image: url("/img/Priest_front.png"); }
-
 .Priest.white ~ .back-face {
   background-image: url("/img/Priest_back.png"); }
-
 .Priest.black ~ .front-face {
   background-image: url("/img/Priest_front_black.png"); }
-
 .Priest.black ~ .back-face {
   background-image: url("/img/Priest_back_black.png"); }
 
 .Ranger.white ~ .front-face {
   background-image: url("/img/Ranger_front.png"); }
-
 .Ranger.white ~ .back-face {
   background-image: url("/img/Ranger_back.png"); }
-
 .Ranger.black ~ .front-face {
   background-image: url("/img/Ranger_front_black.png"); }
-
 .Ranger.black ~ .back-face {
   background-image: url("/img/Ranger_back_black.png"); }
 
 .Seer.white ~ .front-face {
   background-image: url("/img/Seer_front.png"); }
-
 .Seer.white ~ .back-face {
   background-image: url("/img/Seer_back.png"); }
-
 .Seer.black ~ .front-face {
   background-image: url("/img/Seer_front_black.png"); }
-
 .Seer.black ~ .back-face {
   background-image: url("/img/Seer_back_black.png"); }
 
 .Wizard.white ~ .front-face {
   background-image: url("/img/Wizard_front.png"); }
-
 .Wizard.white ~ .back-face {
   background-image: url("/img/Wizard_back.png"); }
-
 .Wizard.black ~ .front-face {
   background-image: url("/img/Wizard_front_black.png"); }
-
 .Wizard.black ~ .back-face {
   background-image: url("/img/Wizard_back_black.png"); }
 
@@ -1556,12 +1530,15 @@ body.stop-scrolling {
   0% {
     transform: scale(0.7);
     -webkit-transform: scale(0.7); }
+
   45% {
     transform: scale(1.05);
     -webkit-transform: scale(1.05); }
+
   80% {
     transform: scale(0.95);
     -webkit-transform: scale(0.95); }
+
   100% {
     transform: scale(1);
     -webkit-transform: scale(1); } }
@@ -1570,12 +1547,15 @@ body.stop-scrolling {
   0% {
     transform: scale(0.7);
     -webkit-transform: scale(0.7); }
+
   45% {
     transform: scale(1.05);
     -webkit-transform: scale(1.05); }
+
   80% {
     transform: scale(0.95);
     -webkit-transform: scale(0.95); }
+
   100% {
     transform: scale(1);
     -webkit-transform: scale(1); } }
@@ -1584,6 +1564,7 @@ body.stop-scrolling {
   0% {
     transform: scale(1);
     -webkit-transform: scale(1); }
+
   100% {
     transform: scale(0.5);
     -webkit-transform: scale(0.5); } }
@@ -1592,6 +1573,7 @@ body.stop-scrolling {
   0% {
     transform: scale(1);
     -webkit-transform: scale(1); }
+
   100% {
     transform: scale(0.5);
     -webkit-transform: scale(0.5); } }
@@ -1599,63 +1581,68 @@ body.stop-scrolling {
 @-webkit-keyframes slideFromTop {
   0% {
     top: 0%; }
+
   100% {
     top: 50%; } }
 
 @keyframes slideFromTop {
   0% {
     top: 0%; }
+
   100% {
     top: 50%; } }
 
 @-webkit-keyframes slideToTop {
   0% {
     top: 50%; }
+
   100% {
     top: 0%; } }
 
 @keyframes slideToTop {
   0% {
     top: 50%; }
+
   100% {
     top: 0%; } }
 
 @-webkit-keyframes slideFromBottom {
   0% {
     top: 70%; }
+
   100% {
     top: 50%; } }
 
 @keyframes slideFromBottom {
   0% {
     top: 70%; }
+
   100% {
     top: 50%; } }
 
 @-webkit-keyframes slideToBottom {
   0% {
     top: 50%; }
+
   100% {
     top: 70%; } }
 
 @keyframes slideToBottom {
   0% {
     top: 50%; }
+
   100% {
     top: 70%; } }
 
 .showSweetAlert[data-animation=pop] {
   -webkit-animation: showSweetAlert 0.3s;
   animation: showSweetAlert 0.3s; }
-
 .showSweetAlert[data-animation=none] {
   -webkit-animation: none;
   animation: none; }
-
 .showSweetAlert[data-animation=slide-from-top] {
   -webkit-animation: slideFromTop 0.3s;
   animation: slideFromTop 0.3s; }
-
 .showSweetAlert[data-animation=slide-from-bottom] {
   -webkit-animation: slideFromBottom 0.3s;
   animation: slideFromBottom 0.3s; }
@@ -1663,15 +1650,12 @@ body.stop-scrolling {
 .hideSweetAlert[data-animation=pop] {
   -webkit-animation: hideSweetAlert 0.2s;
   animation: hideSweetAlert 0.2s; }
-
 .hideSweetAlert[data-animation=none] {
   -webkit-animation: none;
   animation: none; }
-
 .hideSweetAlert[data-animation=slide-from-top] {
   -webkit-animation: slideToTop 0.4s;
   animation: slideToTop 0.4s; }
-
 .hideSweetAlert[data-animation=slide-from-bottom] {
   -webkit-animation: slideToBottom 0.3s;
   animation: slideToBottom 0.3s; }
@@ -1681,18 +1665,22 @@ body.stop-scrolling {
     width: 0;
     left: 1px;
     top: 19px; }
+
   54% {
     width: 0;
     left: 1px;
     top: 19px; }
+
   70% {
     width: 50px;
     left: -8px;
     top: 37px; }
+
   84% {
     width: 17px;
     left: 21px;
     top: 48px; }
+
   100% {
     width: 25px;
     left: 14px;
@@ -1703,18 +1691,22 @@ body.stop-scrolling {
     width: 0;
     left: 1px;
     top: 19px; }
+
   54% {
     width: 0;
     left: 1px;
     top: 19px; }
+
   70% {
     width: 50px;
     left: -8px;
     top: 37px; }
+
   84% {
     width: 17px;
     left: 21px;
     top: 48px; }
+
   100% {
     width: 25px;
     left: 14px;
@@ -1725,14 +1717,17 @@ body.stop-scrolling {
     width: 0;
     right: 46px;
     top: 54px; }
+
   65% {
     width: 0;
     right: 46px;
     top: 54px; }
+
   84% {
     width: 55px;
     right: 0px;
     top: 35px; }
+
   100% {
     width: 47px;
     right: 8px;
@@ -1743,14 +1738,17 @@ body.stop-scrolling {
     width: 0;
     right: 46px;
     top: 54px; }
+
   65% {
     width: 0;
     right: 46px;
     top: 54px; }
+
   84% {
     width: 55px;
     right: 0px;
     top: 35px; }
+
   100% {
     width: 47px;
     right: 8px;
@@ -1760,12 +1758,15 @@ body.stop-scrolling {
   0% {
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg); }
+
   5% {
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg); }
+
   12% {
     transform: rotate(-405deg);
     -webkit-transform: rotate(-405deg); }
+
   100% {
     transform: rotate(-405deg);
     -webkit-transform: rotate(-405deg); } }
@@ -1774,12 +1775,15 @@ body.stop-scrolling {
   0% {
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg); }
+
   5% {
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg); }
+
   12% {
     transform: rotate(-405deg);
     -webkit-transform: rotate(-405deg); }
+
   100% {
     transform: rotate(-405deg);
     -webkit-transform: rotate(-405deg); } }
@@ -1801,6 +1805,7 @@ body.stop-scrolling {
     transform: rotateX(100deg);
     -webkit-transform: rotateX(100deg);
     opacity: 0; }
+
   100% {
     transform: rotateX(0deg);
     -webkit-transform: rotateX(0deg);
@@ -1811,6 +1816,7 @@ body.stop-scrolling {
     transform: rotateX(100deg);
     -webkit-transform: rotateX(100deg);
     opacity: 0; }
+
   100% {
     transform: rotateX(0deg);
     -webkit-transform: rotateX(0deg);
@@ -1826,15 +1832,18 @@ body.stop-scrolling {
     -webkit-transform: scale(0.4);
     margin-top: 26px;
     opacity: 0; }
+
   50% {
     transform: scale(0.4);
     -webkit-transform: scale(0.4);
     margin-top: 26px;
     opacity: 0; }
+
   80% {
     transform: scale(1.15);
     -webkit-transform: scale(1.15);
     margin-top: -6px; }
+
   100% {
     transform: scale(1);
     -webkit-transform: scale(1);
@@ -1847,15 +1856,18 @@ body.stop-scrolling {
     -webkit-transform: scale(0.4);
     margin-top: 26px;
     opacity: 0; }
+
   50% {
     transform: scale(0.4);
     -webkit-transform: scale(0.4);
     margin-top: 26px;
     opacity: 0; }
+
   80% {
     transform: scale(1.15);
     -webkit-transform: scale(1.15);
     margin-top: -6px; }
+
   100% {
     transform: scale(1);
     -webkit-transform: scale(1);
@@ -1869,12 +1881,14 @@ body.stop-scrolling {
 @-webkit-keyframes pulseWarning {
   0% {
     border-color: #F8D486; }
+
   100% {
     border-color: #F8BB86; } }
 
 @keyframes pulseWarning {
   0% {
     border-color: #F8D486; }
+
   100% {
     border-color: #F8BB86; } }
 
@@ -1885,12 +1899,14 @@ body.stop-scrolling {
 @-webkit-keyframes pulseWarningIns {
   0% {
     background-color: #F8D486; }
+
   100% {
     background-color: #F8BB86; } }
 
 @keyframes pulseWarningIns {
   0% {
     background-color: #F8D486; }
+
   100% {
     background-color: #F8BB86; } }
 
@@ -1901,12 +1917,14 @@ body.stop-scrolling {
 @-webkit-keyframes rotate-loading {
   0% {
     transform: rotate(0deg); }
+
   100% {
     transform: rotate(360deg); } }
 
 @keyframes rotate-loading {
   0% {
     transform: rotate(0deg); }
+
   100% {
     transform: rotate(360deg); } }
 
@@ -1998,5 +2016,6 @@ body.stop-scrolling {
           width: 57px;
           height: 57px;
           font-size: 3.5rem; } }
+
 
 /*# sourceMappingURL=maps/main.css.map */
