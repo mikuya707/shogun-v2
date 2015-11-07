@@ -99,11 +99,9 @@ function setInitialState() {
         '[1, 0]': {unit: 'Footman', color: 'black', side: 'front'},
         '[2, 0]': {unit: 'Duke', color: 'black', side: 'front'},
         '[3, 0]': {unit: 'Footman', color: 'black', side: 'front'},
-        '[2, 5]': {unit: 'Footman', color: 'white', side: 'back'},
+        '[2, 5]': {unit: 'Footman', color: 'white', side: 'front'},
         '[3, 5]': {unit: 'Duke', color: 'white', side: 'front'},
         '[4, 5]': {unit: 'Footman', color: 'white', side: 'front'},
-        '[3, 3]': {unit: 'Duchess', color: 'white', side: 'back'},
-        '[2, 2]': {unit: 'Duchess', color: 'white', side: 'front'},
 
         
     };
