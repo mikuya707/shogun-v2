@@ -1,7 +1,6 @@
 'use strict';
 
 const io = require('socket.io').listen();
-const winston = require('./winston');
 const Immutable = require('immutable');
 const Map = Immutable.Map;
 const List = Immutable.List;
@@ -56,9 +55,6 @@ io.sockets.on('connection', socket => {
       else
         color = 'black';
 
-      winston.log('info', 'Number of currently running games', {
-        '#': _games.size
-      });
     } else {
       color = colors[Math.floor(Math.random() * 2)];
     }

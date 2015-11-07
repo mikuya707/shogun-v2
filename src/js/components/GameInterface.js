@@ -6,7 +6,6 @@ import Chat from './Chat';
 import Modal from './Modal';
 import GameActions from '../actions/GameActions';
 import GameStore from '../stores/GameStore';
-import ChessboardInterface from './ChessboardInterface';
 import GameboardInterface from './GameboardInterface';
 import {Map} from 'immutable';
 import {Board} from './GameBoard';

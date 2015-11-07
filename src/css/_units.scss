@@ -149,6 +149,36 @@ $tile-height: 98px;
     }
 }
 
+.tile.white-front:not(.black),
+.tile.black-front:not(.white) {
+    transition: transform 0s;
+    transform: translateZ( -5px) rotateY( 0deg);
+}
+.tile.white-back:not(.black),
+.tile.black-back:not(.white) {
+    transition: transform 0s;
+   transform: translateZ( -5px) rotateY( -180deg); 
+}
+
+.tile.flip {
+    &.front {
+        animation: peekAtBack 3s linear 1;
+        @keyframes peekAtBack {
+           20% { transform: translateZ( -5px) rotateY( -180deg); }
+           80% { transform: translateZ( -5px) rotateY( -180deg); }
+           100% { transform: translateZ( -5px) rotateY( 0deg); }          
+        }
+    }
+    &.back {
+        animation: peekAtFront 3s linear 1;
+        @keyframes peekAtFront {
+            20% { transform: translateZ( -5px) rotateY( 0deg); }
+            80% { transform: translateZ( -5px) rotateY( 0deg); }
+            100% { transform: translateZ( -5px) rotateY( -180deg); }         
+        }        
+    }
+}
+
 .Assassin {
     &.white {
         ~ .front-face {
@@ -278,6 +308,25 @@ $tile-height: 98px;
         }
         ~ .back-face {
             background-image: url("/img/Footman_back_black.png");
+        }
+    }
+}
+
+.General {
+    &.white {
+        ~ .front-face {
+            background-image: url("/img/General_front.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/General_back.png");
+        }
+    }
+    &.black {
+        ~ .front-face {
+            background-image: url("/img/General_front_black.png");
+        }
+        ~ .back-face {
+            background-image: url("/img/General_back_black.png");
         }
     }
 }

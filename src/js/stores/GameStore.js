@@ -3,8 +3,6 @@
 import AppDispatcher from '../dispatcher/AppDispatcher';
 import {EventEmitter2 as EventEmitter} from 'eventemitter2';
 import GameConstants from '../constants/GameConstants';
-import ChessPieces from '../constants/ChessPieces';
-import {Chess} from 'chess.js';
 import {List, Map, OrderedMap, Set} from 'immutable';
 import behavior from '../game/behavior';
 import omit from 'lodash.omit';
@@ -17,9 +15,7 @@ var _capturedPieces;
 var _moves;
 var _moved;
 var _turn;
-var _check;
 var _lastMove;
-var _chess;
 
 var _board, _lightup, _strike, _drop, _selected, _drawn = [], _result, _deck, _pendingDraw;
 
@@ -38,7 +34,6 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
         return {
             gameOver: _gameOver,
             turn: _turn,
-            check: _check,
         };
     },
     getCapturedPieces() {
@@ -80,11 +75,9 @@ function setInitialState() {
     _moves = List();
     _turn = 'w';
     _moved = false;
-    _check = false;
     _lastMove = Map();
     _selected = null;
     _pendingDraw = null;
-    //_chess = new Chess();
 
     _lightup = {};
     _strike = {};
@@ -106,9 +99,12 @@ function setInitialState() {
         '[1, 0]': {unit: 'Footman', color: 'black', side: 'front'},
         '[2, 0]': {unit: 'Duke', color: 'black', side: 'front'},
         '[3, 0]': {unit: 'Footman', color: 'black', side: 'front'},
-        '[2, 5]': {unit: 'Footman', color: 'white', side: 'front'},
+        '[2, 5]': {unit: 'Footman', color: 'white', side: 'back'},
         '[3, 5]': {unit: 'Duke', color: 'white', side: 'front'},
         '[4, 5]': {unit: 'Footman', color: 'white', side: 'front'},
+        '[3, 3]': {unit: 'Duchess', color: 'white', side: 'back'},
+        '[2, 2]': {unit: 'Duchess', color: 'white', side: 'front'},
+
         
     };
 
@@ -148,6 +144,7 @@ function updateBoard(from, to, type) {
         unit.side = (unit.side === 'front') ? 'back' : 'front';
 
         if (type === 'move') {
+
           _board[from] = null;
           _board[to] = unit;
         }
@@ -166,15 +163,17 @@ function makeMove(from, to, capture, type, emitMove) {
 
     _turn = _turn === 'w' ? 'b' : 'w';
 
-    if (emitMove) {
-        GameStore.emit(MOVE_EVENT, {
-            from: from,
-            to: to,
-            capture: capture,
-            type: type,   
-            gameOver: isDukeDead()
-        });
-    }
+        if (emitMove) {
+            GameStore.emit(MOVE_EVENT, {
+                from: from,
+                to: to,
+                capture: capture,
+                type: type,   
+                gameOver: isDukeDead()
+            });
+        }
+
+
 
     return true;
 }

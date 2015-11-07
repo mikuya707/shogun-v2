@@ -2,7 +2,6 @@
 
 import express from 'express';
 import path from 'path';
-import winston from './winston';
 import bodyParser from 'body-parser';
 import favicon from 'serve-favicon';
 import logger from 'morgan';
@@ -29,8 +28,6 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
-  winston.log('error', err.message);
-
   res.render('error', {
     message: err.message,
     error: app.get('env') === 'development' ? err : {}
