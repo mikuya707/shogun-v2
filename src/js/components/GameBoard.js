@@ -4,7 +4,6 @@ import React from 'react/addons';
 import GameStore from '../stores/GameStore';
 import GameActions from '../actions/GameActions';
 //import onGameChange from '../mixins/onGameChange';
-import maybeReverse from '../mixins/maybeReverse';
 import behavior from '../game/behavior';
 import omit from 'lodash.omit';
 import cx from 'classnames';
@@ -16,7 +15,7 @@ const GameBoard = React.createClass({
 	propTypes: {
 
 	},
-	mixins: [maybeReverse],
+	mixins: [],
 	getInitialState() {
 		this.state = GameStore.getGameboardState();
 		return this.state;

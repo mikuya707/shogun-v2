@@ -3,8 +3,6 @@
 import AppDispatcher from '../dispatcher/AppDispatcher';
 import {EventEmitter2 as EventEmitter} from 'eventemitter2';
 import GameConstants from '../constants/GameConstants';
-import ChessPieces from '../constants/ChessPieces';
-import {Chess} from 'chess.js';
 import {List, Map, OrderedMap, Set} from 'immutable';
 import behavior from '../game/behavior';
 import omit from 'lodash.omit';
@@ -17,9 +15,7 @@ var _capturedPieces;
 var _moves;
 var _moved;
 var _turn;
-var _check;
 var _lastMove;
-var _chess;
 
 var _board, _lightup, _strike, _drop, _selected, _drawn = [], _result, _deck, _pendingDraw;
 
@@ -84,7 +80,6 @@ function setInitialState() {
     _lastMove = Map();
     _selected = null;
     _pendingDraw = null;
-    //_chess = new Chess();
 
     _lightup = {};
     _strike = {};
