@@ -34,15 +34,22 @@ $tile-height: 98px;
     transform: translateZ(-5px);
     transform-style: preserve-3d;
     transition: transform 1s;
-    figure {
+    .unit ~ figure {
         margin: 0;
         display: block;
         position: absolute;
-        border: 2px solid black;
+        // border: 2px solid black;
         background-size: contain;
         background-repeat: no-repeat;
         pointer-events: none;
     }
+    .lastMovedTo ~ figure {
+        border: 3px solid #379000;
+    }
+}
+
+.lastMovedFrom {
+    background-color: #d1edbf;
 }
 
 .unit {
@@ -92,6 +99,7 @@ $tile-height: 98px;
             &.draw-preview {
                 width: 146px; height: 146px;
             }
+
         }
         ~ .back-face {
             width: $tile-width;
@@ -110,7 +118,7 @@ $tile-height: 98px;
             left: 45px;
             transform: rotateY( -90deg) translateZ( 50px);
             background-color: #ccc;
-            border: 1px solid black;
+            border: 2px solid black;
         }
         ~ .right-face {
             width: 10px;
@@ -118,7 +126,7 @@ $tile-height: 98px;
             left: 42px;
             transform: rotateY( 90deg) translateZ( 50px);
             background-color: #ccc;
-            border: 1px solid black;
+            border: 2px solid black;
         }
         ~ .top-face {
             width: $tile-width;
@@ -181,12 +189,8 @@ $tile-height: 98px;
     }
 }
 
-.lastMovedFrom {
 
-}
-.lastMovedTo {
 
-}
 
 
 .Assassin {

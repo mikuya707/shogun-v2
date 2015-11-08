@@ -151,6 +151,7 @@ const GameBoard = React.createClass({
 			drop: state.drop,
 			selected: state.selected,
 			drawUnit: state.drawUnit,
+			lastMove: state.lastMove,
 			turn: state.turn,
 			pendingDraw: state.pendingDraw
 		}, cb);
@@ -170,7 +171,7 @@ const GameBoard = React.createClass({
 	render() {
 		let {state, props} = this, 
 			{size, color, gameover} = props,
-			{board, selected, lightup, strike, drop, turn, drawn, pendingDraw} = state;
+			{board, selected, lightup, strike, drop, turn, lastMove, drawn, pendingDraw} = state;
 
 		if (color === 'black') board = this._reverseBoard();
 
@@ -205,6 +206,7 @@ const GameBoard = React.createClass({
 											canDrop={drop[coords]}
 											selected={selected}
 											colorSide={lightup[coords] ? colorSide : null}
+											lastMove={lastMove}
 											turn={turn}
 											pendingDraw={pendingDraw}
 											setSelected={this._setSelected}
@@ -455,16 +457,23 @@ const Cell = React.createClass({
 	},
 
 	render(){
-		const {unit, color, litup, strikable, canDrop, side, colorSide, playerColor, position, selected} = this.props;
+		const {unit, color, litup, strikable, canDrop, side, colorSide, lastMove, playerColor, position, selected} = this.props;
+
+		let to = lastMove.get('to'), from = lastMove.get('from');
+		if (playerColor === 'black') {
+			if (to) to = this._reversePosition(to);
+			if (from) from = this._reversePosition(from);
+		}
 
 		return (
 			<section className={cx({
 				cellContainer: true,
+				lastMovedFrom: from === position
 				// selected: position === selected
 			})}>
 				<div className={cx({
 					selected: position === selected,
-					[side]: true
+					[side]: true,
 				})}>
 					<div className={cx({
 							tile: true,
@@ -486,6 +495,7 @@ const Cell = React.createClass({
 									[side]: true,
 									[unit]: true,
 									[color]: true,
+									lastMovedTo: to === position
 								})}
 								onClick={this._onClickSquare}
 								onDragStart={this._onDragStart}
@@ -494,8 +504,11 @@ const Cell = React.createClass({
 							<figure className={cx({"back-face": true, opponent: color && color !== playerColor})} />
 							<figure className="left-face" />
 							<figure className="right-face" />
-							<figure className="top-face" />
-							<figure className="bottom-face" />
+							{
+							// <figure className="top-face" />
+							// <figure className="bottom-face" />
+							}
+						
 					</div>
 				</div>
 			</section>

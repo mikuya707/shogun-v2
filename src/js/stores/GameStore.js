@@ -13,7 +13,6 @@ const MOVE_EVENT = 'new-move';
 var _gameOver;
 var _capturedPieces;
 var _moves;
-var _moved;
 var _turn;
 var _lastMove;
 
@@ -52,7 +51,7 @@ var GameStore = Object.assign({}, EventEmitter.prototype, {
             selected: _selected,
             drawUnit: _result,
             turn: _turn,
-            moved: _moved,
+            lastMove: _lastMove,
             deck: _deck,
             pendingDraw: _pendingDraw,
             gameover: _gameOver
@@ -74,7 +73,6 @@ function setInitialState() {
     ]);
     _moves = List();
     _turn = 'w';
-    _moved = false;
     _lastMove = Map();
     _selected = null;
     _pendingDraw = null;
@@ -133,11 +131,14 @@ function updateBoard(from, to, type) {
         _board[to] = from;
         _drop = {};
         _pendingDraw = null;
+        _lastMove = _lastMove.set('from', null);
+        _lastMove = _lastMove.set('to', to);
     }
 
     else if (typeof from === 'string') {    // move event
 
         let unit = _board[from];
+        _lastMove = _lastMove.set('from', from);
 
         unit.side = (unit.side === 'front') ? 'back' : 'front';
 
@@ -147,11 +148,15 @@ function updateBoard(from, to, type) {
 
           _board[from] = null;
           _board[to] = unit;
+          _lastMove = _lastMove.set('to', to);
         }
         else if (type === 'strike') {
           _board[to] = null;
+          _lastMove = _lastMove.set('to', from);
         }
         
+        console.log('the last move yo');
+        console.log(_lastMove);
         _selected = null;
         return _board;
     }
