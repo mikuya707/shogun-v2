@@ -141,6 +141,8 @@ function updateBoard(from, to, type) {
 
         unit.side = (unit.side === 'front') ? 'back' : 'front';
 
+        console.log(`where i move from? ${from}`)
+
         if (type === 'move') {
 
           _board[from] = null;

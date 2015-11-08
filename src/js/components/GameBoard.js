@@ -281,7 +281,7 @@ const GameBoard = React.createClass({
 				y = posArr[1] + moveArr[1];
 
 			// strike and jump are straightforward; simply store the marked tile
-			if (moveName === 'command') inRange.push({x: x, y: y, type: 'strike'});
+			// if (moveName === 'command') inRange.push({x: x, y: y, type: 'strike'});
 			if (moveName === 'strike') inRange.push({x: x, y: y, type: 'strike'});
 			else if (moveName === 'jump') inRange.push({x: x, y: y, type: 'move'});
 			else {

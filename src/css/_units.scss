@@ -38,7 +38,9 @@ $tile-height: 98px;
         margin: 0;
         display: block;
         position: absolute;
+        border: 2px solid black;
         background-size: contain;
+        background-repeat: no-repeat;
         pointer-events: none;
     }
 }
@@ -178,6 +180,14 @@ $tile-height: 98px;
         }        
     }
 }
+
+.lastMovedFrom {
+
+}
+.lastMovedTo {
+
+}
+
 
 .Assassin {
     &.white {

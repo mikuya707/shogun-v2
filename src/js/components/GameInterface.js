@@ -83,7 +83,7 @@ const GameInterface = React.createClass({
       swal({
          title: iWin ? 'You win!' : 'You lose!',
          text: iWin ? 'yay' : 'Better luck next time!',
-         imageUrl: iWin? 'http://orig08.deviantart.net/b83d/f/2013/272/7/9/happy_puppy_by_laki10-d6oi4nt.png' : 'https://iampierremenard.files.wordpress.com/2014/02/sad-dog.jpg'
+         imageUrl: iWin? '/img/happy_puppy.png' : '/img/sad_puppy.jpg'
       });
     });
 
@@ -101,7 +101,7 @@ const GameInterface = React.createClass({
       swal({
          title: iWin ? `${resignGuy} has resigned!` : 'You have resigned!',
          text: iWin ? 'Guess you win lol ¯\\_(ツ)_/¯' : 'boo',
-         imageUrl: iWin? 'http://orig08.deviantart.net/b83d/f/2013/272/7/9/happy_puppy_by_laki10-d6oi4nt.png' : 'https://iampierremenard.files.wordpress.com/2014/02/sad-dog.jpg'
+         imageUrl: iWin? '/img/happy_puppy.png' : '/img/sad_puppy.jpg'
       });      
     });
 
