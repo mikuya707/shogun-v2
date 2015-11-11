@@ -453,6 +453,7 @@ const Cell = React.createClass({
 
 	_reversePosition(pos) {
 		let posArr = JSON.parse(pos);
+		if (!Array.isArray(posArr)) return;
 		return `[${5-posArr[0]}, ${5-posArr[1]}]`;
 	},
 

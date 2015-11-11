@@ -142,10 +142,7 @@ function updateBoard(from, to, type) {
 
         unit.side = (unit.side === 'front') ? 'back' : 'front';
 
-        console.log(`where i move from? ${from}`)
-
         if (type === 'move') {
-
           _board[from] = null;
           _board[to] = unit;
           _lastMove = _lastMove.set('to', to);
@@ -155,8 +152,6 @@ function updateBoard(from, to, type) {
           _lastMove = _lastMove.set('to', from);
         }
         
-        console.log('the last move yo');
-        console.log(_lastMove);
         _selected = null;
         return _board;
     }
