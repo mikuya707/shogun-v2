@@ -33,9 +33,17 @@ io.sockets.on('connection', socket => {
   });
 
   socket.on('join', data => {
+
+    if (data.token === 'ai') {
+      socket.join('ai');
+      // socket.emit('joined', {color: 'white'});
+      io.to('ai').emit('both-joined');
+      return;
+    }
+
     const game = _games.get(data.token);
 
-    if (!game) {
+    if (!game && data.token !== 'ai') {
       socket.emit('token-invalid');
       return;
     }
@@ -154,6 +162,10 @@ function findToken(socket) {
 }
 
 function runClock(color, token, socket) {
+  if (token === 'ai') {
+
+  }
+
   if (!_games.has(token)) return;
 
   _games.getIn([token, 'players']).forEach((player, idx) => {

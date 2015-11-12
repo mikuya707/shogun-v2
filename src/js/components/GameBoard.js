@@ -5,6 +5,7 @@ import GameStore from '../stores/GameStore';
 import GameActions from '../actions/GameActions';
 //import onGameChange from '../mixins/onGameChange';
 import behavior from '../game/behavior';
+import utils from '../game/utils';
 import omit from 'lodash.omit';
 import cx from 'classnames';
 import ai from '../ai';
@@ -29,14 +30,14 @@ const GameBoard = React.createClass({
 		if (turn !== color.charAt(0) || this.state.pendingDraw) return;
 
 		let {board} = this.state;
-		if (color === 'black') board = this._reverseBoard(board);
+		if (color === 'black') board = utils.reverseBoard(board);
 		var dukePosition = Object.keys(board).find(pos => (board[pos] && board[pos].unit === "Duke" && board[pos].color === color));
 		var dukePosArr = JSON.parse(dukePosition);
 
 		var droppableTiles = {};
 		[[0,1], [0,-1], [1,0], [-1,0]].forEach(adj => {
 			var adjX = dukePosArr[0]+adj[0], adjY = dukePosArr[1]+adj[1];
-			if (this._isOnBoard({x: adjX, y: adjY}) && !board[`[${adjX}, ${adjY}]`]) 
+			if (utils.isOnBoard({x: adjX, y: adjY}) && !board[`[${adjX}, ${adjY}]`]) 
 				droppableTiles[`[${adjX}, ${adjY}]`] = true;
 		})
 
@@ -117,34 +118,10 @@ const GameBoard = React.createClass({
 			}
 		})
 
-		// io.on('swal-gameover', data => {
-		// 	let winner = data.winner;
-		// 	swal({
-		// 		title: 'You lose!',
-		// 		text: 'Better luck next time!',
-		// 		//imageUrl: 'http://vignette2.wikia.nocookie.net/dickfigures/images/d/d0/Troll-Face-Dancing1.jpg/revision/latest?cb=20121112150543'
-		// 		imageUrl: 'https://iampierremenard.files.wordpress.com/2014/02/sad-dog.jpg'
-		// 	});
-		// })
 	},
 
 	componentWillUnmount() {
 		GameStore.removeChangeListener(this._onChange);
-	},
-
-	_reversePosition(pos) {
-		const {size} = this.props;
-		let posArr = JSON.parse(pos);
-		return `[${size-1-posArr[0]}, ${size-1-posArr[1]}]`;
-	},
-
-	_reverseBoard() {
-		const {board} = this.state;
-		let newBoard = {};
-		Object.keys(board).forEach(pos => {
-			newBoard[this._reversePosition(pos)] = board[pos];
-		})
-		return newBoard;
 	},
 
 	_onGameChange(cb) {
@@ -185,7 +162,7 @@ const GameBoard = React.createClass({
 			{size, color, gameover} = props,
 			{board, selected, lightup, strike, drop, turn, lastMove, drawn, pendingDraw} = state;
 
-		if (color === 'black') board = this._reverseBoard();
+		if (color === 'black') board = utils.reverseBoard(board);
 
 		let cellArray = [];
 		for (let i=0; i<size; i++) {
@@ -257,10 +234,11 @@ const GameBoard = React.createClass({
 	},
 
 	_setSelected(position, inRange) {
+		const {color} = this.props, {board} = this.state;
 		this.setState({
 			selected: position,
-			lightup: this._getValidMoves(position, inRange).movableTiles,
-			strike: this._getValidMoves(position, inRange).strikableTiles
+			lightup: utils.getValidMoves(position, inRange, color, board).movableTiles,
+			strike: utils.getValidMoves(position, inRange, color, board).strikableTiles
 		})
 	},
 
@@ -278,64 +256,6 @@ const GameBoard = React.createClass({
 		this.setState({
 			gameover: true
 		});
-	},
-
-	_getValidMoves(position, moves) {
-		if (!moves) return;
-		const {color: playerColor} = this.props;
-		let inRange = [], movableTiles = {}, strikableTiles = {},
-			posArr = JSON.parse(position),
-			theBoard = playerColor === 'black' ? this._reverseBoard() : this.state.board;
-
-		// Store all tiles within range of the unit's behavior
-		Object.keys(moves).forEach(move => {
-			let moveArr = JSON.parse(move), moveName = moves[move],
-				// (x, y): coordinates of the marked tile
-				x = posArr[0] + moveArr[0], 
-				y = posArr[1] + moveArr[1];
-
-			// strike and jump are straightforward; simply store the marked tile
-			// if (moveName === 'command') inRange.push({x: x, y: y, type: 'strike'});
-			if (moveName === 'strike') inRange.push({x: x, y: y, type: 'strike'});
-			else if (moveName === 'jump') inRange.push({x: x, y: y, type: 'move'});
-			else {
-				let deltaX = Math.sign(moveArr[0]), 
-					deltaY = Math.sign(moveArr[1]),
-					i = posArr[0] + deltaX, 
-					j = posArr[1] + deltaY;
-
-				// loop through all tiles on board in a straight path between starting tile and marked tile
-				while (this._isOnBoard({x: i, y: j})) {
-					// sliding units can land on any tile within a straight path
-					// non-sliding units can only land on the marked tile
-					if (moveName.includes('slide') || (x === i && y === j))
-						inRange.push({x: i, y: j, type: 'move'});
-
-					// if unit can't jump and there is a unit in the way, break
-					let unitInTheWay = theBoard[`[${i}, ${j}]`];
-					if (unitInTheWay && !moveName.includes('jump')) break;
-
-					i += deltaX; j += deltaY;
-				}
-			}
-		});
-
-		// Filter out tiles that are occupied by allied units or not on the board,
-		// then organize by movable and strikable tiles
-		inRange.filter(range => {
-			let targetUnit = theBoard[`[${range.x}, ${range.y}]`];
-			if (targetUnit && theBoard[position].color === targetUnit.color) return false;
-			return this._isOnBoard(range);
-		}).forEach(range => {
-			if (range.type === 'move') movableTiles[`[${range.x}, ${range.y}]`] = true;
-			else if (range.type === 'strike') strikableTiles[`[${range.x}, ${range.y}]`] = true;
-		});
-
-		return { movableTiles, strikableTiles };
-	},
-
-	_isOnBoard({x, y}) {
-	  return x >= 0 && y >= 0 && x < 6 && y < 6;
 	},
 
 	_runClock() {
@@ -393,8 +313,8 @@ const Cell = React.createClass({
 		else {
 			// when emitting a move event, send the "real" position (i.e. if black, the reverse of the rendered view) 
 			if (playerColor === 'black') {
-				position = this._reversePosition(position);
-				selected = this._reversePosition(selected);
+				position = utils.reversePosition(position);
+				selected = utils.reversePosition(selected);
 			}
 
 			// can do one of the following:
@@ -446,8 +366,8 @@ const Cell = React.createClass({
 		let {position, selected} = this.props;
 
 		if (playerColor === 'black') {
-			if (position) position = this._reversePosition(position);
-			if (selected) selected = this._reversePosition(selected);
+			if (position) position = utils.reversePosition(position);
+			if (selected) selected = utils.reversePosition(selected);
 		}
 		if (this.props.litup) {
 			let capture = unit && color !== playerColor;
@@ -463,19 +383,13 @@ const Cell = React.createClass({
 
 	},
 
-	_reversePosition(pos) {
-		let posArr = JSON.parse(pos);
-		if (!Array.isArray(posArr)) return;
-		return `[${5-posArr[0]}, ${5-posArr[1]}]`;
-	},
-
 	render(){
 		const {unit, color, litup, strikable, canDrop, side, colorSide, lastMove, playerColor, position, selected} = this.props;
 
 		let to = lastMove.get('to'), from = lastMove.get('from');
 		if (playerColor === 'black') {
-			if (to) to = this._reversePosition(to);
-			if (from) from = this._reversePosition(from);
+			if (to) to = utils.reversePosition(to);
+			if (from) from = utils.reversePosition(from);
 		}
 
 		return (
@@ -541,17 +455,14 @@ const DrawnComponent = React.createClass({
     	 };
   	},
   	componentDidMount() {
-
 		
 	},
 
-	componentWillMount() {
-		
+	componentWillMount() {		
 	
 	},
 
 	mixins: [],
-
 
 	_onDragStart(e) {
 		e.dataTransfer.effectAllowed = 'move';

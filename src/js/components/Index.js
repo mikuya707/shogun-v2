@@ -29,7 +29,8 @@ const Index = React.createClass({
         (loc.port ? ':' + loc.port : '');
 
       this.setState({
-        link: `${origin}/play/${data.token}/${time}/${inc}`,
+        // link: `${origin}/play/${data.token}/${time}/${inc}`,
+        link: `${origin}/play/${data.token}`,
         hasExpired: false
       });
     });

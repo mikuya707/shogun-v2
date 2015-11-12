@@ -80,11 +80,14 @@ const GameInterface = React.createClass({
       });
 
       const iWin = this.state.color === data.color;
-      swal({
-         title: iWin ? 'You win!' : 'You lose!',
-         text: iWin ? 'yay' : 'Better luck next time!',
-         imageUrl: iWin? '/img/happy_puppy.png' : '/img/sad_puppy.jpg'
-      });
+      setTimeout(function gameoverMessage() {
+        swal({
+           title: iWin ? 'You win!' : 'You lose!',
+           text: iWin ? 'yay' : 'Better luck next time!',
+           imageUrl: iWin? '/img/happy_puppy.png' : '/img/sad_puppy.jpg'
+        });
+      }, 1000)
+
     });
 
     io.on('player-resigned', data => {

@@ -16,30 +16,31 @@ const CreateGameForm = React.createClass({
   render() {
     return (
       <form onSubmit={this.props.createGame}>
-        <fieldset>
-          <label >
-            <span>Minutes per side: </span>
-            <input
-              type="number"
-              name="time"
-              value={this.props.time}
-              onChange={this.props.onChangeForm}
-              min="1"
-              max="50"
-              required />
-          </label>
-          <label style={{paddingLeft: '2em'}}>
-            <span>Increment in seconds: </span>
-            <input
-              type="number"
-              name="inc"
-              value={this.props.inc}
-              onChange={this.props.onChangeForm}
-              min="0"
-              max="50"
-              required />
-          </label>
-        </fieldset>
+        {// <fieldset>
+        //   <label >
+        //     <span>Minutes per side: </span>
+        //     <input
+        //       type="number"
+        //       name="time"
+        //       value={this.props.time}
+        //       onChange={this.props.onChangeForm}
+        //       min="1"
+        //       max="50"
+        //       required />
+        //   </label>
+        //   <label style={{paddingLeft: '2em'}}>
+        //     <span>Increment in seconds: </span>
+        //     <input
+        //       type="number"
+        //       name="inc"
+        //       value={this.props.inc}
+        //       onChange={this.props.onChangeForm}
+        //       min="0"
+        //       max="50"
+        //       required />
+        //   </label>
+        // </fieldset>
+      }
         <input
           id="game-link"
           type="text"

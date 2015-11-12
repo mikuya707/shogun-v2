@@ -19,6 +19,21 @@ router.get('/about', (req, res) => {
   res.render('about');
 });
 
+router.get('/play/ai', (req, res) => {
+  let params = [1337, 30, 0];
+  res.render('play', {
+    content: React.renderToString(<GameInterface params={params} io={{}} />)
+  });
+});
+
+router.get('/play/:token', (req, res) => {
+  let params = [req.params.token];
+
+  res.render('play', {
+    content: React.renderToString(<GameInterface params={params} io={{}} />)
+  });
+});
+
 router.get('/play/:token/:time/:inc', (req, res) => {
   let params = [
     req.params.token,
@@ -31,12 +46,7 @@ router.get('/play/:token/:time/:inc', (req, res) => {
   });
 });
 
-router.get('/play/ai', (req, res) => {
-  let params = [1337, 30, 0];
-  res.render('play', {
-    content: React.renderToString(<GameInterface params={params} io={{}} />)
-  });
-});
+
 
 
 router.get('/logs', (req, res) => {
