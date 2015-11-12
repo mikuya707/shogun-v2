@@ -7,6 +7,7 @@ import GameActions from '../actions/GameActions';
 import behavior from '../game/behavior';
 import omit from 'lodash.omit';
 import cx from 'classnames';
+import ai from '../ai';
 
 
 
@@ -83,6 +84,10 @@ const GameBoard = React.createClass({
 		GameStore.on('new-move', this._onNewMove);
 		GameStore.on('swal-endgame', this._onGameOver);
 
+		GameStore.on('thinking', function(data) {
+			console.log('AI is thinking...');
+		})
+
 		io.on('move', data => {
 			GameActions.makeMove(data.from, data.to, data.capture, data.type, false);
 
@@ -99,8 +104,8 @@ const GameBoard = React.createClass({
 		});
 
 		document.body.addEventListener('keypress', e => {
-			if (e.keyCode === 32) { // space
-				e.preventDefault();
+			if (e.keyCode === 122) { // z
+				// e.preventDefault();
 				const coords = JSON.parse(this.state.selected);
 				if (!coords) return;
 				const selected = document.getElementsByClassName('tile')[coords[1]*6+coords[0]];
@@ -158,8 +163,15 @@ const GameBoard = React.createClass({
 	},
 
 	_onNewMove(move) {
-		const {io, token, color} = this.props;
-		io.emit('new-move', { token, move, color });
+		const {io, token, color} = this.props,
+			{board, turn, lastMove} = this.state;
+
+		if (token === 'ai' && turn === color.charAt(0)) {
+			GameStore.emit('request-ai-move', { board, lastMove, color });
+		}
+		else {
+			io.emit('new-move', { token, move, color });
+		}
 	},
 
 	_onGameOver({winner}) {

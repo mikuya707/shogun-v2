@@ -107,21 +107,6 @@ function setInitialState() {
     _deck = [...Object.keys(omit(behavior, 'Duke', 'Oracle')), 'Pikeman', 'Pikeman'];
 }
 
-function moveToBoard() {
-
-
-    if (emitMove) {
-        GameStore.emit(MOVE_EVENT, {
-            to: to,
-            capture: capture,
-            type: type,
-            board: _board
-        });
-    }
-
-    return true;
-}
-
 function updateBoard(from, to, type) {
 
     // if called by a move event, the from parameter will be a position on the board (i.e. a string)

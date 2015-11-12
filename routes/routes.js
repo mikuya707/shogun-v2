@@ -31,6 +31,14 @@ router.get('/play/:token/:time/:inc', (req, res) => {
   });
 });
 
+router.get('/play/ai', (req, res) => {
+  let params = [1337, 30, 0];
+  res.render('play', {
+    content: React.renderToString(<GameInterface params={params} io={{}} />)
+  });
+});
+
+
 router.get('/logs', (req, res) => {
   fs.readFile(path.join(__dirname, '../logs/games.log'), (err, data) => {
     if (err) {

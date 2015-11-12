@@ -53,7 +53,8 @@ const Index = React.createClass({
             time={this.state.time}
             inc={this.state.inc}
             onChangeForm={this._onChangeForm}
-            createGame={this._createGame} />
+            createGame={this._createGame}
+            create1PGame={this._create1PGame} />
             
           <p id="game-status">
             {this.state.hasExpired ?
@@ -65,7 +66,7 @@ const Index = React.createClass({
         </div>
 
         <p>
-          Click the Play button to create a new game, then send the generated URL to a friend.
+          Click the Create Room button to create a new game, then send the generated URL to a friend.
           The game will begin once your friend opens the link in his or her
           browser. Each player will be randomly assigned to be White or Black.
         </p>
@@ -94,7 +95,19 @@ const Index = React.createClass({
     } else {
       this.props.io.emit('start');
     }
+  },
+
+  _create1PGame(e) {
+    e.preventDefault();
+    // this.props.io.emit('start-1P');
+
+    const loc = window.location;
+    const origin = loc.origin || `${loc.protocol}//${loc.hostname}` +
+      (loc.port ? ':' + loc.port : '');
+    window.location = `${origin}/play/ai`;
   }
+
+
 });
 
 export default Index;
