@@ -143,8 +143,21 @@ const GameBoard = React.createClass({
 		const {io, token, color} = this.props,
 			{board, turn, lastMove} = this.state;
 
-		if (token === 'ai' && turn === color.charAt(0)) {
-			GameStore.emit('request-ai-move', { board, lastMove, color });
+		if (token === 'ai') {
+			if (move.gameOver) {
+				setTimeout(function() {
+					GameActions.gameOver({
+					  type: 'defeat',
+					  winner: turn === 'w' ? 'White' : 'Black'
+					});
+					GameStore.emit('gameover-alert', {
+						iWin: turn === color.charAt(0)
+					})
+				}, 1000);
+			}
+			else if (turn === color.charAt(0)) {
+				GameStore.emit('request-ai-move', { board, lastMove, color });
+			}
 		}
 		else {
 			io.emit('new-move', { token, move, color });

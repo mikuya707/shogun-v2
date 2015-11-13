@@ -80,15 +80,22 @@ const GameInterface = React.createClass({
       });
 
       const iWin = this.state.color === data.color;
-      setTimeout(function gameoverMessage() {
-        swal({
-           title: iWin ? 'You win!' : 'You lose!',
-           text: iWin ? 'yay' : 'Better luck next time!',
-           imageUrl: iWin? '/img/happy_puppy.png' : '/img/sad_puppy.jpg'
-        });
+
+      setTimeout(function() {
+        GameStore.emit('gameover-alert', { iWin });
       }, 1000)
 
     });
+
+    GameStore.on('gameover-alert', data => {
+      const iWin = data.iWin;
+      swal({
+         title: iWin ? 'You win!' : 'You lose!',
+         text: iWin ? 'yay' : 'Better luck next time!',
+         imageUrl: iWin? '/img/happy_puppy.png' : '/img/sad_puppy.jpg'
+      });
+    });
+
 
     io.on('player-resigned', data => {
       // data.color = player who resigned

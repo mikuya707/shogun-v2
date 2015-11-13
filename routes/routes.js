@@ -20,7 +20,7 @@ router.get('/about', (req, res) => {
 });
 
 router.get('/play/ai', (req, res) => {
-  let params = [1337, 30, 0];
+  let params = ['ai', 30, 0];
   res.render('play', {
     content: React.renderToString(<GameInterface params={params} io={{}} />)
   });
