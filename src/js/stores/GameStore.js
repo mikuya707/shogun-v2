@@ -82,26 +82,12 @@ function setInitialState() {
     _drop = {};
 
     _board = {
-        // '[1, 2]': {unit: 'Wizard', color: 'black', side: 'front'},
-        // '[2, 0]': {unit: 'Duke', color: 'black', side: 'front'},
-        // '[2, 1]': {unit: 'Pikeman', color: 'black', side: 'front'},
-        // '[1, 3]': {unit: 'Assassin', color: 'white', side: 'front'},
-        // '[2, 4]': {unit: 'Longbowman', color: 'white', side: 'back'},
-        // '[3, 5]': {unit: 'Footman', color: 'white', side: 'back'},
-        // '[4, 5]': {unit: 'Footman', color: 'white', side: 'back'},
-        // '[4, 4]': {unit: 'Ranger', color: 'black', side: 'back'},
-        // '[3, 4]': {unit: 'Dragoon', color: 'white', side: 'front'},
-        // '[1, 5]': {unit: 'Duke', color: 'white', side: 'front'}
-
-        
         '[1, 0]': {unit: 'Footman', color: 'black', side: 'front'},
         '[2, 0]': {unit: 'Duke', color: 'black', side: 'front'},
         '[3, 0]': {unit: 'Footman', color: 'black', side: 'front'},
         '[2, 5]': {unit: 'Footman', color: 'white', side: 'front'},
         '[3, 5]': {unit: 'Duke', color: 'white', side: 'front'},
-        '[4, 5]': {unit: 'Footman', color: 'white', side: 'front'},
-
-        
+        '[4, 5]': {unit: 'Footman', color: 'white', side: 'front'},       
     };
 
     _deck = [...Object.keys(omit(behavior, 'Duke', 'Oracle')), 'Pikeman', 'Pikeman'];
@@ -157,8 +143,6 @@ function makeMove(from, to, capture, type, emitMove) {
                 gameOver: isDukeDead()
             });
         }
-
-
 
     return true;
 }
