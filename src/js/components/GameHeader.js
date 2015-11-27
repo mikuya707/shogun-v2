@@ -42,15 +42,15 @@ const GameHeader = React.createClass({
           {`${params[1]}|${params[2]}`}
         </span>*/}
 
-        <a className="btn" href="/">New game</a>
+        <a className="btn-right" href="/">Home</a>
 
         {!gameOver && isOpponentAvailable ?
-          <a className="btn btn--red resign"
+          <a className="btn-right btn--red resign"
               onClick={this._onResign}>
             Resign
           </a>
         :gameOver ?
-          <a className="btn btn--red rematch"
+          <a className="btn-right btn--red rematch"
              onClick={this._onRematch}>
             Rematch
           </a>

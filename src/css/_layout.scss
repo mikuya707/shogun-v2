@@ -42,7 +42,7 @@ input:required {
   background: $blue;
   color: white;
   cursor: pointer;
-  float: right;
+  float: left;
   box-shadow: inset 0 -2px darken($blue, 5%);
   position: relative;
 
@@ -55,6 +55,11 @@ input:required {
   &:active {
     top: 1px;
   }
+}
+
+.btn-right {
+  @extend .btn;
+  float: right;
 }
 
 a.btn {

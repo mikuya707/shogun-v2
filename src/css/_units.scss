@@ -1,19 +1,39 @@
 $tile-width: 98px;
 $tile-height: 98px;
 
+
+@mixin keyframes($animation-name) {
+    @-webkit-keyframes #{$animation-name} {
+        @content;
+    }
+    @keyframes #{$animation-name} {
+        @content;
+    }
+}
+@mixin animation($str) {
+    -webkit-animation: #{$str};
+            animation: #{$str};
+}
+
+
+@mixin transform($var...) {
+    -webkit-transform: $var;
+        -ms-transform: $var;
+            transform: $var;
+}
+
 @mixin glow($color) {
-    width: $tile-width;
-    height: $tile-height;
+    width: inherit;
+    height: inherit;
     background-color: $color;
-    animation: loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite;
+    @include animation('loopGlow 1s cubic-bezier(0.47, 0, 0.75, 0.72) infinite');
     &.front {
-        transform: translateZ(10px);
+        @include transform(translateZ(10px));
     }
     &.back {
-        transform: translateZ(-10px);
+        @include transform(translateZ(-10px));
     }
-
-    @keyframes loopGlow {
+    @include keyframes(loopGlow) {
         0% { opacity: 0.1; }
         50% { opacity: 0.5; }
         100% { opacity: 0.1; }
@@ -21,8 +41,14 @@ $tile-height: 98px;
 }
 
 .cellContainer {
-    width: $tile-width;
-    height: $tile-height;
+    @media only screen and (min-width: 530px) {
+        width: $tile-width;
+        height: $tile-height;
+    }
+    @media only screen and (max-width: 529px) {
+        width: 16vw;
+        height: 16vw;
+    }
     position: relative;
     perspective: 600px;
 }
@@ -31,7 +57,7 @@ $tile-height: 98px;
     width: 100%;
     height: 100%;
     position: absolute;
-    transform: translateZ(-5px);
+    @include transform(translateZ(-5px));
     transform-style: preserve-3d;
     transition: transform 1s;
     .unit ~ figure {
@@ -52,8 +78,8 @@ $tile-height: 98px;
 }
 
 .unit {
-    width: $tile-width;
-    height: $tile-height;
+    width: inherit;
+    height: inherit;
     background-size: contain;
     top: 0px;
     left: 0px;
@@ -65,11 +91,12 @@ $tile-height: 98px;
     height: 100%;
     position: absolute;
     box-shadow: 0px 2px 12px #777;
-    animation: float 1s linear infinite;
-    @keyframes float {
+    @include animation('float 1s linear infinite');
+    perspective: inherit;
+    @include keyframes(float) {
         50% {
             box-shadow: 4px 7px 12px #777;
-            transform: translateY(-7px);
+            @include transform(translateY(-7px));
         }
     } 
 }
@@ -88,12 +115,44 @@ $tile-height: 98px;
 
 .tile {
     .unit {
+
+        @media only screen and (min-width: 530px) {
+            ~.front-face, ~.back-face, ~.top-face, ~.bottom-face {
+                width: inherit;
+            }
+            ~.front-face, ~.back-face, ~.left-face, ~.right-face {
+                height: inherit;
+            }
+            ~.left-face, ~.right-face {
+                width: 10px;
+            }
+            ~.top-face, ~.bottom-face {
+                height: 8px;
+            }
+            ~.left-face { left: 45px; }
+            ~.right-face { left: 42px; }
+        }
+        @media only screen and (max-width: 529px) {
+            ~.front-face, ~.back-face, ~.top-face, ~.bottom-face {
+                width: 15.68vw;
+            }
+            ~.front-face, ~.back-face, ~.left-face, ~.right-face {
+                height: 15.68vw;
+            }
+            ~.left-face, ~.right-face {
+                width: 1.6vw;
+            }
+            ~.top-face, ~.bottom-face {
+                height: 1.28vw;
+            }
+            ~.left-face { left: 7.2vw; }
+            ~.right-face { left: 6.72vw; }
+        }
+
         ~ .front-face {
-            width: $tile-width;
-            height: $tile-height;
-            transform: rotateY( 0deg) translateZ( 5px);
+            @include transform(rotateY( 0deg) translateZ( 5px));
             &.opponent {
-                transform: rotateY( 0deg) rotateZ( 180deg) translateZ( 5px);
+                @include transform(rotateY( 0deg) rotateZ( 180deg) translateZ( 5px));
             }
             &.draw-preview {
                 width: 146px; height: 146px;
@@ -101,89 +160,78 @@ $tile-height: 98px;
 
         }
         ~ .back-face {
-            width: $tile-width;
-            height: $tile-height;
-            transform: rotateY( 180deg) translateZ( 5px);
+            @include transform(rotateY( 180deg) translateZ( 5px));
             &.opponent {
-                transform: rotateY( 180deg) rotateZ( 180deg) translateZ( 5px);
+                @include transform(rotateY( 180deg) rotateZ( 180deg) translateZ( 5px));
             }
             &.draw-preview {
                 width: 146px; height: 146px;
             }
         }
         ~ .left-face {
-            width: 10px;
-            height: $tile-height;
-            left: 45px;
-            transform: rotateY( -90deg) translateZ( 50px);
+            @include transform(rotateY( -90deg) translateZ( 50px));
             background-color: #ccc;
             border: 2px solid black;
         }
         ~ .right-face {
-            width: 10px;
-            height: $tile-height;
-            left: 42px;
-            transform: rotateY( 90deg) translateZ( 50px);
+            @include transform(rotateY( 90deg) translateZ( 50px));
             background-color: #ccc;
             border: 2px solid black;
         }
         ~ .top-face {
-            width: $tile-width;
-            height: 8px;
-            transform: rotateX( 90deg) translateZ( 50px);
+            @include transform(rotateX( 90deg) translateZ( 50px));
         }
         ~ .bottom-face {
-            width: $tile-width;
-            height: 8px;
-            transform: rotateX( -90deg) translateZ( 50px);
+            @include transform(rotateX( -90deg) translateZ( 50px));
         }
+
     }
     &.front {
-        transform: translateZ( -5px) rotateY( 0deg);
+        @include transform(translateZ( -5px) rotateY( 0deg));
     }
     &.back {
-        transform: translateZ( -5px) rotateY( -180deg);
+        @include transform(translateZ( -5px) rotateY( -180deg));
     }
     &.left {
-        transform: translateZ( -50px) rotateY( 90deg);
+        @include transform(translateZ( -50px) rotateY( 90deg));
     }
     &.right {
-        transform: translateZ( -50px) rotateY( -90deg);
+        @include transform(translateZ( -50px) rotateY( -90deg));
     }
     &.top {
-        transform: translateZ( -50px) rotateX( -90deg);
+        @include transform(translateZ( -50px) rotateX( -90deg));
     }
     &.bottom {
-        transform: translateZ( -50px) rotateX( 90deg);
+        @include transform(translateZ( -50px) rotateX( 90deg));
     }
 }
 
 .tile.white-front:not(.black),
 .tile.black-front:not(.white) {
     transition: transform 0s;
-    transform: translateZ( -5px) rotateY( 0deg);
+    @include transform(translateZ( -5px) rotateY( 0deg));
 }
 .tile.white-back:not(.black),
 .tile.black-back:not(.white) {
     transition: transform 0s;
-   transform: translateZ( -5px) rotateY( -180deg); 
+    @include transform(translateZ( -5px) rotateY( -180deg)); 
 }
 
 .tile.flip {
     &.front {
-        animation: peekAtBack 3s linear 1;
-        @keyframes peekAtBack {
-           20% { transform: translateZ( -5px) rotateY( -180deg); }
-           80% { transform: translateZ( -5px) rotateY( -180deg); }
-           100% { transform: translateZ( -5px) rotateY( 0deg); }          
+        @include animation('peekAtBack 3s linear 1');
+        @include keyframes(peekAtBack) {
+           20% { @include transform(translateZ( -5px) rotateY( -180deg)); }
+           80% { @include transform(translateZ( -5px) rotateY( -180deg)); }
+           100% { @include transform(translateZ( -5px) rotateY( 0deg)); }          
         }
     }
     &.back {
-        animation: peekAtFront 3s linear 1;
-        @keyframes peekAtFront {
-            20% { transform: translateZ( -5px) rotateY( 0deg); }
-            80% { transform: translateZ( -5px) rotateY( 0deg); }
-            100% { transform: translateZ( -5px) rotateY( -180deg); }         
+        @include animation('peekAtFront 3s linear 1');
+        @include keyframes(peekAtFront) {
+            20% { @include transform(translateZ( -5px) rotateY( 0deg)); }
+            80% { @include transform(translateZ( -5px) rotateY( 0deg)); }
+            100% { @include transform(translateZ( -5px) rotateY( -180deg)); }         
         }        
     }
 }

@@ -89,9 +89,12 @@
   }
 }
 
+$board-border-xs: 4px;
+
 @media only screen and (max-width: 529px) {
   header, #board-moves-wrapper, #sounds-label {
     max-width: 470px;
+    width: 100%;
   }
   #game-link, footer p, footer a {
     font-size: .75rem;
@@ -103,30 +106,45 @@
       width: 55px;
     }
   }
+
   #container-wrapper {
     max-width: 529px;
+    min-width: 0px;
+
+    width: 100vw;
     padding: 1em 5px;
   }
   .board {
-    border: 4px solid lighten($dark-purple, 10%);
-    width: 456px;
-    height: 456px;
+    border: $board-border-xs solid lighten($dark-purple, 10%);
+    // width: 456px;
+    width: 96vw;
+    height: 96vw;
     
     tr {
-      width: 456px;
-      height: 57px;
+      // width: 456px;
+      width: 96vw;
+      height: 16vw;
 
       td {
-        width: 57px;
-        height: 57px;
+        width: 16vw;
+        height: 16vw;
         line-height: 57px;
 
         a {
-          width: 57px;
-          height: 57px;
+          width: 16vw;
+          height: 16vw;
           font-size: 3.5rem;
         }
       }
     }
   }
+
+  $btn-xs-width: 15vw;
+
+  a.btn {
+    width: $btn-xs-width;
+  }
+
+
+
 }

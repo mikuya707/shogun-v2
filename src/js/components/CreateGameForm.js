@@ -41,14 +41,14 @@ const CreateGameForm = React.createClass({
         //   </label>
         // </fieldset>
       }
+        <button type="submit" className="btn">Create Room</button>
+        <button onClick={this.props.create1PGame} className="btn">Play against AI</button>
         <input
           id="game-link"
           type="text"
           value={this.props.link || 'Game link will be generated here.'}
           onClick={e => e.target.select()}
           readOnly />
-        <button type="submit" className="btn">Create Room</button>
-        <button onClick={this.props.create1PGame} className="btn">Play against AI</button>
       </form>
     );
   }

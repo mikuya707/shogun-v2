@@ -1,9 +1,7 @@
 #board-moves-wrapper {
   width: 100%;
-  // max-width: 800px;
-  // min-height: 600px;
   max-width: 1333px;
-  min-height: 1000px;
+  // min-height: 1000px;
   margin: 0 auto;
 }
 
@@ -80,25 +78,18 @@ table{
 .board {
   border: 8px solid lighten($dark-purple, 10%);
   border-radius: 2px;
-  // width: 500px;
-  // height: 500px;
   width: 600px;
   height: 600px;
   float: left;
   background-color: #d182fd;
   
   tr {
-    // width: 500px;
-    // height: 62.5px;
     width: 600px;
     height: 100px;
     float: left;
     display: block;
 
     td {
-      // width: 62.5px;
-      // height: 62.5px;
-      // line-height: 62.5px;
       width: 100px;
       height: 100px;
       line-height: 100px;
@@ -127,6 +118,8 @@ table{
       }
 
       a {
+        display: inline-block;
+        cursor: default;
         &[draggable="true"] { cursor: pointer; }
       }
     }
@@ -147,13 +140,6 @@ table{
   }
 }
 
-.promotion {
-  line-height: 28px;
-  text-indent: 28px;
-  margin-top: 1em;
-  display: block;
-  float: right;
-}
 
 #draw{
   display: inline-block;
@@ -174,8 +160,6 @@ table{
     position: relative;
     margin-left: 50px;
     margin-top: 170px;
-    // padding-left: 50px;
-    // padding-top: 250px;
   }
   #drawnUnit {
   position: absolute;
