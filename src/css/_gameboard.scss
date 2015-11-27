@@ -127,31 +127,10 @@ table{
       }
 
       a {
-        font-family: 'Smart Regular';
-        // width: 62.5px;
-        // height: 62.5px;
-        font-size: 3.5rem;
-        color: #424242;
-        text-decoration: none;
-        display: inline-block;
-        cursor: default;
-
-        &.in-check { text-shadow: 0 0 1rem $red; }
         &[draggable="true"] { cursor: pointer; }
       }
     }
   }
-}
-
-.gameboard tr:nth-child(odd) td:nth-child(even), 
-.gameboard tr:nth-child(even) td:nth-child(odd) { 
-  background: $grey;
-}
-
-
-.highlight{
-  background-color: blue;
-  opacity: 0.5;
 }
 
 .feedback {

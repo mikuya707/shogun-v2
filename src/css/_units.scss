@@ -38,7 +38,6 @@ $tile-height: 98px;
         margin: 0;
         display: block;
         position: absolute;
-        // border: 2px solid black;
         background-size: contain;
         background-repeat: no-repeat;
         pointer-events: none;
@@ -190,328 +189,28 @@ $tile-height: 98px;
 }
 
 
+$units: Assassin, Bowman, Champion, Dragoon, Duchess, 
+        Duke, Footman, General, Knight, Longbowman, 
+        Marshall, Oracle, Pikeman, Priest, Ranger, 
+        Seer, Wizard;
 
-
-
-.Assassin {
-    &.white {
-        ~ .front-face {
-            background-image: url("/img/Assassin_front.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Assassin_back.png");
-        }
-    }
-    &.black {
-        ~ .front-face {
-            background-image: url("/img/Assassin_front_black.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Assassin_back_black.png");
-        }
-    }
-}
-
-.Bowman {
-    &.white {
-        ~ .front-face {
-            background-image: url("/img/Bowman_front.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Bowman_back.png");
-        }
-    }
-    &.black {
-        ~ .front-face {
-            background-image: url("/img/Bowman_front_black.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Bowman_back_black.png");
-        }
-    }
-}
-
-.Champion {
-    &.white {
-        ~ .front-face {
-            background-image: url("/img/Champion_front.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Champion_back.png");
-        }
-    }
-    &.black {
-        ~ .front-face {
-            background-image: url("/img/Champion_front_black.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Champion_back_black.png");
-        }
-    }
-}
-
-.Dragoon {
-    &.white {
-        ~ .front-face {
-            background-image: url("/img/Dragoon_front.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Dragoon_back.png");
-        }
-    }
-    &.black {
-        ~ .front-face {
-            background-image: url("/img/Dragoon_front_black.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Dragoon_back_black.png");
-        }
-    }
-}
-
-.Duchess {
-    &.white {
-        ~ .front-face {
-            background-image: url("/img/Duchess_front.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Duchess_back.png");
-        }
-    }
-    &.black {
-        ~ .front-face {
-            background-image: url("/img/Duchess_front_black.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Duchess_back_black.png");
-        }
-    }
-}
-
-.Duke {
-    &.white {
-        ~ .front-face {
-            background-image: url("/img/Duke_front.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Duke_back.png");
-        }
-    }
-    &.black {
-        ~ .front-face {
-            background-image: url("/img/Duke_front_black.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Duke_back_black.png");
-        }
-    }
-}
-
-.Footman {
-    &.white {
-        ~ .front-face {
-            background-image: url("/img/Footman_front.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Footman_back.png");
-        }
-    }
-    &.black {
-        ~ .front-face {
-            background-image: url("/img/Footman_front_black.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Footman_back_black.png");
-        }
-    }
-}
-
-.General {
-    &.white {
-        ~ .front-face {
-            background-image: url("/img/General_front.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/General_back.png");
-        }
-    }
-    &.black {
-        ~ .front-face {
-            background-image: url("/img/General_front_black.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/General_back_black.png");
-        }
-    }
-}
-
-.Knight {
-    &.white {
-        ~ .front-face {
-            background-image: url("/img/Knight_front.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Knight_back.png");
-        }
-    }
-    &.black {
-        ~ .front-face {
-            background-image: url("/img/Knight_front_black.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Knight_back_black.png");
-        }
-    }
-}
-
-.Longbowman {
-    &.white {
-        ~ .front-face {
-            background-image: url("/img/Longbowman_front.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Longbowman_back.png");
-        }
-    }
-    &.black {
-        ~ .front-face {
-            background-image: url("/img/Longbowman_front_black.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Longbowman_back_black.png");
-        }
-    }
-}
-
-.Marshall {
-    &.white {
-        ~ .front-face {
-            background-image: url("/img/Marshall_front.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Marshall_back.png");
-        }
-    }
-    &.black {
-        ~ .front-face {
-            background-image: url("/img/Marshall_front_black.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Marshall_back_black.png");
-        }
-    }
-}
-
-.Oracle {
-    &.white {
-        ~ .front-face {
-            background-image: url("/img/Oracle_front.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Oracle_back.png");
-        }
-    }
-    &.black {
-        ~ .front-face {
-            background-image: url("/img/Oracle_front_black.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Oracle_back_black.png");
-        }
-    }
-}
-
-.Pikeman {
-    &.white {
-        ~ .front-face {
-            background-image: url("/img/Pikeman_front.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Pikeman_back.png");
-        }
-    }
-    &.black {
-        ~ .front-face {
-            background-image: url("/img/Pikeman_front_black.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Pikeman_back_black.png");
-        }
-    }
-}
-
-.Priest {
-    &.white {
-        ~ .front-face {
-            background-image: url("/img/Priest_front.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Priest_back.png");
-        }
-    }
-    &.black {
-        ~ .front-face {
-            background-image: url("/img/Priest_front_black.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Priest_back_black.png");
-        }
-    }
-}
-
-.Ranger {
-    &.white {
-        ~ .front-face {
-            background-image: url("/img/Ranger_front.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Ranger_back.png");
-        }
-    }
-    &.black {
-        ~ .front-face {
-            background-image: url("/img/Ranger_front_black.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Ranger_back_black.png");
-        }
-    }
-}
-
-.Seer {
-    &.white {
-        ~ .front-face {
-            background-image: url("/img/Seer_front.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Seer_back.png");
-        }
-    }
-    &.black {
-        ~ .front-face {
-            background-image: url("/img/Seer_front_black.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Seer_back_black.png");
-        }
-    }
-}
-
-.Wizard {
-    &.white {
-        ~ .front-face {
-            background-image: url("/img/Wizard_front.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Wizard_back.png");
-        }
-    }
-    &.black {
-        ~ .front-face {
-            background-image: url("/img/Wizard_front_black.png");
-        }
-        ~ .back-face {
-            background-image: url("/img/Wizard_back_black.png");
-        }
-    }
+@each $unit in $units {
+    .#{$unit} { 
+        &.white {
+            ~ .front-face {
+                background-image: url("/img/" + #{$unit} + "_front.png");
+            }
+            ~ .back-face {
+                background-image: url("/img/" + #{$unit} + "_back.png");
+            }
+        }
+        &.black {
+            ~ .front-face {
+                background-image: url("/img/" + #{$unit} + "_front_black.png");
+            }
+            ~ .back-face {
+                background-image: url("/img/" + #{$unit} + "_back_black.png");
+            }
+        }
+     }
 }

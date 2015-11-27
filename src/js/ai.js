@@ -106,7 +106,7 @@ export default (function() {
 
 		// draw a new unit and place on a random available space adjacent to duke
 		function drawAndPlaceRandomly() {
-			if (moved) return;
+			if (moved || !ai_deck.length) return;
 
 			const duke = findUnit('Duke'),
 				dukePosArr = JSON.parse(duke.position),
