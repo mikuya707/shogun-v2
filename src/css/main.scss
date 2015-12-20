@@ -79,7 +79,7 @@
     padding: 1em 5px;
   }
   span.feedback {
-    float: right;
+    // float: right;
     clear: none;
   }
   #moves {
@@ -137,6 +137,10 @@ $board-border-xs: 4px;
         }
       }
     }
+  }
+  span.feedback {
+    // float: right;
+    clear: none;
   }
 
   $btn-xs-width: 15vw;

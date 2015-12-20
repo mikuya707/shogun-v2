@@ -129,10 +129,11 @@ table{
 .feedback {
   color: #424242;
   line-height: 28px;
-  margin-top: 1em;
+  margin-top: 2em;
   display: block;
-  clear: left;
+  clear: both;
   float: left;
+  padding-left: 30px;
 
   .icon {
     font-family: 'Smart Regular';
@@ -143,33 +144,38 @@ table{
 
 #draw{
   display: inline-block;
+  padding: 30px;
   .btn{
     width: 100px;
     height: 50px;
+    top: 170px;
     display: block;
     font-size: 1.125rem;
     border-radius: 2px;
-    border: 0;
     border-bottom: 2px solid #6f3577;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
     background: #c962d5;//#2eafc2;
     color: white;
     cursor: pointer;
-    float: left;
     box-shadow: inset 0 -2px #6f3577;
     position: relative;
-    margin-left: 50px;
-    margin-top: 170px;
   }
   #drawnUnit {
-  position: absolute;
+  position: relative;
   width: 150px;
   height: 150px;
   border: 2px dashed black;
-  margin-top: 250px;
-  margin-left: 50px;
   background-image: no-repeat;
   background-size: contain;
+
+  @media only screen and (max-width: 529px) {
+    width: 24vw;
+    height: 24vw;
+  }
+
+  .unit {
+    cursor: pointer;
+  }
 }
 }
 

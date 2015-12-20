@@ -123,14 +123,37 @@ $tile-height: 98px;
             ~.front-face, ~.back-face, ~.left-face, ~.right-face {
                 height: inherit;
             }
+            ~.front-face, ~.back-face {
+                &.draw-preview {
+                    width: 146px; height: 146px;
+                }                  
+            }
             ~.left-face, ~.right-face {
                 width: 10px;
             }
             ~.top-face, ~.bottom-face {
                 height: 8px;
             }
-            ~.left-face { left: 45px; }
-            ~.right-face { left: 42px; }
+            ~.front-face {
+                @include transform(rotateY( 0deg) translateZ( 5px));
+                &.opponent {
+                    @include transform(rotateY( 0deg) rotateZ( 180deg) translateZ( 5px));
+                }                
+            }
+            ~.back-face {
+                @include transform(rotateY( 180deg) translateZ( 5px));
+                &.opponent {
+                    @include transform(rotateY( 180deg) rotateZ( 180deg) translateZ( 5px));
+                }                
+            }
+            ~.left-face { 
+                @include transform(rotateY( -90deg) translateZ( 50px));
+                left: 45px; 
+            }
+            ~.right-face { 
+                @include transform(rotateY( 90deg) translateZ( 50px));
+                left: 42px; 
+            }
         }
         @media only screen and (max-width: 529px) {
             ~.front-face, ~.back-face, ~.top-face, ~.bottom-face {
@@ -145,52 +168,51 @@ $tile-height: 98px;
             ~.top-face, ~.bottom-face {
                 height: 1.28vw;
             }
-            ~.left-face { left: 7.2vw; }
-            ~.right-face { left: 6.72vw; }
+            ~.front-face, ~.back-face {
+                &.draw-preview {
+                    width: 23.36vw; height: 23.36vw;
+                }                  
+            }
+            ~.front-face {
+                @include transform(rotateY( 0deg) translateZ( 0.8vw));
+                &.opponent {
+                    @include transform(rotateY( 0deg) rotateZ( 180deg) translateZ( 0.8vw));
+                }   
+            }
+            ~.back-face {
+                @include transform(rotateY( 180deg) translateZ( 0.8vw));
+                &.opponent {
+                    @include transform(rotateY( 180deg) rotateZ( 180deg) translateZ( 0.8vw));
+                }                
+            }
+            ~.left-face { 
+                @include transform(rotateY( -90deg) translateZ( 8vw));
+                left: 7.2vw; 
+            }
+            ~.right-face { 
+                @include transform(rotateY( 90deg) translateZ( 8vw));
+                left: 6.72vw; 
+            }
         }
 
-        ~ .front-face {
-            @include transform(rotateY( 0deg) translateZ( 5px));
-            &.opponent {
-                @include transform(rotateY( 0deg) rotateZ( 180deg) translateZ( 5px));
-            }
-            &.draw-preview {
-                width: 146px; height: 146px;
-            }
-
-        }
-        ~ .back-face {
-            @include transform(rotateY( 180deg) translateZ( 5px));
-            &.opponent {
-                @include transform(rotateY( 180deg) rotateZ( 180deg) translateZ( 5px));
-            }
-            &.draw-preview {
-                width: 146px; height: 146px;
-            }
-        }
-        ~ .left-face {
-            @include transform(rotateY( -90deg) translateZ( 50px));
+        ~.left-face, ~.right-face {
             background-color: #ccc;
             border: 2px solid black;
         }
-        ~ .right-face {
-            @include transform(rotateY( 90deg) translateZ( 50px));
-            background-color: #ccc;
-            border: 2px solid black;
-        }
-        ~ .top-face {
-            @include transform(rotateX( 90deg) translateZ( 50px));
-        }
-        ~ .bottom-face {
-            @include transform(rotateX( -90deg) translateZ( 50px));
-        }
+
+        // ~ .top-face {
+        //     @include transform(rotateX( 90deg) translateZ( 50px));
+        // }
+        // ~ .bottom-face {
+        //     @include transform(rotateX( -90deg) translateZ( 50px));
+        // }
 
     }
     &.front {
         @include transform(translateZ( -5px) rotateY( 0deg));
     }
     &.back {
-        @include transform(translateZ( -5px) rotateY( -180deg));
+        @include transform(translateZ( -5px) rotateY( 180deg));
     }
     &.left {
         @include transform(translateZ( -50px) rotateY( 90deg));
