@@ -3,12 +3,12 @@
 
 An online version of the two-player board game [*The Duke*](http://www.catalystgamelabs.com/casual-games/the-duke/). View the complete rules booklet for the original game [here](http://www.catalystgamelabs.com/download/The%20Duke%20Rulebook%20Lo-Res_FINAL.pdf) (PDF).
 
-Check the game out at [shogun-game.herokuapp.com](http://shogun-game.herokuapp.com)!
+Check the game out at [shogun-game.herokuapp.com](http://shogun-game.herokuapp.com)! (Note: may not render properly on browsers other than Chrome)
 
 
 [Tile Movement Reference Sheet](http://www.catalystgamelabs.com/download/Movement%20Reference%20Card_Final.pdf) (PDF)
 
-### Directions for running locally in Node (v4.2.x and up)###
+### Directions for running locally in Node ###
 
 * Install dependencies
 ```sh
