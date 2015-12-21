@@ -46,11 +46,7 @@ export default (function() {
 		// Determine all valid moves that AI's units can make
 
 		ai_moves = utils.getAllMovesForColor(ai_color, board, {perspective: ai_color}, {countAllies: false});
-		// console.log('ai_moves');
-		// console.log(ai_moves);
-		// var ai_attackable = utils.getTilesUnderAttackBy(ai_color, board);
-		// console.log('ai_attackable');
-		// console.log(ai_attackable);
+
 
 
 
@@ -63,7 +59,7 @@ export default (function() {
 		if (ai_level === 1) {
 			let rn = Math.random();
 			if (rn < 0.33 || Object.keys(ai_units).length <= 2) {
-				drawAndPlaceRandomly();
+				drawAndPlace('random');
 				chooseRandomMove();
 			}
 			else chooseRandomMove();
@@ -76,13 +72,12 @@ export default (function() {
 			if (!moved) {
 				let rn = Math.random();
 				if (rn < 0.5 || Object.keys(ai_units).length <= 2) {
-					drawAndPlaceRandomly();
+					drawAndPlace('random');
 					chooseRandomMove();
 				}
 				else chooseRandomMove();
 			}
 		}
-
 
 		from = decision.from;
 		to = decision.to;
@@ -104,8 +99,12 @@ export default (function() {
 
 		/** Define AI behaviors below **/
 
-		// draw a new unit and place on a random available space adjacent to duke
-		function drawAndPlaceRandomly() {
+
+
+		// draw a new unit and place on board according to drawBehavior
+		// 'random': place on a random available tile adjacent to duke
+		// 'block': place on a tile that will block an enemy attack
+		function drawAndPlace(drawBehavior) {
 			if (moved || !ai_deck.length) return;
 
 			const duke = findUnit('Duke'),
@@ -119,13 +118,21 @@ export default (function() {
 					droppableTiles[`[${adjX}, ${adjY}]`] = true;
 			})
 
-			const options = Object.keys(droppableTiles);
+			let options = Object.keys(droppableTiles);
 			if (!options.length) return;
+
+
 
 			const randomIndex = Math.floor(Math.random()*ai_deck.length),
 				drawnUnit = ai_deck.splice(randomIndex, 1)[0],
-				unitToPlace = { unit: drawnUnit, color: ai_color, side: 'front' },
-				placeHere = options[Math.floor(Math.random()*options.length)];
+				unitToPlace = { unit: drawnUnit, color: ai_color, side: 'front' };
+
+			if (drawBehavior === 'block') {
+				options = options.filter(option => !wouldExposeDuke(null, option, unitToPlace));
+				if (!options.length) return;
+				console.log('blocked by drawing');
+			}
+			const placeHere = options[Math.floor(Math.random()*options.length)];
 
 			decision = { from: unitToPlace, to: placeHere, moveType: 'move' };
 			moved = true;
@@ -145,11 +152,15 @@ export default (function() {
 		// return a random AI-controlled unit on the board
 		function selectRandomUnit() {
 			let randomFrom, numPositions = allCoords(ai_moves).length;
-			do {
-				randomFrom = allCoords(ai_moves)[Math.floor(Math.random()*numPositions)];
-			} while (!ai_moves[randomFrom] ||
-				!(allCoords(ai_moves[randomFrom].strikableTiles).length ||
-				allCoords(ai_moves[randomFrom].movableTiles).length));
+
+			let ableUnits = allCoords(ai_moves).filter(pos => {
+				return !!allCoords(ai_moves[pos].strikableTiles).length ||
+					!!allCoords(ai_moves[pos].movableTiles).length;
+			});
+
+			if (!ableUnits.length) return null;
+
+			randomFrom = ableUnits[Math.floor(Math.random()*ableUnits.length)];
 			return new Unit(randomFrom, ai_units[randomFrom], board);			
 		}
 
@@ -157,7 +168,38 @@ export default (function() {
 		// Choose a valid move completely at random, from a randomly chosen AI-controlled unit
 		function chooseRandomMove() {
 			if (moved) return;
-			let randomUnit = selectRandomUnit();
+			let enemy = utils.theColorNot(ai_color),
+				perspective = ai_color;
+
+			let safeToMove = allCoords(ai_moves).filter(pos => {
+				if (allCoords(ai_moves[pos].strikableTiles).length) return true;
+				let safeMoves = allCoords(ai_moves[pos].movableTiles).filter(tile => {
+					return !wouldExposeDuke(pos, tile, ai_units[pos]);
+				});
+				return !!safeMoves.length;
+			});
+
+			if (!safeToMove.length) {
+				let randomUnit = selectRandomUnit();
+				if (!randomUnit) {
+					drawAndPlace('random');
+					if (!moved) {
+						console.log('wtf i literally cant do anything');
+						let nothing = allCoords(ai_moves)[0];
+						decision = {from: nothing, to: nothing, moveType: 'move'};
+						moved = true;
+					}
+					return;				
+				}
+				decision = randomUnit.selectRandomMove();
+				console.log('lel im screwed');
+				moved = true;
+				return;
+			}
+
+			let randomFrom = safeToMove[Math.floor(Math.random()*safeToMove.length)],
+				randomUnit = new Unit(randomFrom, ai_units[randomFrom], board);
+
 			decision = randomUnit.selectRandomSafeMove()
 				|| randomUnit.selectRandomMove();
 			moved = true;
@@ -205,23 +247,34 @@ export default (function() {
 		}
 
 
+		function wouldExposeDuke(from, to, movedUnit) {
+			let perspective = ai_color, enemy = utils.theColorNot(ai_color);
+			let changes = {[to]: movedUnit};
+			if (from) changes[from] = null;
+
+			const hypotheticalBoard = utils.previewBoardState(board, changes, {perspective});
+			return utils.findPositionOfUnit('Duke', ai_color, hypotheticalBoard, {perspective})
+				.isUnderAttackBy(enemy, hypotheticalBoard, {perspective});
+		}
+
+
 		// given a specific position, if an enemy unit is there and can be attacked, kill it
-		// if the enemy can be killed by AI duke, but doing so would put AI duke in danger, don't do it
+		// if a move that kills the enemy would put AI duke in danger, don't do it
 		function targetSpecificEnemy(position) {
 			if (moved) return;
 			const vulnerable = findVulnerableEnemies(),
 				iSeeEnemyHere = Object.keys(vulnerable)
 					.find(pos => pos === position);
 			if (iSeeEnemyHere) {
-				let enemy = vulnerable[iSeeEnemyHere],
-					killer = enemy.attackedBy[Math.floor(Math.random()*enemy.attackedBy.length)];
+				let enemy = vulnerable[iSeeEnemyHere], killer;
 
-				while (killer.unit.unit === 'Duke' && 
-						iSeeEnemyHere.isUnderAttackBy(utils.theColorNot(ai_color), board, {perspective: ai_color})) {
-					if (enemy.attackedBy.length > 1)
-						killer = enemy.attackedBy[Math.floor(Math.random()*enemy.attackedBy.length)];
-					else return;
-				}
+				let safeAttacks = enemy.attackedBy.filter(unit => {
+					return unit.moveType === 'strike' || !wouldExposeDuke(unit.position, iSeeEnemyHere, unit.unit);
+				});
+
+				if (safeAttacks.length) {
+					killer = safeAttacks[Math.floor(Math.random()*safeAttacks.length)];
+				} else return;
 					
 				decision = { from: killer.position, to: iSeeEnemyHere, moveType: killer.moveType };
 				moved = true;
@@ -240,6 +293,7 @@ export default (function() {
 		// if AI duke is under attack, try the following actions, in this order:
 		// 1. capture the threatening enemy unit (using somebody other than the duke, if possible)
 		// 2. have the duke move to a safe location
+		// 3. block line of attack by drawing a piece and putting it in the way, or moving an existing piece in the way
 
 		function protectDuke() {
 			if (moved) return;
@@ -259,14 +313,50 @@ export default (function() {
 				});
 				if (moved) return;
 
-
-				if (!duke.canMove()) console.log('shit he is trapped');
-				else {
-					decision = duke.selectRandomSafeMove();						
-					if (decision) moved = true;
-
+				decision = duke.selectRandomSafeMove();	
+				if (decision) {
+					moved = true;
 					console.log('duke ran away');
 				}
+				else {
+					console.log('shit he is trapped');
+
+					drawAndPlace('block');
+					if (moved) return;
+
+					let blockingMoves = [];
+					allCoords(ai_moves).forEach(from => {
+						let movableTiles = allCoords(ai_moves[from].movableTiles);
+						if (movableTiles.length) {
+							movableTiles.forEach(to => {
+								if (!wouldExposeDuke(from, to, ai_units[from])) {
+									blockingMoves.push({from, to});
+								}
+							});
+						}
+					});
+
+					const guardedMoves = blockingMoves.filter(move => {
+						let hypotheticalBoard = utils.previewBoardState(board, {[move.from]: null}, {perspective: ai_color});
+						return move.to.isUnderAttackBy(ai_color, hypotheticalBoard, {perspective: ai_color});
+					});
+					if (guardedMoves.length) blockingMoves = guardedMoves;
+					if (blockingMoves.length) {
+						let theMove = blockingMoves[Math.floor(Math.random()*blockingMoves.length)];
+						decision = {from: theMove.from, to: theMove.to, moveType: 'move'};	
+						moved = true;
+						console.log('but a bro comes to the rescue!');				
+					}
+					// else drawAndPlace('block');
+
+				}
+
+
+
+
+
+
+
 			}
 
 		}

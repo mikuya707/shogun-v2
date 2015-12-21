@@ -88,9 +88,14 @@ class Unit {
 			return { from: this.position, to: this.getRandomMoveTile(), moveType: 'move' };
 	}
 
+	getRandomTile() {
+		return this.tiles[Math.floor(Math.random()*this.tiles.length)];
+	}
+
 	selectRandomSafeMove() {
 		// If unit can strike an enemy and is not currently in danger, snipe somebody
 		// Otherwise, try to move to a valid tile that is not under attack
+		// Don't make a move that would expose the duke to attack
 
 		if (this.canStrike() && !this.isUnderAttack())
 			return { from: this.position, to: this.getRandomStrikeTile(), moveType: 'strike' };
@@ -98,25 +103,31 @@ class Unit {
 			let destination,
 				enemy = utils.theColorNot(this.color),
 				board = this.board,
-				perspective = this.color;	
+				perspective = this.color,
+				{color, side, name: unit} = this;	
+
 
 			this.tiles = this.getMovableTiles(true)
 				.filter(tile => {
 					// console.log(`can i move to ${tile}? Whos attacking it?`);
 					// console.log(utils.getTilesUnderAttackBy(enemy, board, {perspective})[tile]);
+					// 
 					return !tile.isUnderAttackBy(enemy, board, {perspective})
+				}).filter(tile => {
+					const hypotheticalBoard = utils.previewBoardState(board, {[this.position]: null, [tile]: {color, side, unit}}, {perspective});
+					return !utils.findPositionOfUnit('Duke', this.color, hypotheticalBoard, {perspective})
+						.isUnderAttackBy(enemy, hypotheticalBoard, {perspective});				
 				});
 
-			return this.tiles.length 
-				? { from: this.position, to: this.getRandomTile(), moveType: 'move' } : null;
+			if (!this.tiles.length) return null;
+
+			return { from: this.position, to: this.getRandomTile(), moveType: 'move' };
 
 		}
 	}
 
 
-	getRandomTile() {
-		return this.tiles[Math.floor(Math.random()*this.tiles.length)];
-	}
+
 
 
 

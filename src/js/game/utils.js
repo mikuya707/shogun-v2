@@ -35,11 +35,19 @@ const Utils = {
 	getAllUnitsOfColor: function(playerColor, board, {perspective}) {
 		let units = {};
 		const apparentBoard = playerColor === 'black' ? this.reverseBoard(board) : board;
+
+
 		Object.keys(apparentBoard).forEach(pos => {
 			if (apparentBoard[pos] && apparentBoard[pos].color === playerColor)
 				units[pos] = apparentBoard[pos];
 		});
 		return playerColor === perspective ? units : this.reverseBoard(units);
+	},
+
+	// find the position of a specific unit belonging to a specific player
+	findPositionOfUnit: function(unitName, playerColor, board, {perspective}) {
+		const allUnits = this.getAllUnitsOfColor(playerColor, board, {perspective});
+		return Object.keys(allUnits).find(pos => allUnits[pos].unit === unitName);
 	},
 
 	isOnBoard: function({x, y}) {
@@ -77,7 +85,7 @@ const Utils = {
 				while (this.isOnBoard({x: i, y: j})) {
 					// sliding units can land on any tile within a straight path
 					// non-sliding units can only land on the marked tile
-					if (moveName.includes('slide') || (x === i && y === j))
+					if (moveName.includes('slide') || (x === i && y === j && moveName !== 'command'))
 						inRange.push({x: i, y: j, type: 'move'});
 
 					// if unit can't jump and there is a unit in the way, break
@@ -151,8 +159,17 @@ const Utils = {
 		return tiles;
 	},
 
+	// view a hypothetical board configuration to analyze the consequences of a move
+	// changes: object containing coord-unitObject pairs meant to replace existing pairs on the real board
+	// e.g. {'[2,4]': null, '[2,5]': {color: 'black', side: 'front', unit: 'Footman'}};
+	previewBoardState: function(board, changes, {perspective}) {
+		if (perspective === 'black') changes = this.reverseBoard(changes);
+		return Object.assign({}, board, changes);
+	}
+
 };
 
+// checks if the String representation of a position on the board is under attack by a specified player
 String.prototype.isUnderAttackBy = function(playerColor, board, {perspective}) {
 	if (!Array.isArray(JSON.parse(this))) return;
 	return Utils.getTilesUnderAttackBy(playerColor, board, {perspective})[this];
